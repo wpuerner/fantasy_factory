@@ -1,0 +1,6 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://cgnvbkw1craw3"]
+
+[ext_resource type="Script" uid="uid://bckl5t2km6kgp" path="res://resources/furniture/furniture_resource.gd" id="1_r42q6"]
+
+[resource]
+script = ExtResource("1_r42q6")

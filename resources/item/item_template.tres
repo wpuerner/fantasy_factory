@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="ItemTemplate" load_steps=3 format=3 uid="uid://dx6tyfqox7b1g"]
+
+[ext_resource type="Texture2D" uid="uid://cix750yjhxo2m" path="res://resources/item/foo.png" id="1_4yrw0"]
+[ext_resource type="Script" uid="uid://bvagci0j2j46g" path="res://resources/item/item_template.gd" id="1_ydl8u"]
+
+[resource]
+script = ExtResource("1_ydl8u")
+item_name = "TEMP"
+icon = ExtResource("1_4yrw0")

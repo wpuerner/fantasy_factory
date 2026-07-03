@@ -1,0 +1,22 @@
+[gd_resource type="Resource" script_class="ItemResource" load_steps=6 format=3 uid="uid://duwmbn6tgc77d"]
+
+[ext_resource type="Script" uid="uid://du2bnuh84fykf" path="res://resources/item/item_resource.gd" id="1_r4ard"]
+[ext_resource type="Script" uid="uid://bvagci0j2j46g" path="res://resources/item/item_template.gd" id="2_0ryk7"]
+[ext_resource type="Texture2D" uid="uid://cix750yjhxo2m" path="res://resources/item/foo.png" id="3_q0jnx"]
+
+[sub_resource type="Resource" id="Resource_q0jnx"]
+script = ExtResource("2_0ryk7")
+item_name = "Foo"
+icon = ExtResource("3_q0jnx")
+metadata/_custom_type_script = "uid://bvagci0j2j46g"
+
+[sub_resource type="Resource" id="Resource_hmtql"]
+script = ExtResource("2_0ryk7")
+item_name = "Foo +1"
+icon = ExtResource("3_q0jnx")
+value = 4.0
+metadata/_custom_type_script = "uid://bvagci0j2j46g"
+
+[resource]
+script = ExtResource("1_r4ard")
+templates = Array[ExtResource("2_0ryk7")]([SubResource("Resource_q0jnx"), SubResource("Resource_hmtql")])

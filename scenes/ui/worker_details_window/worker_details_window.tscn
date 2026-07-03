@@ -1,0 +1,68 @@
+[gd_scene load_steps=2 format=3 uid="uid://cyqxyl3ur7jeq"]
+
+[ext_resource type="Script" uid="uid://dcpr3y6s88akg" path="res://scenes/ui/worker_details_window/worker_details_window.gd" id="1_yqe5p"]
+
+[node name="WorkerDetailsWindow" type="PanelContainer" node_paths=PackedStringArray("card_container", "worker_name_label", "daily_wage_label")]
+custom_minimum_size = Vector2(300, 0)
+anchors_preset = 11
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("1_yqe5p")
+card_container = NodePath("MarginContainer/DetailsContainer/TaskCardContainer")
+worker_name_label = NodePath("MarginContainer/DetailsContainer/HSplitContainer/HBoxContainer/WorkerNameLabel")
+daily_wage_label = NodePath("MarginContainer/DetailsContainer/HSplitContainer/HBoxContainer/DailyWageLabel")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="DetailsContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+theme_override_constants/separation = 8
+
+[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/DetailsContainer"]
+layout_mode = 2
+dragging_enabled = false
+dragger_visibility = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/DetailsContainer/HSplitContainer"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="WorkerNameLabel" type="Label" parent="MarginContainer/DetailsContainer/HSplitContainer/HBoxContainer"]
+layout_mode = 2
+text = "NAME"
+
+[node name="DailyWageLabel" type="Label" parent="MarginContainer/DetailsContainer/HSplitContainer/HBoxContainer"]
+layout_mode = 2
+text = "$XX / day"
+
+[node name="Button" type="Button" parent="MarginContainer/DetailsContainer/HSplitContainer"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+text = "X"
+
+[node name="TaskCardContainer" type="VBoxContainer" parent="MarginContainer/DetailsContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="AddTaskButton" type="Button" parent="MarginContainer/DetailsContainer"]
+layout_mode = 2
+text = "Add Task"
+
+[node name="FireWorkerButton" type="Button" parent="MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+text = "Fire Worker"
+
+[connection signal="pressed" from="MarginContainer/DetailsContainer/HSplitContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="MarginContainer/DetailsContainer/AddTaskButton" to="." method="_on_add_task_button_pressed"]
+[connection signal="pressed" from="MarginContainer/FireWorkerButton" to="." method="_on_fire_worker_button_pressed"]

@@ -1,0 +1,44 @@
+[gd_scene load_steps=3 format=3 uid="uid://cmcieqdyhjfb7"]
+
+[ext_resource type="Texture2D" uid="uid://c5faynebg0nt1" path="res://scenes/worker/worker.png" id="1_2xtq1"]
+[ext_resource type="Script" uid="uid://d3fm1k3co08ll" path="res://scenes/ui/new_worker_window/new_worker_card.gd" id="1_he53g"]
+
+[node name="NewWorkerCard" type="Panel"]
+custom_minimum_size = Vector2(350, 90.84)
+script = ExtResource("1_he53g")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 11.0
+offset_right = 72.0
+offset_bottom = 75.0
+texture = ExtResource("1_2xtq1")
+
+[node name="NameLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 79.0
+offset_top = 7.0
+offset_right = 187.0
+offset_bottom = 30.0
+text = "Worker Name"
+
+[node name="HireButton" type="Button" parent="."]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 0
+offset_left = 136.0
+offset_top = 54.0
+offset_right = 216.0
+offset_bottom = 85.0
+text = "Hire
+"
+
+[node name="WageLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 265.0
+offset_top = 7.0
+offset_right = 350.0
+offset_bottom = 30.0
+text = "$2.0 / day"
+
+[connection signal="pressed" from="HireButton" to="." method="_on_hire_button_pressed"]

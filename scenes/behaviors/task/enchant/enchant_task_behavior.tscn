@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d2k6qlv6d4mgg"]
+
+[ext_resource type="Script" uid="uid://w1pfta5yrlpg" path="res://scenes/behaviors/task/enchant/enchant_task_behavior.gd" id="1_oaqj0"]
+
+[node name="EnchantTaskBehavior" type="Node"]
+script = ExtResource("1_oaqj0")

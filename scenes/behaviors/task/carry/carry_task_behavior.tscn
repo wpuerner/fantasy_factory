@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3c5p0vxn17lj"]
+
+[ext_resource type="Script" uid="uid://p7g3wl1ls6gr" path="res://scenes/behaviors/task/carry/carry_task_behavior.gd" id="1_x5u11"]
+
+[node name="CarryTaskBehavior" type="Node"]
+script = ExtResource("1_x5u11")

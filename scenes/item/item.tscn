@@ -1,0 +1,31 @@
+[gd_scene load_steps=6 format=3 uid="uid://csbrtdttqkn7t"]
+
+[ext_resource type="Script" uid="uid://dupjukch3c8g1" path="res://scenes/item/item.gd" id="1_vu0ti"]
+[ext_resource type="Texture2D" uid="uid://cix750yjhxo2m" path="res://resources/item/foo.png" id="2_imnf0"]
+[ext_resource type="Resource" uid="uid://duwmbn6tgc77d" path="res://resources/item/item_resource.tres" id="2_pg5me"]
+[ext_resource type="PackedScene" uid="uid://dxxgm0b7noluv" path="res://scenes/parts/temp_game_object_label/temp_game_object_label.tscn" id="3_pg5me"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_imnf0"]
+radius = 19.0
+
+[node name="Item" type="Area2D" node_paths=PackedStringArray("label")]
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_vu0ti")
+label = NodePath("TempGameObjectLabel")
+item_resource = ExtResource("2_pg5me")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_imnf0")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+scale = Vector2(0.605, 0.605)
+texture = ExtResource("2_imnf0")
+
+[node name="TempGameObjectLabel" parent="." instance=ExtResource("3_pg5me")]
+offset_left = -37.0
+offset_top = -57.0
+offset_right = 36.0
+offset_bottom = -8.0
+text = "Foo"

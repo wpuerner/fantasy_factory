@@ -1,0 +1,51 @@
+[gd_scene load_steps=2 format=3 uid="uid://cv1bqlq7xfhkp"]
+
+[ext_resource type="Script" uid="uid://4pbr5i4cpj1i" path="res://scenes/ui/new_worker_window/new_worker_window.gd" id="1_0vm0f"]
+
+[node name="NewWorkerWindow" type="Panel" node_paths=PackedStringArray("worker_card_container")]
+custom_minimum_size = Vector2(500, 300)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -150.0
+offset_right = 250.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0vm0f")
+worker_card_container = NodePath("ScrollContainer/WorkerCardContainer")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 196.0
+offset_top = 7.0
+offset_right = 304.0
+offset_bottom = 30.0
+text = "Hire a Worker"
+horizontal_alignment = 1
+
+[node name="CloseButton" type="Button" parent="."]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 0
+offset_left = 466.0
+offset_top = 4.0
+offset_right = 496.0
+offset_bottom = 35.0
+text = "X"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+layout_mode = 0
+offset_left = 70.0
+offset_top = 43.0
+offset_right = 429.0
+offset_bottom = 284.0
+
+[node name="WorkerCardContainer" type="VBoxContainer" parent="ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="pressed" from="CloseButton" to="." method="_on_close_button_pressed"]

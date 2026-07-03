@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://8oh4k4w5smb8"]
+
+[ext_resource type="Script" uid="uid://b8yfhc55cbmd5" path="res://scenes/behaviors/click_and_drag_behavior/click_and_drag_behavior.gd" id="1_qyvnd"]
+
+[node name="ClickAndDragBehavior" type="Node2D"]
+script = ExtResource("1_qyvnd")

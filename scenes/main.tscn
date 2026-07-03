@@ -1,0 +1,97 @@
+[gd_scene load_steps=9 format=3 uid="uid://b2mmxma017u3x"]
+
+[ext_resource type="Script" uid="uid://barlj6o8aoyx3" path="res://scenes/main.gd" id="1_tbgi4"]
+[ext_resource type="PackedScene" uid="uid://v5ri6t3bi8fk" path="res://scenes/seller/seller.tscn" id="2_tefeu"]
+[ext_resource type="PackedScene" uid="uid://du28nqtidimew" path="res://scenes/enchanting_table/enchanting_table.tscn" id="4_tipki"]
+[ext_resource type="PackedScene" uid="uid://cyqxyl3ur7jeq" path="res://scenes/ui/worker_details_window/worker_details_window.tscn" id="6_choun"]
+[ext_resource type="PackedScene" uid="uid://hsbtb6jwcefo" path="res://scenes/world/overlay/world_overlay_tile_map_layer.tscn" id="7_85g3d"]
+[ext_resource type="PackedScene" uid="uid://cv1bqlq7xfhkp" path="res://scenes/ui/new_worker_window/new_worker_window.tscn" id="7_tipki"]
+[ext_resource type="PackedScene" uid="uid://glcq1h6w0hu6" path="res://scenes/worker/worker.tscn" id="8_tipki"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_tipki"]
+vertices = PackedVector2Array(1147.1016, -0.1015625, 1153.8906, 640.0703, 2.9375, 648.9219, -0.9375, -12.8828125)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-11, -23, 1157, -10, 1164, 650, -7, 659)])
+
+[node name="Main" type="Node2D" node_paths=PackedStringArray("money_label", "new_worker_window", "day_time_progress_bar")]
+script = ExtResource("1_tbgi4")
+money_label = NodePath("SubViewport/MarginContainer/HBoxContainer/MoneyLabel")
+new_worker_window = NodePath("SubViewport/NewWorkerWindow")
+day_time_progress_bar = NodePath("SubViewport/MarginContainer/HBoxContainer/ProgressBar")
+
+[node name="Seller" parent="." instance=ExtResource("2_tefeu")]
+position = Vector2(1014, 307)
+
+[node name="EnchantingTable" parent="." instance=ExtResource("4_tipki")]
+position = Vector2(542, 380)
+
+[node name="SubViewport" type="CanvasLayer" parent="."]
+
+[node name="MarginContainer" type="MarginContainer" parent="SubViewport"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -31.0
+offset_bottom = 35.0
+grow_horizontal = 0
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SubViewport/MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 32
+
+[node name="ProgressBar" type="ProgressBar" parent="SubViewport/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(200, 24)
+layout_mode = 2
+value = 100.0
+show_percentage = false
+
+[node name="Label" type="Label" parent="SubViewport/MarginContainer/HBoxContainer/ProgressBar"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Time left in day"
+
+[node name="MoneyLabel" type="Label" parent="SubViewport/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "$0"
+
+[node name="MarginContainer2" type="MarginContainer" parent="SubViewport"]
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SubViewport/MarginContainer2"]
+layout_mode = 2
+theme_override_constants/separation = 24
+
+[node name="CheckButton" type="CheckButton" parent="SubViewport/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Move Fixtures"
+
+[node name="HireWorkersButton" type="Button" parent="SubViewport/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Hire Workers"
+
+[node name="TaskPane" parent="SubViewport" instance=ExtResource("6_choun")]
+visible = false
+
+[node name="NewWorkerWindow" parent="SubViewport" instance=ExtResource("7_tipki")]
+visible = false
+
+[node name="WorldOverlayTileMapLayer" parent="." instance=ExtResource("7_85g3d")]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_tipki")
+
+[node name="Worker" parent="." instance=ExtResource("8_tipki")]
+position = Vector2(169, 435)
+
+[connection signal="toggled" from="SubViewport/MarginContainer2/HBoxContainer/CheckButton" to="." method="_on_check_button_toggled"]
+[connection signal="pressed" from="SubViewport/MarginContainer2/HBoxContainer/HireWorkersButton" to="." method="_on_hire_workers_button_pressed"]
+[connection signal="worker_hired" from="SubViewport/NewWorkerWindow" to="." method="_on_new_worker_window_worker_hired"]
+
+[editable path="Seller"]
+[editable path="EnchantingTable"]

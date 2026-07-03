@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cscms2712e6vu"]
+
+[ext_resource type="Script" uid="uid://c2kmhrbs5x2wf" path="res://scenes/behaviors/task/work/work_task_behavior.gd" id="1_bsqtx"]
+
+[node name="WorkTaskBehavior" type="Node"]
+script = ExtResource("1_bsqtx")
+type = 1

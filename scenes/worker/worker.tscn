@@ -1,0 +1,42 @@
+[gd_scene load_steps=7 format=3 uid="uid://glcq1h6w0hu6"]
+
+[ext_resource type="Script" uid="uid://jp0bd5rj15cd" path="res://scenes/worker/worker.gd" id="1_qsiq5"]
+[ext_resource type="Texture2D" uid="uid://c5faynebg0nt1" path="res://scenes/worker/worker.png" id="1_tmdoo"]
+[ext_resource type="PackedScene" uid="uid://d2k6qlv6d4mgg" path="res://scenes/behaviors/task/enchant/enchant_task_behavior.tscn" id="3_md8yx"]
+[ext_resource type="PackedScene" uid="uid://cscms2712e6vu" path="res://scenes/behaviors/task/work/work_task_behavior.tscn" id="3_nupkf"]
+[ext_resource type="PackedScene" uid="uid://b3c5p0vxn17lj" path="res://scenes/behaviors/task/carry/carry_task_behavior.tscn" id="4_md8yx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_qsiq5"]
+radius = 29.0
+
+[node name="Worker" type="Node2D" node_paths=PackedStringArray("enchant_task_behavior") groups=["workers"]]
+script = ExtResource("1_qsiq5")
+enchant_task_behavior = NodePath("EnchantTaskBehavior")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_tmdoo")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_qsiq5")
+
+[node name="EnchantTaskBehavior" parent="." node_paths=PackedStringArray("work_task_behavior") instance=ExtResource("3_md8yx")]
+work_task_behavior = NodePath("../WorkTaskBehavior")
+
+[node name="WorkTaskBehavior" parent="." node_paths=PackedStringArray("navigation_agent", "carry_task_behavior") instance=ExtResource("3_nupkf")]
+navigation_agent = NodePath("../NavigationAgent2D")
+carry_task_behavior = NodePath("../CarryTaskBehavior")
+
+[node name="CarryTaskBehavior" parent="." node_paths=PackedStringArray("navigation_agent") instance=ExtResource("4_md8yx")]
+navigation_agent = NodePath("../NavigationAgent2D")
+
+[connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
+[connection signal="abort" from="EnchantTaskBehavior" to="." method="_on_enchant_task_behavior_abort"]
+[connection signal="complete" from="EnchantTaskBehavior" to="." method="_on_enchant_task_behavior_complete"]
+[connection signal="complete" from="WorkTaskBehavior" to="EnchantTaskBehavior" method="_on_work_task_behavior_complete"]
+[connection signal="complete" from="CarryTaskBehavior" to="WorkTaskBehavior" method="_on_carry_task_behavior_complete"]
