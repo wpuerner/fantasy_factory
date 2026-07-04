@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3 uid="uid://1h3aq3cvqcju"]
+
+[ext_resource type="Script" uid="uid://bfutt0meqbbs8" path="res://scenes/storage_area/storage_area.gd" id="1_87hvv"]
+[ext_resource type="Resource" uid="uid://cf2sb0kqcfn1t" path="res://resources/grid/grid_resource.tres" id="2_c2ruy"]
+[ext_resource type="Resource" uid="uid://dv5o38x763sgx" path="res://resources/storage_areas/storage_areas_resource.tres" id="2_od8nt"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_od8nt"]
+resource_local_to_scene = true
+
+[node name="StorageArea" type="Node2D"]
+script = ExtResource("1_87hvv")
+grid_resource = ExtResource("2_c2ruy")
+storage_areas_resource = ExtResource("2_od8nt")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_od8nt")
+centered = false
+offset = Vector2(-32, -32)

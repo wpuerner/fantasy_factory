@@ -1,23 +1,32 @@
-[gd_scene load_steps=9 format=3 uid="uid://b2mmxma017u3x"]
+[gd_scene load_steps=13 format=3 uid="uid://b2mmxma017u3x"]
 
 [ext_resource type="Script" uid="uid://barlj6o8aoyx3" path="res://scenes/main.gd" id="1_tbgi4"]
+[ext_resource type="Resource" uid="uid://cf2sb0kqcfn1t" path="res://resources/grid/grid_resource.tres" id="2_85g3d"]
 [ext_resource type="PackedScene" uid="uid://v5ri6t3bi8fk" path="res://scenes/seller/seller.tscn" id="2_tefeu"]
+[ext_resource type="PackedScene" uid="uid://kmqjg3v8swa6" path="res://scenes/buyer/buyer.tscn" id="3_choun"]
 [ext_resource type="PackedScene" uid="uid://du28nqtidimew" path="res://scenes/enchanting_table/enchanting_table.tscn" id="4_tipki"]
 [ext_resource type="PackedScene" uid="uid://cyqxyl3ur7jeq" path="res://scenes/ui/worker_details_window/worker_details_window.tscn" id="6_choun"]
 [ext_resource type="PackedScene" uid="uid://hsbtb6jwcefo" path="res://scenes/world/overlay/world_overlay_tile_map_layer.tscn" id="7_85g3d"]
+[ext_resource type="PackedScene" uid="uid://0wbk46g5vayk" path="res://scenes/ui/order_items_window/order_items_window.tscn" id="7_choun"]
 [ext_resource type="PackedScene" uid="uid://cv1bqlq7xfhkp" path="res://scenes/ui/new_worker_window/new_worker_window.tscn" id="7_tipki"]
 [ext_resource type="PackedScene" uid="uid://glcq1h6w0hu6" path="res://scenes/worker/worker.tscn" id="8_tipki"]
+[ext_resource type="PackedScene" uid="uid://dvp8pi7s4fp52" path="res://scenes/ui/message_feed/message_feed.tscn" id="9_ya4ey"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tipki"]
 vertices = PackedVector2Array(1147.1016, -0.1015625, 1153.8906, 640.0703, 2.9375, 648.9219, -0.9375, -12.8828125)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-11, -23, 1157, -10, 1164, 650, -7, 659)])
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("money_label", "new_worker_window", "day_time_progress_bar")]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("money_label", "new_worker_window", "order_items_window", "day_time_progress_bar")]
 script = ExtResource("1_tbgi4")
 money_label = NodePath("SubViewport/MarginContainer/HBoxContainer/MoneyLabel")
 new_worker_window = NodePath("SubViewport/NewWorkerWindow")
+order_items_window = NodePath("SubViewport/OrderItemsWindow")
 day_time_progress_bar = NodePath("SubViewport/MarginContainer/HBoxContainer/ProgressBar")
+grid_resource = ExtResource("2_85g3d")
+
+[node name="Buyer" parent="." instance=ExtResource("3_choun")]
+position = Vector2(92, 150)
 
 [node name="Seller" parent="." instance=ExtResource("2_tefeu")]
 position = Vector2(1014, 307)
@@ -75,11 +84,26 @@ text = "Move Fixtures"
 layout_mode = 2
 text = "Hire Workers"
 
+[node name="OrderItemsButton" type="Button" parent="SubViewport/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Order Items"
+
 [node name="TaskPane" parent="SubViewport" instance=ExtResource("6_choun")]
 visible = false
 
 [node name="NewWorkerWindow" parent="SubViewport" instance=ExtResource("7_tipki")]
 visible = false
+
+[node name="OrderItemsWindow" parent="SubViewport" node_paths=PackedStringArray("buyer") instance=ExtResource("7_choun")]
+visible = false
+buyer = NodePath("../../Buyer")
+
+[node name="MessageFeed" parent="SubViewport" instance=ExtResource("9_ya4ey")]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="WorldOverlayTileMapLayer" parent="." instance=ExtResource("7_85g3d")]
 
@@ -91,6 +115,7 @@ position = Vector2(169, 435)
 
 [connection signal="toggled" from="SubViewport/MarginContainer2/HBoxContainer/CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="pressed" from="SubViewport/MarginContainer2/HBoxContainer/HireWorkersButton" to="." method="_on_hire_workers_button_pressed"]
+[connection signal="pressed" from="SubViewport/MarginContainer2/HBoxContainer/OrderItemsButton" to="." method="_on_order_items_button_pressed"]
 [connection signal="worker_hired" from="SubViewport/NewWorkerWindow" to="." method="_on_new_worker_window_worker_hired"]
 
 [editable path="Seller"]

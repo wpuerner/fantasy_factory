@@ -1,4 +1,4 @@
-extends Resource
+class_name MoneyResource extends Resource
 
 signal amount_changed(new_amount: float)
 

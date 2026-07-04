@@ -1,39 +1,29 @@
-extends Area2D
+class_name Buyer extends Node2D
 
-@export var refill_interval: float
-@export var item_name: String
-@export var progress_bar: ProgressBar
+@export var item_resource: ItemResource
 @export var timer: Timer
+@export var progress_bar: ProgressBar
 
-@onready var money_resource = preload("res://resources/money/money_resource.tres")
-@onready var item_resource = preload("res://resources/item/item_resource.tres")
+var ordered_items: Array[String]
 
-var blocked: bool = true
-var value: float = 0.0
-var item
+func order_items(new_items: Array[String]):
+	ordered_items.append_array(new_items)
+	if timer.is_stopped():
+		timer.start()
 
-func pop_item():
-	return item
+func _on_timer_timeout():
+	var cell = $StorageArea.get_open_storage_cell()
+	while cell and len(ordered_items) > 0:
+		var item = item_resource.create_from_template(ordered_items.pop_front())
+		add_sibling(item)
+		cell.drop_item(item)
+		cell = $StorageArea.get_open_storage_cell()
+
+	if len(ordered_items) > 0:
+		timer.start()
 
 func _ready():
-	_create_new_item_delivery()
-	value = item_resource.create(item_name).value
+	progress_bar.max_value = timer.wait_time
 
 func _physics_process(_delta):
-	progress_bar.value = timer.wait_time - timer.time_left
-	if !blocked and timer.time_left == 0.0 and value <= money_resource.get_amount():
-		money_resource.add_amount(-value)
-		var floating_label = preload("res://scenes/floating_label/floating_label.tscn").instantiate()
-		floating_label.init("-$" + str(value))
-		floating_label.global_position = global_position
-		add_sibling(floating_label)
-		var new_item: Item = item_resource.create_from_template(item_name)
-		add_child(new_item)
-		item = new_item
-		blocked = true
-
-func _create_new_item_delivery():
-	timer.wait_time = refill_interval
-	progress_bar.max_value = refill_interval
-	timer.start()
-	blocked = false
+	progress_bar.value = timer.time_left

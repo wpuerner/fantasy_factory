@@ -1,8 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://kmqjg3v8swa6"]
 
 [ext_resource type="Script" uid="uid://bmbwgobjom7jv" path="res://scenes/buyer/buyer.gd" id="1_jbsgv"]
-[ext_resource type="Texture2D" uid="uid://xg67120qo3cl" path="res://icon.svg" id="2_jbsgv"]
+[ext_resource type="Resource" uid="uid://duwmbn6tgc77d" path="res://resources/item/item_resource.tres" id="2_52aab"]
 [ext_resource type="PackedScene" uid="uid://dxxgm0b7noluv" path="res://scenes/parts/temp_game_object_label/temp_game_object_label.tscn" id="4_ipubk"]
+[ext_resource type="PackedScene" uid="uid://1h3aq3cvqcju" path="res://scenes/storage_area/storage_area.tscn" id="4_jbsgv"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pdl02"]
 bg_color = Color(0.6, 0.6, 0.6, 0.4117647)
@@ -18,42 +19,41 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_susx3"]
-size = Vector2(56, 56)
-
-[node name="Buyer" type="Area2D" node_paths=PackedStringArray("progress_bar", "timer")]
-collision_layer = 32
-collision_mask = 0
+[node name="Buyer" type="Node2D" node_paths=PackedStringArray("timer", "progress_bar")]
 script = ExtResource("1_jbsgv")
-refill_interval = 5.0
-progress_bar = NodePath("ProgressBar")
+item_resource = ExtResource("2_52aab")
 timer = NodePath("Timer")
+progress_bar = NodePath("ProgressBar")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-use_parent_material = true
-scale = Vector2(0.45, 0.45)
-texture = ExtResource("2_jbsgv")
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
 
-[node name="TempGameObjectLabel" parent="." instance=ExtResource("4_ipubk")]
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "BUYER"
+[node name="StorageArea" parent="." instance=ExtResource("4_jbsgv")]
+width = 1
+height = 4
+priority = 1000
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-custom_minimum_size = Vector2(64, 0)
+custom_minimum_size = Vector2(64, 16)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -32.0
-offset_top = 36.66
-offset_right = 32.0
-offset_bottom = 43.09
+offset_left = -31.0
+offset_top = -83.0
+offset_right = 33.0
+offset_bottom = -76.57
 grow_horizontal = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_pdl02")
 theme_override_styles/fill = SubResource("StyleBoxFlat_7crgf")
 show_percentage = false
 
-[node name="Timer" type="Timer" parent="."]
-one_shot = true
+[node name="TempGameObjectLabel" parent="." instance=ExtResource("4_ipubk")]
+offset_left = -37.0
+offset_top = -123.0
+offset_right = 36.0
+offset_bottom = -74.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+text = "BUYER"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_susx3")
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

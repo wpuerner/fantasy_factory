@@ -24,12 +24,10 @@ func start():
 	
 	var input_item = grid_resource.find_nearest_item(work_node.get_input_item_name(), get_parent().global_position)
 	if is_instance_valid(input_item):
-		carry_task_behavior.from_node = grid_resource.get_cell_for_node(input_item)
-		carry_task_behavior.to_node = work_node
-		carry_task_behavior.start()
+		carry_task_behavior.start(grid_resource.get_cell_for_node(input_item), work_node)
 		state = State.GATHERING_INPUTS
 		return true
-	
+
 	return false
 
 func _physics_process(_delta):
@@ -46,9 +44,7 @@ func _physics_process(_delta):
 
 func _on_work_complete():
 	work_node.complete.disconnect(_on_work_complete)
-	carry_task_behavior.from_node = work_node
-	carry_task_behavior.to_node = storage_areas_resource.get_open_storage_cell()
-	carry_task_behavior.start()
+	carry_task_behavior.start(work_node, storage_areas_resource.get_open_storage_cell())
 	work_node = null
 	state = State.STORING_OUTPUTS
 

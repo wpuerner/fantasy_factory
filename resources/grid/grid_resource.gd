@@ -7,7 +7,7 @@ var item_resource = preload("res://resources/item/item_resource.tres")
 
 func get_snapped_global_position(global_position: Vector2):
 	var coord: Vector2i = get_coordinate_from_global_position(global_position)
-	return _get_global_position_from_coordinate(coord)
+	return get_global_position_from_coordinate(coord)
 
 func init(grid_rect: Rect2i):
 	@warning_ignore("integer_division")
@@ -42,7 +42,7 @@ func remove_node(node: Node2D) -> bool:
 func get_adjacent_open_cell_position(to_node, from_node):
 	var coord = get_coordinate_from_global_position(to_node.global_position)
 	var check_coords = [coord + Vector2i.UP, coord + Vector2i.DOWN, coord + Vector2i.LEFT, coord + Vector2i.RIGHT]
-	var open_positions = check_coords.filter(func(check_coord): return get_cell_from_coord(check_coord).is_open()).map(func(check_coord): return _get_global_position_from_coordinate(check_coord))
+	var open_positions = check_coords.filter(func(check_coord): return get_cell_from_coord(check_coord).is_open()).map(func(check_coord): return get_global_position_from_coordinate(check_coord))
 	if open_positions.is_empty():
 		return null
 	
@@ -65,16 +65,16 @@ func get_cell_for_node(node: Node2D) -> Cell:
 
 func _get_cell_from_global_position(global_position: Vector2) -> Cell:
 	return get_cell_from_coord(get_coordinate_from_global_position(global_position))
-	
+
 func get_cell_from_coord(coord: Vector2i) -> Cell:
 	var cell: Cell = grid[coord.x][coord.y]
 	if cell == null:
 		cell = Cell.new()
-		cell.global_position = _get_global_position_from_coordinate(coord)
+		cell.global_position = get_global_position_from_coordinate(coord)
 		grid[coord.x][coord.y] = cell
 	return cell
 
-func _get_global_position_from_coordinate(coord: Vector2i) -> Vector2:
+func get_global_position_from_coordinate(coord: Vector2i) -> Vector2:
 	@warning_ignore("integer_division")
 	return Vector2(coord.x * CELL_SIZE + (CELL_SIZE / 2), coord.y * CELL_SIZE + (CELL_SIZE / 2))
 	
@@ -89,10 +89,11 @@ func _get_node_collection(node: Node2D):
 class Cell:
 	var global_position: Vector2
 	var coord: Vector2i
-	var object: Node2D
+	var object
+	var is_storage = false
 	
 	func is_open():
-		return !is_instance_valid(object)
+		return object == null
 	
 	func has_item():
 		return is_instance_valid(object)

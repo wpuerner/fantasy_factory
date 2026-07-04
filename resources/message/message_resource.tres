@@ -1,0 +1,6 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://byocmqeihetrd"]
+
+[ext_resource type="Script" uid="uid://cddn2ghbk56gr" path="res://resources/message/message_resource.gd" id="1_ynrmi"]
+
+[resource]
+script = ExtResource("1_ynrmi")

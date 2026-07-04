@@ -12,15 +12,9 @@ var state: State = State.WAITING
 
 enum State {WAITING, PICKING_UP, DROPPING_OFF}
 
-func can_start():
-	if not to_node or to_node.has_item():
-		return false
-	return true
-
-func start():
-	if !can_start():
-		push_error("Tried to start behavior, but was not able to. Aborting..")
-		abort.emit()
+func start(from, to):
+	from_node = from
+	to_node = to
 	print_debug("Starting carry task behavior.")
 	navigation_agent.target_position = grid_resource.get_adjacent_open_cell_position(from_node, get_parent())
 	state = State.PICKING_UP

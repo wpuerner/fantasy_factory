@@ -2,11 +2,12 @@ extends Node2D
 
 @export var money_label: Label
 @export var new_worker_window: Control
+@export var order_items_window: Control
 @export var day_time_progress_bar: ProgressBar
+@export var grid_resource: GridResource
 
 @onready var money_resource = preload("res://resources/money/money_resource.tres")
 @onready var furniture_resource = preload("res://resources/furniture/furniture_resource.tres")
-@onready var grid_resource = preload("res://resources/grid/grid_resource.tres")
 @onready var storage_areas_resource = preload("res://resources/storage_areas/storage_areas_resource.tres")
 @onready var item_resource = preload("res://resources/item/item_resource.tres")
 
@@ -14,8 +15,10 @@ const MAX_DAY_LENGTH_SECONDS: float = 120.0
 
 var time_left_in_day: float = MAX_DAY_LENGTH_SECONDS
 
-func _ready():
+func _enter_tree():
 	grid_resource.init(get_viewport_rect())
+	
+func _ready():
 	money_resource.amount_changed.connect(_on_money_amount_changed)
 	
 	for i in range(4):
@@ -24,11 +27,8 @@ func _ready():
 		add_child(foo)
 		grid_resource.maybe_add_node(foo)
 	
-	grid_resource.maybe_add_node($Seller)
 	grid_resource.maybe_add_node($EnchantingTable)
-	
-	storage_areas_resource.create_new_storage_area(Vector2(50, 200), Vector2(400, 400))
-	
+		
 	day_time_progress_bar.max_value = MAX_DAY_LENGTH_SECONDS
 	day_time_progress_bar.value = MAX_DAY_LENGTH_SECONDS
 	
@@ -51,3 +51,6 @@ func _on_hire_workers_button_pressed():
 func _on_new_worker_window_worker_hired(worker):
 	worker.global_position = Vector2(200, 200)
 	add_child(worker)
+
+func _on_order_items_button_pressed():
+	order_items_window.open()

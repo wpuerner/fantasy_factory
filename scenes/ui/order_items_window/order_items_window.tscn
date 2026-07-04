@@ -1,0 +1,77 @@
+[gd_scene load_steps=5 format=3 uid="uid://0wbk46g5vayk"]
+
+[ext_resource type="Script" uid="uid://ba1yuyppqhfxu" path="res://scenes/ui/order_items_window/order_items_window.gd" id="1_bnag4"]
+[ext_resource type="Resource" uid="uid://duwmbn6tgc77d" path="res://resources/item/item_resource.tres" id="2_t1plh"]
+[ext_resource type="Resource" uid="uid://dmwmbd6jrlkbi" path="res://resources/money/money_resource.tres" id="3_hvxnm"]
+[ext_resource type="Resource" uid="uid://byocmqeihetrd" path="res://resources/message/message_resource.tres" id="4_vlqhg"]
+
+[node name="OrderItemsWindow" type="PanelContainer" node_paths=PackedStringArray("item_line_container", "total_price_label", "total_quantity_label")]
+custom_minimum_size = Vector2(400, 500)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bnag4")
+item_line_container = NodePath("MarginContainer/VBoxContainer/ScrollContainer/VBoxContainer")
+item_resource = ExtResource("2_t1plh")
+total_price_label = NodePath("MarginContainer/VBoxContainer/HBoxContainer/TotalCostLabel")
+total_quantity_label = NodePath("MarginContainer/VBoxContainer/HBoxContainer/TotalQuantityLabel")
+money_resource = ExtResource("3_hvxnm")
+message_resource = ExtResource("4_vlqhg")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+clip_contents = false
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="TotalCostLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Total Cost: $XX"
+
+[node name="TotalQuantityLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Total Quantity: XX"
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="OrderButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Order"
+
+[node name="CancelButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Cancel
+"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/OrderButton" to="." method="_on_order_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
