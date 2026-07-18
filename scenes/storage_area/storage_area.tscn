@@ -7,7 +7,7 @@
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_od8nt"]
 resource_local_to_scene = true
 
-[node name="StorageArea" type="Node2D"]
+[node name="StorageArea" type="Node2D" groups=["storage_areas"]]
 script = ExtResource("1_87hvv")
 grid_resource = ExtResource("2_c2ruy")
 storage_areas_resource = ExtResource("2_od8nt")

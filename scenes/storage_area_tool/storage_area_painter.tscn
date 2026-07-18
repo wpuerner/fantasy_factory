@@ -1,0 +1,18 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scenes/storage_area_tool/storage_area_painter.gd" id="1"]
+[ext_resource type="Resource" path="res://resources/grid/grid_resource.tres" id="2"]
+[ext_resource type="Resource" path="res://resources/storage_area_tool_mode/storage_area_tool_mode.tres" id="3"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_preview"]
+size = Vector2(64, 64)
+
+[node name="StorageAreaPainter" type="Node2D"]
+script = ExtResource("1")
+tool_mode = ExtResource("3")
+grid_resource = ExtResource("2")
+
+[node name="PreviewSprite" type="Sprite2D" parent="."]
+texture = SubResource("PlaceholderTexture2D_preview")
+modulate = Color(0, 1, 0, 0.35)
+centered = false

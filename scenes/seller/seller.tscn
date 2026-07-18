@@ -17,6 +17,7 @@ label = NodePath("TempGameObjectLabel")
 width = 4
 height = 1
 priority = 0
+player_editable = false
 
 [node name="TempGameObjectLabel" parent="." instance=ExtResource("2_lxjeu")]
 use_parent_material = true

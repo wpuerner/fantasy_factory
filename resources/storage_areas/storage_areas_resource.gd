@@ -16,3 +16,6 @@ func get_open_storage_cell():
 	if open_cell == null:
 		print_debug("There were no open storage cells")
 	return open_cell
+
+func remove_storage_area(storage_area: StorageArea):
+	storage_areas.erase(storage_area)

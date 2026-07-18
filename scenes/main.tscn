@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://b2mmxma017u3x"]
+[gd_scene load_steps=20 format=3 uid="uid://b2mmxma017u3x"]
 
 [ext_resource type="Script" uid="uid://barlj6o8aoyx3" path="res://scenes/main.gd" id="1_tbgi4"]
 [ext_resource type="Resource" uid="uid://cf2sb0kqcfn1t" path="res://resources/grid/grid_resource.tres" id="2_85g3d"]
@@ -15,6 +15,9 @@
 [ext_resource type="PackedScene" uid="uid://dvp8pi7s4fp52" path="res://scenes/ui/message_feed/message_feed.tscn" id="9_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://bt8lgqs8quuht" path="res://scenes/ui/bankrupt/bankrupt_label.tscn" id="13_trceg"]
 [ext_resource type="PackedScene" uid="uid://bjl4fm1n66juw" path="res://scenes/world/camera/game_camera.tscn" id="15_jkv2x"]
+[ext_resource type="PackedScene" path="res://scenes/storage_area_tool/storage_area_painter.tscn" id="16_painter"]
+[ext_resource type="PackedScene" uid="uid://djmhlxwxgixw8" path="res://scenes/storage_area_tool/storage_area_context_popup.tscn" id="17_popup"]
+[ext_resource type="Resource" path="res://resources/storage_area_tool_mode/storage_area_tool_mode.tres" id="18_toolmode"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tipki"]
 vertices = PackedVector2Array(672, 279, 672, 167, 2681, 25.78125, 2681, 1763, 12.953125, 1.21875, 432, 167, 10.0390625, 1763, 432, 279)
@@ -34,6 +37,7 @@ day_time_progress_bar = NodePath("SubViewport/MarginContainer/HBoxContainer/Time
 end_of_day_window = NodePath("SubViewport/EndOfDayWindow")
 grid_resource = ExtResource("2_85g3d")
 bankrupt_label = NodePath("SubViewport/BankruptLabel")
+storage_area_tool_mode = ExtResource("18_toolmode")
 
 [node name="DayTimer" type="Timer" parent="."]
 wait_time = 120.0
@@ -106,6 +110,12 @@ text = "Order Items"
 [node name="PauseButton" parent="SubViewport/MarginContainer2/HBoxContainer" instance=ExtResource("6_a8y0u")]
 layout_mode = 2
 
+[node name="StorageAreasButton" type="Button" parent="SubViewport/MarginContainer2/HBoxContainer"]
+layout_mode = 2
+text = "Add Storage Area"
+
+[node name="StorageAreaContextPopup" parent="SubViewport" instance=ExtResource("17_popup")]
+
 [node name="TaskPane" parent="SubViewport" instance=ExtResource("6_choun")]
 visible = false
 
@@ -149,10 +159,13 @@ position = Vector2(169, 435)
 [node name="GameCamera" parent="." instance=ExtResource("15_jkv2x")]
 position = Vector2(576, 326)
 
+[node name="StorageAreaPainter" parent="." instance=ExtResource("16_painter")]
+
 [connection signal="timeout" from="DayTimer" to="." method="_on_day_timer_timeout"]
 [connection signal="toggled" from="SubViewport/MarginContainer2/HBoxContainer/CheckButton" to="." method="_on_check_button_toggled"]
 [connection signal="pressed" from="SubViewport/MarginContainer2/HBoxContainer/HireWorkersButton" to="." method="_on_hire_workers_button_pressed"]
 [connection signal="pressed" from="SubViewport/MarginContainer2/HBoxContainer/OrderItemsButton" to="." method="_on_order_items_button_pressed"]
+[connection signal="pressed" from="SubViewport/MarginContainer2/HBoxContainer/StorageAreasButton" to="." method="_on_storage_areas_button_pressed"]
 [connection signal="worker_hired" from="SubViewport/NewWorkerWindow" to="." method="_on_new_worker_window_worker_hired"]
 [connection signal="bankrupted" from="SubViewport/EndOfDayWindow" to="." method="_on_end_of_day_window_bankrupted"]
 [connection signal="day_was_started" from="SubViewport/EndOfDayWindow" to="." method="_on_end_of_day_window_day_was_started"]

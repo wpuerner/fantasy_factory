@@ -1,0 +1,105 @@
+[gd_scene load_steps=3 format=3 uid="uid://ds5hc8e3nnfn1"]
+
+[ext_resource type="Resource" path="res://resources/storage_area_tool_mode/storage_area_tool_mode.tres" id="2"]
+
+[sub_resource type="GDScript" id="GDScript_mormy"]
+script/source = "extends Control
+
+const ToolModeClass = preload(\"res://resources/storage_area_tool_mode/storage_area_tool_mode.gd\")
+
+@export var tool_mode: Resource
+
+@onready var priority_spin: SpinBox = $VBoxContainer/PriorityRow/PrioritySpinBox
+@onready var place_button: Button = $VBoxContainer/PlaceButton
+@onready var delete_button: Button = $VBoxContainer/DeleteButton
+
+
+func _ready() -> void:
+	priority_spin.value = tool_mode.priority
+	priority_spin.value_changed.connect(_on_priority_changed)
+	place_button.toggled.connect(_on_place_toggled)
+	delete_button.toggled.connect(_on_delete_toggled)
+	tool_mode.mode_changed.connect(_on_tool_mode_changed)
+
+
+func _on_priority_changed(value: float) -> void:
+	tool_mode.priority = int(value)
+
+
+func _on_place_toggled(button_pressed: bool) -> void:
+	if button_pressed:
+		tool_mode.active_mode = ToolModeClass.Mode.PLACING
+		delete_button.set_pressed_no_signal(false)
+	else:
+		if tool_mode.active_mode == ToolModeClass.Mode.PLACING:
+			tool_mode.active_mode = ToolModeClass.Mode.NONE
+
+
+func _on_delete_toggled(button_pressed: bool) -> void:
+	if button_pressed:
+		tool_mode.active_mode = ToolModeClass.Mode.DELETING
+		place_button.set_pressed_no_signal(false)
+	else:
+		if tool_mode.active_mode == ToolModeClass.Mode.DELETING:
+			tool_mode.active_mode = ToolModeClass.Mode.NONE
+
+
+func _on_tool_mode_changed() -> void:
+	if tool_mode.active_mode == ToolModeClass.Mode.NONE:
+		place_button.set_pressed_no_signal(false)
+		delete_button.set_pressed_no_signal(false)
+	elif tool_mode.active_mode == ToolModeClass.Mode.PLACING:
+		place_button.set_pressed_no_signal(true)
+		delete_button.set_pressed_no_signal(false)
+	elif tool_mode.active_mode == ToolModeClass.Mode.DELETING:
+		place_button.set_pressed_no_signal(false)
+		delete_button.set_pressed_no_signal(true)
+"
+
+[node name="StorageAreaToolWindow" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 240.0
+offset_bottom = 140.0
+script = SubResource("GDScript_mormy")
+tool_mode = ExtResource("2")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 240.0
+offset_bottom = 140.0
+theme_override_constants/separation = 8
+
+[node name="TitleLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Storage Area Tool"
+
+[node name="InfoLabel" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Click & drag to size"
+
+[node name="PriorityRow" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="PriorityLabel" type="Label" parent="VBoxContainer/PriorityRow"]
+layout_mode = 2
+text = "Priority:"
+
+[node name="PrioritySpinBox" type="SpinBox" parent="VBoxContainer/PriorityRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+value = 5.0
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="PlaceButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+text = "Place Storage Area"
+
+[node name="DeleteButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+toggle_mode = true
+text = "Delete Storage Area"

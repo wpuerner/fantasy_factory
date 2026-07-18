@@ -35,6 +35,7 @@ width = 4
 height = 1
 priority = 1000
 system_only = true
+player_editable = false
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 anchors_preset = 5

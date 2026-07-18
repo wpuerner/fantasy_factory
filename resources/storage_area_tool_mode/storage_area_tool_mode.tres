@@ -1,0 +1,6 @@
+[gd_resource type="Resource" script_class="StorageAreaToolMode" load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://resources/storage_area_tool_mode/storage_area_tool_mode.gd" id="1"]
+
+[resource]
+script = ExtResource("1")

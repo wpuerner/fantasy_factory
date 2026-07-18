@@ -110,7 +110,6 @@ class Cell:
 	var global_position: Vector2
 	var coord: Vector2i
 	var object
-	var is_storage = false
 	
 	func is_open():
 		return object == null
@@ -119,11 +118,16 @@ class Cell:
 		return is_instance_valid(object)
 		
 	func pop_item():
+		if object != null and object.has_method("pop_item"):
+			return object.pop_item()
 		var temp = object
 		object = null
 		item_was_popped.emit()
 		return temp
 
 	func drop_item(item: Item):
+		if object != null and object.has_method("drop_item"):
+			object.drop_item(item)
+			return
 		object = item
 		item.global_position = global_position

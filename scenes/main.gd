@@ -8,6 +8,7 @@ extends Node2D
 @export var end_of_day_window: Control
 @export var grid_resource: GridResource
 @export var bankrupt_label: Control
+@export var storage_area_tool_mode: StorageAreaToolMode
 
 @onready var money_resource = preload("res://resources/money/money_resource.tres")
 @onready var furniture_resource = preload("res://resources/furniture/furniture_resource.tres")
@@ -25,6 +26,9 @@ func _enter_tree():
 	
 func _ready():
 	money_resource.amount_changed.connect(_on_money_amount_changed)
+	
+	# Wire up storage area tool
+	$StorageAreaPainter.context_popup = $SubViewport/StorageAreaContextPopup
 	
 	for i in range(4):
 		var foo = item_resource.create_from_template("Foo")
@@ -72,3 +76,7 @@ func _on_end_of_day_window_day_was_started():
 	
 func _on_end_of_day_window_bankrupted():
 	bankrupt_label.open()
+
+
+func _on_storage_areas_button_pressed():
+	storage_area_tool_mode.toggle_placing()
