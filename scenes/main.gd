@@ -33,9 +33,12 @@ func _ready():
 		grid_resource.maybe_add_node(foo)
 	
 	grid_resource.maybe_add_node($EnchantingTable)
+	
+	$NavigationRegion2D.bake_navigation_polygon(true)
 		
 	day_time_progress_bar.max_value = day_timer.wait_time
 	_start_day()
+	
 	
 func _physics_process(_delta):
 	day_time_progress_bar.value = day_timer.time_left

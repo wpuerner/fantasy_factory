@@ -23,6 +23,7 @@ GlobalConfig="*res://scenes/autoloads/global_config.gd"
 
 subnode="Nodes that are under a parent"
 day_aware="Nodes with a start_day method that is called at the start of each day"
+navigation_polygon_source_geometry_group="Used in navigation agent baking"
 
 [input]
 

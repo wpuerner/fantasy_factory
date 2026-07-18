@@ -17,8 +17,12 @@
 [ext_resource type="PackedScene" uid="uid://bjl4fm1n66juw" path="res://scenes/world/camera/game_camera.tscn" id="15_jkv2x"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tipki"]
+vertices = PackedVector2Array(672, 279, 672, 167, 2681, 25.78125, 2681, 1763, 12.953125, 1.21875, 432, 167, 10.0390625, 1763, 432, 279)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 2, 1, 5), PackedInt32Array(6, 4, 5, 7), PackedInt32Array(3, 6, 7, 0)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-11, -23, 2705, 2, 2705, 1787, -14, 1787)])
 parsed_collision_mask = 4294901776
+source_geometry_mode = 1
+agent_radius = 24.0
 
 [node name="Main" type="Node2D" node_paths=PackedStringArray("day_timer", "money_label", "new_worker_window", "order_items_window", "day_time_progress_bar", "end_of_day_window", "bankrupt_label")]
 script = ExtResource("1_tbgi4")
@@ -136,7 +140,7 @@ offset_bottom = -432.0
 
 [node name="WorldOverlayTileMapLayer" parent="." instance=ExtResource("7_85g3d")]
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." groups=["navigation_polygon_source_geometry_group"]]
 navigation_polygon = SubResource("NavigationPolygon_tipki")
 
 [node name="Worker" parent="." instance=ExtResource("8_tipki")]

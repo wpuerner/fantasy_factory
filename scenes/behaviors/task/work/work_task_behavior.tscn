@@ -4,4 +4,3 @@
 
 [node name="WorkTaskBehavior" type="Node"]
 script = ExtResource("1_bsqtx")
-type = 1
