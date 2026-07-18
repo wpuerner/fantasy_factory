@@ -11,7 +11,7 @@ var work_cooldown_ticks: int = 0
 
 enum State {WAITING, GATHERING_INPUTS, GOING_TO_WORK, WORKING, STORING_OUTPUTS}
 
-const MAX_WORK_COOLDOWN_TICKS: int = 10
+const MAX_WORK_COOLDOWN_TICKS: int = 4
 
 func start():
 	if !work_node:

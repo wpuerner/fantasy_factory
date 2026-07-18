@@ -1,22 +1,27 @@
 extends Node2D
 
+@export var day_timer: Timer
 @export var money_label: Label
 @export var new_worker_window: Control
 @export var order_items_window: Control
 @export var day_time_progress_bar: ProgressBar
+@export var end_of_day_window: Control
 @export var grid_resource: GridResource
+@export var bankrupt_label: Control
 
 @onready var money_resource = preload("res://resources/money/money_resource.tres")
 @onready var furniture_resource = preload("res://resources/furniture/furniture_resource.tres")
 @onready var storage_areas_resource = preload("res://resources/storage_areas/storage_areas_resource.tres")
 @onready var item_resource = preload("res://resources/item/item_resource.tres")
 
-const MAX_DAY_LENGTH_SECONDS: float = 120.0
+const MAX_DAY_LENGTH_SECONDS: float = 30.0
 
 var time_left_in_day: float = MAX_DAY_LENGTH_SECONDS
 
 func _enter_tree():
-	grid_resource.init(get_viewport_rect())
+	var grid_rect = get_viewport_rect()
+	grid_rect.size *= 100
+	grid_resource.init(grid_rect)
 	
 func _ready():
 	money_resource.amount_changed.connect(_on_money_amount_changed)
@@ -29,16 +34,16 @@ func _ready():
 	
 	grid_resource.maybe_add_node($EnchantingTable)
 		
-	day_time_progress_bar.max_value = MAX_DAY_LENGTH_SECONDS
-	day_time_progress_bar.value = MAX_DAY_LENGTH_SECONDS
+	day_time_progress_bar.max_value = day_timer.wait_time
+	_start_day()
 	
-func _physics_process(delta: float):
-	time_left_in_day -= delta
-	if time_left_in_day <= 0.0:
-		get_tree().get_nodes_in_group("workers").map(func(worker): money_resource.add_amount(-worker.daily_wage))
-		time_left_in_day = MAX_DAY_LENGTH_SECONDS
-	day_time_progress_bar.value = time_left_in_day
-	
+func _physics_process(_delta):
+	day_time_progress_bar.value = day_timer.time_left
+
+func _start_day():
+	day_timer.start(GlobalConfig.DAY_DURATION_SECONDS)
+	get_tree().call_group("day_aware", "start_day")
+
 func _on_money_amount_changed(new_amount: float):
 	money_label.text = "$" + str(new_amount)
 
@@ -54,3 +59,13 @@ func _on_new_worker_window_worker_hired(worker):
 
 func _on_order_items_button_pressed():
 	order_items_window.open()
+
+func _on_day_timer_timeout():
+	get_tree().paused = true
+	end_of_day_window.open()
+
+func _on_end_of_day_window_day_was_started():
+	_start_day()
+	
+func _on_end_of_day_window_bankrupted():
+	bankrupt_label.open()

@@ -19,41 +19,42 @@ corner_radius_top_right = 2
 corner_radius_bottom_right = 2
 corner_radius_bottom_left = 2
 
-[node name="Buyer" type="Node2D" node_paths=PackedStringArray("timer", "progress_bar")]
+[node name="Buyer" type="Node2D" node_paths=PackedStringArray("timer", "progress_bar", "label") groups=["day_aware"]]
 script = ExtResource("1_jbsgv")
 item_resource = ExtResource("2_52aab")
 timer = NodePath("Timer")
 progress_bar = NodePath("ProgressBar")
+label = NodePath("TempGameObjectLabel")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 30.0
+wait_time = 15.0
 one_shot = true
 
 [node name="StorageArea" parent="." instance=ExtResource("4_jbsgv")]
-width = 1
-height = 4
+width = 4
+height = 1
 priority = 1000
+system_only = true
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-custom_minimum_size = Vector2(64, 16)
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
-offset_left = -31.0
-offset_top = -83.0
-offset_right = 33.0
-offset_bottom = -76.57
+offset_top = -53.0
+offset_right = 152.0
+offset_bottom = -45.0
 grow_horizontal = 2
 theme_override_styles/background = SubResource("StyleBoxFlat_pdl02")
 theme_override_styles/fill = SubResource("StyleBoxFlat_7crgf")
 show_percentage = false
 
 [node name="TempGameObjectLabel" parent="." instance=ExtResource("4_ipubk")]
-offset_left = -37.0
-offset_top = -123.0
-offset_right = 36.0
-offset_bottom = -74.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "BUYER"
+offset_left = -36.0
+offset_top = -76.0
+offset_right = 184.0
+offset_bottom = -53.0
+text = "Incoming Deliveries"
+autowrap_mode = 2
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="item_was_popped" from="StorageArea" to="." method="_on_storage_area_item_was_popped"]

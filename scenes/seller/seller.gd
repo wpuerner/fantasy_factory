@@ -1,15 +1,31 @@
 extends Node2D
 
+@export var timer: Timer
+@export var progress_bar: ProgressBar
+@export var label: Label
+
 @onready var money_resource = preload("res://resources/money/money_resource.tres")
+
+const NUM_SHIPMENTS_PER_DAY: int = 4
+
+var num_shipments: int:
+	set(value):
+		num_shipments = value
+		label.text = "Remaining Shipments: " + str(num_shipments)
+
+func start_day():
+	num_shipments = NUM_SHIPMENTS_PER_DAY
+	var shipment_interval_seconds = GlobalConfig.DAY_DURATION_SECONDS / NUM_SHIPMENTS_PER_DAY
+	timer.wait_time = shipment_interval_seconds
+	timer.start()
+	progress_bar.max_value = shipment_interval_seconds
 
 func _ready():
 	global_position = $StorageArea.global_position
 	$StorageArea.position = Vector2.ZERO
-	
-	$ProgressBar.max_value = $Timer.wait_time
 
 func _physics_process(_delta):
-	$ProgressBar.value = $Timer.time_left
+	progress_bar.value = timer.time_left
 
 func _on_timer_timeout():
 	for cell in $StorageArea.cells:

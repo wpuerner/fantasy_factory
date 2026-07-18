@@ -6,37 +6,41 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jbauy"]
 
-[node name="Seller" type="Node2D"]
+[node name="Seller" type="Node2D" node_paths=PackedStringArray("timer", "progress_bar", "label") groups=["day_aware"]]
 material = SubResource("ShaderMaterial_jbauy")
 script = ExtResource("1_jbauy")
+timer = NodePath("Timer")
+progress_bar = NodePath("ProgressBar")
+label = NodePath("TempGameObjectLabel")
 
 [node name="StorageArea" parent="." instance=ExtResource("3_lxjeu")]
-width = 1
-height = 4
+width = 4
+height = 1
 priority = 0
 
 [node name="TempGameObjectLabel" parent="." instance=ExtResource("2_lxjeu")]
 use_parent_material = true
-offset_left = -36.0
-offset_top = -90.0
-offset_right = 37.0
-offset_bottom = -41.0
-theme_override_colors/font_color = Color(0.03650005, 0.73, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0.33, 0.049499955, 1)
-theme_override_constants/outline_size = 3
-theme_override_font_sizes/font_size = 32
-text = "$"
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 30.0
-autostart = true
+anchors_preset = 4
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = -32.0
+offset_top = -80.0
+offset_right = 155.0
+offset_bottom = -31.0
+grow_horizontal = 1
+text = "Remaining Shipments: X"
+horizontal_alignment = 0
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
 offset_left = -31.0
-offset_top = -39.0
-offset_right = 33.0
-offset_bottom = -12.0
+offset_top = -44.0
+offset_right = 165.0
+offset_bottom = -36.0
 rounded = true
 show_percentage = false
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 10.0
+autostart = true
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

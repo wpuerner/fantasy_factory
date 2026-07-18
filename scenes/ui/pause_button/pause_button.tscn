@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://n8dcgmqgxbax"]
+
+[ext_resource type="Script" uid="uid://boxc4s5vbqqfm" path="res://scenes/ui/pause_button/pause_button.gd" id="1_lpyar"]
+
+[node name="PauseButton" type="Button"]
+process_mode = 3
+toggle_mode = true
+text = "||"
+script = ExtResource("1_lpyar")
+
+[connection signal="toggled" from="." to="." method="_on_toggled"]

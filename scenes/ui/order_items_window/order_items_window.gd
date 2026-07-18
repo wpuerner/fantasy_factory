@@ -4,6 +4,7 @@ extends PanelContainer
 @export var item_resource: ItemResource
 @export var total_price_label: Label
 @export var total_quantity_label: Label
+@export var num_shipments_label: Label
 @export var buyer: Buyer
 @export var money_resource: MoneyResource
 @export var message_resource: MessageResource
@@ -13,6 +14,8 @@ var total_quantity: int:
 	set(value):
 		total_quantity = value
 		total_quantity_label.text = "Total Quantity: " + str(total_quantity)
+		@warning_ignore("integer_division")
+		num_shipments_label.text = "Num Shipments: " + str(ceili(total_quantity / 4.0))
 var total_cost: float:
 	set(value):
 		total_cost = value

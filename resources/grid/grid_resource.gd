@@ -87,6 +87,8 @@ func _get_node_collection(node: Node2D):
 	return collection
 
 class Cell:
+	signal item_was_popped
+	
 	var global_position: Vector2
 	var coord: Vector2i
 	var object
@@ -101,6 +103,7 @@ class Cell:
 	func pop_item():
 		var temp = object
 		object = null
+		item_was_popped.emit()
 		return temp
 
 	func drop_item(item: Item):

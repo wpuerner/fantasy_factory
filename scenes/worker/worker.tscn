@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://glcq1h6w0hu6"]
+[gd_scene load_steps=8 format=3 uid="uid://glcq1h6w0hu6"]
 
 [ext_resource type="Script" uid="uid://jp0bd5rj15cd" path="res://scenes/worker/worker.gd" id="1_qsiq5"]
 [ext_resource type="Texture2D" uid="uid://c5faynebg0nt1" path="res://scenes/worker/worker.png" id="1_tmdoo"]
+[ext_resource type="Resource" uid="uid://btt2xv604qlop" path="res://resources/worker/worker_resource.tres" id="2_sq3if"]
 [ext_resource type="PackedScene" uid="uid://d2k6qlv6d4mgg" path="res://scenes/behaviors/task/enchant/enchant_task_behavior.tscn" id="3_md8yx"]
 [ext_resource type="PackedScene" uid="uid://cscms2712e6vu" path="res://scenes/behaviors/task/work/work_task_behavior.tscn" id="3_nupkf"]
 [ext_resource type="PackedScene" uid="uid://b3c5p0vxn17lj" path="res://scenes/behaviors/task/carry/carry_task_behavior.tscn" id="4_md8yx"]
@@ -11,6 +12,7 @@ radius = 29.0
 
 [node name="Worker" type="Node2D" node_paths=PackedStringArray("enchant_task_behavior") groups=["workers"]]
 script = ExtResource("1_qsiq5")
+worker_resource = ExtResource("2_sq3if")
 enchant_task_behavior = NodePath("EnchantTaskBehavior")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

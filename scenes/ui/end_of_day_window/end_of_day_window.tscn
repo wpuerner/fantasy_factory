@@ -1,0 +1,71 @@
+[gd_scene load_steps=4 format=3 uid="uid://bn5n5xoqaqk5o"]
+
+[ext_resource type="Script" uid="uid://cydm4xccqb48q" path="res://scenes/ui/end_of_day_window/end_of_day_window.gd" id="1_mdk3r"]
+[ext_resource type="Resource" uid="uid://dmwmbd6jrlkbi" path="res://resources/money/money_resource.tres" id="2_anw7h"]
+[ext_resource type="Resource" uid="uid://btt2xv604qlop" path="res://resources/worker/worker_resource.tres" id="3_wov0t"]
+
+[node name="EndOfDayWindow" type="PanelContainer" node_paths=PackedStringArray("revenues_label", "expenses_label", "current_money_label", "next_day_button")]
+custom_minimum_size = Vector2(300, 250)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.5
+offset_top = -72.0
+offset_right = 64.5
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mdk3r")
+revenues_label = NodePath("MarginContainer/VBoxContainer/RevenuesLabel")
+expenses_label = NodePath("MarginContainer/VBoxContainer/ExpensesLabel")
+current_money_label = NodePath("MarginContainer/VBoxContainer/CurrentMoneyLabel")
+next_day_button = NodePath("MarginContainer/VBoxContainer/NextDayButton")
+money_resource = ExtResource("2_anw7h")
+worker_resource = ExtResource("3_wov0t")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+alignment = 1
+
+[node name="Control" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="RevenuesLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "$0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ExpensesLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "$0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CurrentMoneyLabel" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "$0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control2" type="Control" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="NextDayButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Start Next Day"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/NextDayButton" to="." method="_on_next_day_button_pressed"]

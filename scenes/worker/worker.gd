@@ -1,16 +1,18 @@
 extends Node2D
 
+@export var worker_resource: WorkerResource
 @export var enchant_task_behavior: TaskBehavior
 
-const SPEED: float = 200.0
+const SPEED: float = 300.0
 
-var worker_name: String
-var daily_wage: float
-var behaviors: Array[TaskBehavior] = []
+var daily_wage: float = 5.0
 var state: State = State.WAITING
 
 enum State {WAITING, DOING_TASK}
 	
+func _ready():
+	worker_resource.register_worker(self)
+
 func _physics_process(delta: float):
 	if state == State.WAITING:
 		if enchant_task_behavior.start():
