@@ -38,7 +38,7 @@ func remove_node(node: Node2D) -> bool:
 		get_cell_for_node(n).object = null
 	return true
 
-# returns the position of an open cell adjacent to to_node, if it exists, otherwise null.
+# returns the position of an open cell adjacent to to_node, if it exiWhensts, otherwise null.
 func get_adjacent_open_cell_position(to_node, from_node):
 	var coord = get_coordinate_from_global_position(to_node.global_position)
 	var check_coords = [coord + Vector2i.UP, coord + Vector2i.DOWN, coord + Vector2i.LEFT, coord + Vector2i.RIGHT]
@@ -52,6 +52,24 @@ func get_adjacent_open_cell_position(to_node, from_node):
 			if open_positions[i].distance_to(from_node.global_position) < closest_position.distance_to(from_node.global_position):
 				closest_position = open_positions[i]
 	return closest_position
+
+func find_nearest_open_cell(from_position: Vector2) -> Cell:
+	var from_coord: Vector2i = get_coordinate_from_global_position(from_position)
+	var max_radius: int = 50
+	for r in range(max_radius + 1):
+		for dx in range(-r, r + 1):
+			for dy in range(-r, r + 1):
+				if abs(dx) != r and abs(dy) != r:
+					continue
+				var coord: Vector2i = from_coord + Vector2i(dx, dy)
+				if coord.x < 0 or coord.x >= grid.size():
+					continue
+				if grid[coord.x].size() == 0 or coord.y < 0 or coord.y >= grid[coord.x].size():
+					continue
+				var cell: Cell = get_cell_from_coord(coord)
+				if cell.is_open():
+					return cell
+	return null
 
 func find_nearest_item(item_name: String, from_position: Vector2):
 	var closest_item = null

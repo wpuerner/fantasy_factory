@@ -10,7 +10,7 @@ size = Vector2(192, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a2p28"]
 size = Vector2(192, 64)
 
-[node name="EnchantingTable" type="Area2D" node_paths=PackedStringArray("progress_bar", "ticket")]
+[node name="EnchantingTable" type="StaticBody2D" node_paths=PackedStringArray("progress_bar", "ticket")]
 collision_layer = 16
 collision_mask = 0
 script = ExtResource("1_s726y")
@@ -52,3 +52,9 @@ ticket_name = "Enchant Foo"
 input_item_name = "Foo"
 work_amount = 100
 output_item_name = "Foo +1"
+
+[node name="SubnodeLeft" type="Node2D" parent="." groups=["subnode"]]
+position = Vector2(-64, 0)
+
+[node name="SubnodeRight" type="Node2D" parent="." groups=["subnode"]]
+position = Vector2(64, 0)

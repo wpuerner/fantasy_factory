@@ -44,7 +44,10 @@ func _physics_process(_delta):
 
 func _on_work_complete():
 	work_node.complete.disconnect(_on_work_complete)
-	carry_task_behavior.start(work_node, storage_areas_resource.get_open_storage_cell())
+	var storage_cell = storage_areas_resource.get_open_storage_cell()
+	if storage_cell == null:
+		storage_cell = grid_resource.find_nearest_open_cell(get_parent().global_position)
+	carry_task_behavior.start(work_node, storage_cell)
 	work_node = null
 	state = State.STORING_OUTPUTS
 
