@@ -3,6 +3,7 @@ extends Node2D
 @export var timer: Timer
 @export var progress_bar: ProgressBar
 @export var label: Label
+@export var storage_area: StorageArea
 
 @onready var money_resource = preload("res://resources/money/money_resource.tres")
 
@@ -28,7 +29,7 @@ func _physics_process(_delta):
 	progress_bar.value = timer.time_left
 
 func _on_timer_timeout():
-	for cell in $StorageArea.cells:
+	for cell in storage_area.storage_cells:
 		var item = cell.pop_item()
 		if item:
 			money_resource.add_amount(item.value)

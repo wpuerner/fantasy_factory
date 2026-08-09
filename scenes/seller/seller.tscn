@@ -6,12 +6,13 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jbauy"]
 
-[node name="Seller" type="Node2D" node_paths=PackedStringArray("timer", "progress_bar", "label") groups=["day_aware"]]
+[node name="Seller" type="Node2D" node_paths=PackedStringArray("timer", "progress_bar", "label", "storage_area") groups=["day_aware"]]
 material = SubResource("ShaderMaterial_jbauy")
 script = ExtResource("1_jbauy")
 timer = NodePath("Timer")
 progress_bar = NodePath("ProgressBar")
 label = NodePath("TempGameObjectLabel")
+storage_area = NodePath("StorageArea")
 
 [node name="StorageArea" parent="." instance=ExtResource("3_lxjeu")]
 width = 4

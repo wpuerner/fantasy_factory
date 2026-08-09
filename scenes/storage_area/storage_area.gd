@@ -12,7 +12,6 @@ signal item_was_popped
 
 var storage_cells: Array[StorageAreaCell] = []
 
-
 class StorageAreaCell:
 	signal item_was_popped()
 	

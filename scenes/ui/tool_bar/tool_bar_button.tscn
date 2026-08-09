@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://b410xnnclp3ff"]
+
+[ext_resource type="Script" uid="uid://0ussfjvk0a44" path="res://scenes/ui/tool_bar/tool_bar_button.gd" id="1_21ogl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h4x5b"]
+bg_color = Color(0.047557652, 0.047557652, 0.047557607, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 1, 1, 1)
+
+[node name="HireWorkersButton" type="Button"]
+clip_contents = true
+custom_minimum_size = Vector2(76, 0)
+offset_right = 64.0
+offset_bottom = 31.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_h4x5b")
+text = "Workers"
+autowrap_mode = 2
+clip_text = true
+script = ExtResource("1_21ogl")

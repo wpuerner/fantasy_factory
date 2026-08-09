@@ -64,9 +64,6 @@ func _on_new_worker_window_worker_hired(worker):
 	worker.global_position = Vector2(200, 200)
 	add_child(worker)
 
-func _on_order_items_button_pressed():
-	order_items_window.open()
-
 func _on_day_timer_timeout():
 	get_tree().paused = true
 	end_of_day_window.open()
@@ -77,6 +74,8 @@ func _on_end_of_day_window_day_was_started():
 func _on_end_of_day_window_bankrupted():
 	bankrupt_label.open()
 
+func _on_orders_button_pressed():
+	order_items_window.open()
 
-func _on_storage_areas_button_pressed():
+func _on_add_storage_button_pressed():
 	storage_area_tool_mode.toggle_placing()
