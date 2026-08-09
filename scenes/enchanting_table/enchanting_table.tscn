@@ -5,16 +5,15 @@
 [ext_resource type="Script" uid="uid://ci2314fm47q80" path="res://scenes/enchanting_table/ticket.gd" id="3_geys5"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_s726y"]
-size = Vector2(192, 64)
+size = Vector2(96, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a2p28"]
-size = Vector2(192, 64)
+size = Vector2(96, 33)
 
-[node name="EnchantingTable" type="StaticBody2D" node_paths=PackedStringArray("progress_bar", "ticket") groups=["navigation_polygon_source_geometry_group"]]
+[node name="EnchantingTable" type="StaticBody2D" node_paths=PackedStringArray("ticket") groups=["navigation_polygon_source_geometry_group"]]
 collision_layer = 16
 collision_mask = 16
 script = ExtResource("1_s726y")
-progress_bar = NodePath("ProgressBar")
 ticket = NodePath("Ticket")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -27,23 +26,17 @@ anchor_left = 0.0
 anchor_top = 0.0
 anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = -62.0
-offset_top = -68.0
-offset_right = 71.0
-offset_bottom = -19.0
+offset_left = -42.0
+offset_top = -12.0
+offset_right = -14.0
+offset_bottom = 11.0
 grow_horizontal = 1
 grow_vertical = 1
-text = "Enchanting Table"
-
-[node name="ProgressBar" type="ProgressBar" parent="."]
-custom_minimum_size = Vector2(64, 8)
-offset_left = -32.0
-offset_top = 19.0
-offset_right = 32.0
-offset_bottom = 27.0
-show_percentage = false
+text = "ET"
+horizontal_alignment = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_a2p28")
 
 [node name="Ticket" type="Node" parent="."]
@@ -54,7 +47,7 @@ work_amount = 100
 output_item_name = "Foo +1"
 
 [node name="SubnodeLeft" type="Node2D" parent="." groups=["subnode"]]
-position = Vector2(-64, 0)
+position = Vector2(-32, 0)
 
 [node name="SubnodeRight" type="Node2D" parent="." groups=["subnode"]]
-position = Vector2(64, 0)
+position = Vector2(32, 0)

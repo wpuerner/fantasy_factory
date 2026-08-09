@@ -1,6 +1,6 @@
 class_name GridResource extends Resource
 
-const CELL_SIZE: int = 64
+const CELL_SIZE: int = 32
 
 var grid = []
 var item_resource = preload("res://resources/item/item_resource.tres")

@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b3c5p0vxn17lj" path="res://scenes/behaviors/task/carry/carry_task_behavior.tscn" id="4_md8yx"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qsiq5"]
-radius = 29.0
+radius = 14.0
 
 [node name="Worker" type="Node2D" node_paths=PackedStringArray("enchant_task_behavior") groups=["workers"]]
 script = ExtResource("1_qsiq5")
@@ -16,6 +16,7 @@ worker_resource = ExtResource("2_sq3if")
 enchant_task_behavior = NodePath("EnchantTaskBehavior")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("1_tmdoo")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]

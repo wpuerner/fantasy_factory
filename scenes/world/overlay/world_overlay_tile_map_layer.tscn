@@ -5,12 +5,12 @@
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_0m6bd"]
 texture = ExtResource("1_skyq1")
-texture_region_size = Vector2i(64, 64)
+texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 0:1/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_85g3d"]
-tile_size = Vector2i(64, 64)
+tile_size = Vector2i(32, 32)
 sources/1 = SubResource("TileSetAtlasSource_0m6bd")
 
 [node name="WorldOverlayTileMapLayer" type="TileMapLayer"]

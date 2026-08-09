@@ -15,4 +15,4 @@ storage_areas_resource = ExtResource("2_od8nt")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("PlaceholderTexture2D_od8nt")
 centered = false
-offset = Vector2(-32, -32)
+offset = Vector2(-16, -16)

@@ -32,6 +32,8 @@ func _on_timer_timeout():
 
 func _ready():
 	progress_bar.max_value = timer.wait_time
+	global_position = $StorageArea.global_position
+	$StorageArea.position = Vector2.ZERO
 
 func _physics_process(_delta):
 	progress_bar.value = timer.time_left

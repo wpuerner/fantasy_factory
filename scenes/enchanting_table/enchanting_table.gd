@@ -2,7 +2,6 @@ extends Node2D
 
 signal complete
 
-@export var progress_bar: ProgressBar
 @export var ticket: Node
 
 @onready var item_resource = preload("res://resources/item/item_resource.tres")
@@ -10,10 +9,7 @@ signal complete
 
 var item
 var needed_work_amount: float = 100.0
-var current_work: float = 0.0:
-	set(value):
-		current_work = value
-		progress_bar.value = current_work
+var current_work: float = 0.0
 
 func can_work():
 	return is_instance_valid(item)
@@ -48,3 +44,4 @@ func get_input_item_name():
 
 func _ready():
 	worktables_resource.register_enchanting_table(self)
+	$Sprite2D.texture.size = Vector2(3, 1) * GridResource.CELL_SIZE
