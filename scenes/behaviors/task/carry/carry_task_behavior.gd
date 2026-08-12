@@ -26,6 +26,9 @@ func _physics_process(_delta):
 			navigation_agent.target_position = grid_resource.get_adjacent_open_cell_position(to_node, get_parent())
 			state = State.DROPPING_OFF
 	elif state == State.DROPPING_OFF:
+		if !is_instance_valid(held_item):
+			state = State.WAITING
+			return
 		held_item.global_position = get_parent().global_position
 		if navigation_agent.is_target_reached():
 			to_node.drop_item(held_item)

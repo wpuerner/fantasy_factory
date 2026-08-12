@@ -2,7 +2,7 @@ extends Node2D
 
 @export var day_timer: Timer
 @export var money_label: Label
-@export var new_worker_window: Control
+@export var hire_workers_window: Control
 @export var day_time_progress_bar: ProgressBar
 @export var end_of_day_window: Control
 @export var grid_resource: GridResource
@@ -11,7 +11,8 @@ extends Node2D
 @onready var money_resource = preload("res://resources/money/money_resource.tres")
 @onready var furniture_resource = preload("res://resources/furniture/furniture_resource.tres")
 @onready var storage_areas_resource = preload("res://resources/storage_areas/storage_areas_resource.tres")
-@onready var item_resource = preload("res://resources/item/item_resource.tres")
+@onready var item_resource: ItemResource = preload("res://resources/item/item_resource.tres")
+@onready var candidate_resource: WorkerCandidateResource = preload("res://resources/worker/worker_candidate_resource.tres")
 
 const MAX_DAY_LENGTH_SECONDS: float = 30.0
 
@@ -37,6 +38,9 @@ func _ready():
 	grid_resource.maybe_add_node($EnchantingTable)
 	
 	$NavigationRegion2D.bake_navigation_polygon(true)
+	
+	# Seed initial worker candidates
+	candidate_resource.on_day_started()
 		
 	day_time_progress_bar.max_value = day_timer.wait_time
 	_start_day()
@@ -55,7 +59,7 @@ func _on_money_amount_changed(new_amount: float):
 func _on_check_button_toggled(toggled_on):
 	furniture_resource.is_moving_allowed = toggled_on
 
-func _on_new_worker_window_worker_hired(worker):
+func _on_worker_hired(worker: Node2D):
 	worker.global_position = Vector2(200, 200)
 	add_child(worker)
 

@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://cv1bqlq7xfhkp"]
+
+[ext_resource type="Script" uid="uid://cw4jjgicxckjj" path="res://scenes/ui/tool_bar/hire_workers_window/hire_workers_window.gd" id="1_0vm0f"]
+[ext_resource type="Resource" uid="uid://j6c5ns21t0c" path="res://resources/worker/worker_candidate_resource.tres" id="2_candidates"]
+[ext_resource type="PackedScene" uid="uid://cmcieqdyhjfb7" path="res://scenes/ui/tool_bar/hire_workers_window/hire_worker_card.tscn" id="3_axpbh"]
+
+[node name="HireWorkersWindow" type="PanelContainer" node_paths=PackedStringArray("worker_card_container")]
+custom_minimum_size = Vector2(500, 300)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -150.0
+offset_right = 250.0
+offset_bottom = 150.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_0vm0f")
+worker_card_container = NodePath("VBoxContainer/ScrollContainer/WorkerCardContainer")
+candidate_resource = ExtResource("2_candidates")
+hire_worker_card = ExtResource("3_axpbh")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Hire a Worker"
+horizontal_alignment = 1
+
+[node name="Control2" type="Control" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(30, 0)
+layout_mode = 2
+text = "X"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="WorkerCardContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
+layout_mode = 2
+
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/CloseButton" to="." method="_on_close_button_pressed"]

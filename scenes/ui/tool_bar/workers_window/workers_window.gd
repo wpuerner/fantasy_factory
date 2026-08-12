@@ -3,7 +3,7 @@ extends PanelContainer
 signal closed
 
 @export var worker_list_container: Container
-@export var new_worker_window: Control
+@export var hire_workers_window: Control
 @export var worker_resource: WorkerResource
 
 func open() -> void:
@@ -62,8 +62,7 @@ func _on_fire_worker_pressed(worker: Node2D) -> void:
 
 func _on_hire_button_pressed() -> void:
 	close()
-	new_worker_window.open()
-
+	hire_workers_window.open()
 
 func _on_close_button_pressed() -> void:
 	close()

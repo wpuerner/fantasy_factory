@@ -9,6 +9,7 @@ signal bankrupted
 @export var next_day_button: Button
 @export var money_resource: MoneyResource
 @export var worker_resource: WorkerResource
+@export var candidate_resource: WorkerCandidateResource
 
 func open():
 	var current_money_amount = money_resource.get_amount()
@@ -23,5 +24,6 @@ func open():
 		next_day_button.disabled = true
 
 func _on_next_day_button_pressed():
+	candidate_resource.on_day_started()
 	day_was_started.emit()
 	visible = false

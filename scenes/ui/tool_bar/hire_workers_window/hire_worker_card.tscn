@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cmcieqdyhjfb7"]
 
 [ext_resource type="Texture2D" uid="uid://c5faynebg0nt1" path="res://scenes/worker/worker.png" id="1_2xtq1"]
-[ext_resource type="Script" uid="uid://d3fm1k3co08ll" path="res://scenes/ui/new_worker_window/new_worker_card.gd" id="1_he53g"]
+[ext_resource type="Script" uid="uid://duah8nkw1hu4e" path="res://scenes/ui/tool_bar/hire_workers_window/hire_worker_card.gd" id="1_he53g"]
 
 [node name="NewWorkerCard" type="Panel"]
 custom_minimum_size = Vector2(350, 90.84)

@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bn5n5xoqaqk5o"]
+[gd_scene load_steps=5 format=3 uid="uid://bn5n5xoqaqk5o"]
 
 [ext_resource type="Script" uid="uid://cydm4xccqb48q" path="res://scenes/ui/end_of_day_window/end_of_day_window.gd" id="1_mdk3r"]
 [ext_resource type="Resource" uid="uid://dmwmbd6jrlkbi" path="res://resources/money/money_resource.tres" id="2_anw7h"]
 [ext_resource type="Resource" uid="uid://btt2xv604qlop" path="res://resources/worker/worker_resource.tres" id="3_wov0t"]
+[ext_resource type="Resource" uid="uid://d4x1w7k2m8pq3" path="res://resources/worker/worker_candidate_resource.tres" id="4_candidates"]
 
 [node name="EndOfDayWindow" type="PanelContainer" node_paths=PackedStringArray("revenues_label", "expenses_label", "current_money_label", "next_day_button")]
 custom_minimum_size = Vector2(300, 250)
@@ -24,6 +25,7 @@ current_money_label = NodePath("MarginContainer/VBoxContainer/CurrentMoneyLabel"
 next_day_button = NodePath("MarginContainer/VBoxContainer/NextDayButton")
 money_resource = ExtResource("2_anw7h")
 worker_resource = ExtResource("3_wov0t")
+candidate_resource = ExtResource("4_candidates")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2

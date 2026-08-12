@@ -1,5 +1,7 @@
 extends Control
 
+signal worker_hired(worker)
+
 @export var workers_window: Control
 @export var order_items_window: Control
 @export var storage_area_tool_mode: StorageAreaToolMode
@@ -30,3 +32,7 @@ func _on_workers_window_closed():
 
 func _on_order_items_window_closed():
 	active_window = null
+
+
+func _on_hire_workers_window_worker_hired(worker):
+	worker_hired.emit(worker)

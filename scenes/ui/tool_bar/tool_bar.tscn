@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bx5sfnkluqom8"]
+[gd_scene load_steps=8 format=3 uid="uid://bx5sfnkluqom8"]
 
 [ext_resource type="Script" uid="uid://ctcbpe4l4urj" path="res://scenes/ui/tool_bar/tool_bar.gd" id="1_jheq1"]
 [ext_resource type="PackedScene" uid="uid://b410xnnclp3ff" path="res://scenes/ui/tool_bar/tool_bar_button.tscn" id="1_nspt3"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://n8dcgmqgxbax" path="res://scenes/ui/tool_bar/pause_button/pause_button.tscn" id="2_jheq1"]
 [ext_resource type="PackedScene" uid="uid://c7r8v2k4jfypl" path="res://scenes/ui/tool_bar/workers_window/workers_window.tscn" id="2_wpu12"]
 [ext_resource type="PackedScene" uid="uid://0wbk46g5vayk" path="res://scenes/ui/tool_bar/order_items_window/order_items_window.tscn" id="3_f1cdh"]
+[ext_resource type="PackedScene" uid="uid://cv1bqlq7xfhkp" path="res://scenes/ui/tool_bar/hire_workers_window/hire_workers_window.tscn" id="3_yaowb"]
 
 [node name="ToolBar" type="VBoxContainer" node_paths=PackedStringArray("workers_window", "order_items_window")]
 anchors_preset = 12
@@ -20,9 +21,14 @@ workers_window = NodePath("WorkersWindow")
 order_items_window = NodePath("OrderItemsWindow")
 storage_area_tool_mode = ExtResource("2_f1cdh")
 
-[node name="WorkersWindow" parent="." instance=ExtResource("2_wpu12")]
+[node name="HireWorkersWindow" parent="." instance=ExtResource("3_yaowb")]
 visible = false
 layout_mode = 2
+
+[node name="WorkersWindow" parent="." node_paths=PackedStringArray("hire_workers_window") instance=ExtResource("2_wpu12")]
+visible = false
+layout_mode = 2
+hire_workers_window = NodePath("../HireWorkersWindow")
 
 [node name="OrderItemsWindow" parent="." instance=ExtResource("3_f1cdh")]
 visible = false
@@ -50,6 +56,7 @@ text = "Add Storage"
 [node name="PauseButton" parent="PanelContainer/HBoxContainer" instance=ExtResource("2_jheq1")]
 layout_mode = 2
 
+[connection signal="worker_hired" from="HireWorkersWindow" to="." method="_on_hire_workers_window_worker_hired"]
 [connection signal="closed" from="WorkersWindow" to="." method="_on_workers_window_closed"]
 [connection signal="closed" from="OrderItemsWindow" to="." method="_on_order_items_window_closed"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/WorkersButton" to="." method="_on_workers_button_pressed"]
