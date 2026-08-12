@@ -1,0 +1,73 @@
+[gd_scene load_steps=4 format=3 uid="uid://c7r8v2k4jfypl"]
+
+[ext_resource type="Script" uid="uid://70e1udp4ji1n" path="res://scenes/ui/tool_bar/workers_window/workers_window.gd" id="1_script"]
+[ext_resource type="Resource" uid="uid://btt2xv604qlop" path="res://resources/worker/worker_resource.tres" id="2_wres"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.1, 0.1, 0.1, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.4, 0.4, 1)
+
+[node name="WorkersWindow" type="PanelContainer" node_paths=PackedStringArray("worker_list_container")]
+process_mode = 3
+custom_minimum_size = Vector2(350, 400)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -175.0
+offset_top = -200.0
+offset_right = 175.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+script = ExtResource("1_script")
+worker_list_container = NodePath("MarginContainer/VBoxContainer/ScrollContainer/WorkerList")
+worker_resource = ExtResource("2_wres")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleBar" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/TitleBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Workers"
+horizontal_alignment = 1
+
+[node name="CloseButton" type="Button" parent="MarginContainer/VBoxContainer/TitleBar"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "X"
+
+[node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="WorkerList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="HireButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Hire New Worker"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/TitleBar/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HireButton" to="." method="_on_hire_button_pressed"]

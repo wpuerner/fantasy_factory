@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://kmqjg3v8swa6"]
+[gd_scene load_steps=8 format=3 uid="uid://kmqjg3v8swa6"]
 
 [ext_resource type="Script" uid="uid://bmbwgobjom7jv" path="res://scenes/buyer/buyer.gd" id="1_jbsgv"]
 [ext_resource type="Resource" uid="uid://duwmbn6tgc77d" path="res://resources/item/item_resource.tres" id="2_52aab"]
+[ext_resource type="Resource" uid="uid://dx2c1vylb8qv6" path="res://resources/buyer/buyer_resource.tres" id="3_buyer_res"]
 [ext_resource type="PackedScene" uid="uid://dxxgm0b7noluv" path="res://scenes/parts/temp_game_object_label/temp_game_object_label.tscn" id="4_ipubk"]
 [ext_resource type="PackedScene" uid="uid://1h3aq3cvqcju" path="res://scenes/storage_area/storage_area.tscn" id="4_jbsgv"]
 
@@ -22,6 +23,7 @@ corner_radius_bottom_left = 2
 [node name="Buyer" type="Node2D" node_paths=PackedStringArray("timer", "progress_bar", "label") groups=["day_aware"]]
 script = ExtResource("1_jbsgv")
 item_resource = ExtResource("2_52aab")
+buyer_resource = ExtResource("3_buyer_res")
 timer = NodePath("Timer")
 progress_bar = NodePath("ProgressBar")
 label = NodePath("TempGameObjectLabel")

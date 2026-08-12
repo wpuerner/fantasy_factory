@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="BuyerResource" load_steps=2 format=3 uid="uid://dx2c1vylb8qv6"]
+
+[ext_resource type="Script" path="res://resources/buyer/buyer_resource.gd" id="1_script"]
+[ext_resource type="Resource" uid="uid://duwmbn6tgc77d" path="res://resources/item/item_resource.tres" id="2_item"]
+
+[resource]
+script = ExtResource("1_script")
+item_resource = ExtResource("2_item")

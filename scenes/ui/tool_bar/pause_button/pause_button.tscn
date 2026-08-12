@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://n8dcgmqgxbax"]
 
-[ext_resource type="Script" uid="uid://boxc4s5vbqqfm" path="res://scenes/ui/pause_button/pause_button.gd" id="1_lpyar"]
+[ext_resource type="Script" uid="uid://boxc4s5vbqqfm" path="res://scenes/ui/tool_bar/pause_button/pause_button.gd" id="1_lpyar"]
 
 [node name="PauseButton" type="Button"]
 process_mode = 3

@@ -3,12 +3,10 @@ extends Node2D
 @export var day_timer: Timer
 @export var money_label: Label
 @export var new_worker_window: Control
-@export var order_items_window: Control
 @export var day_time_progress_bar: ProgressBar
 @export var end_of_day_window: Control
 @export var grid_resource: GridResource
 @export var bankrupt_label: Control
-@export var storage_area_tool_mode: StorageAreaToolMode
 
 @onready var money_resource = preload("res://resources/money/money_resource.tres")
 @onready var furniture_resource = preload("res://resources/furniture/furniture_resource.tres")
@@ -57,9 +55,6 @@ func _on_money_amount_changed(new_amount: float):
 func _on_check_button_toggled(toggled_on):
 	furniture_resource.is_moving_allowed = toggled_on
 
-func _on_hire_workers_button_pressed():
-	new_worker_window.open()
-
 func _on_new_worker_window_worker_hired(worker):
 	worker.global_position = Vector2(200, 200)
 	add_child(worker)
@@ -73,9 +68,3 @@ func _on_end_of_day_window_day_was_started():
 	
 func _on_end_of_day_window_bankrupted():
 	bankrupt_label.open()
-
-func _on_orders_button_pressed():
-	order_items_window.open()
-
-func _on_add_storage_button_pressed():
-	storage_area_tool_mode.toggle_placing()

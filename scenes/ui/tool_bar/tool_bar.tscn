@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://bx5sfnkluqom8"]
+
+[ext_resource type="Script" uid="uid://ctcbpe4l4urj" path="res://scenes/ui/tool_bar/tool_bar.gd" id="1_jheq1"]
+[ext_resource type="PackedScene" uid="uid://b410xnnclp3ff" path="res://scenes/ui/tool_bar/tool_bar_button.tscn" id="1_nspt3"]
+[ext_resource type="Resource" path="res://resources/storage_area_tool_mode/storage_area_tool_mode.tres" id="2_f1cdh"]
+[ext_resource type="PackedScene" uid="uid://n8dcgmqgxbax" path="res://scenes/ui/tool_bar/pause_button/pause_button.tscn" id="2_jheq1"]
+[ext_resource type="PackedScene" uid="uid://c7r8v2k4jfypl" path="res://scenes/ui/tool_bar/workers_window/workers_window.tscn" id="2_wpu12"]
+[ext_resource type="PackedScene" uid="uid://0wbk46g5vayk" path="res://scenes/ui/tool_bar/order_items_window/order_items_window.tscn" id="3_f1cdh"]
+
+[node name="ToolBar" type="VBoxContainer" node_paths=PackedStringArray("workers_window", "order_items_window")]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -76.0
+grow_horizontal = 2
+grow_vertical = 0
+script = ExtResource("1_jheq1")
+workers_window = NodePath("WorkersWindow")
+order_items_window = NodePath("OrderItemsWindow")
+storage_area_tool_mode = ExtResource("2_f1cdh")
+
+[node name="WorkersWindow" parent="." instance=ExtResource("2_wpu12")]
+visible = false
+layout_mode = 2
+
+[node name="OrderItemsWindow" parent="." instance=ExtResource("3_f1cdh")]
+visible = false
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(0, 76)
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="WorkersButton" parent="PanelContainer/HBoxContainer" instance=ExtResource("1_nspt3")]
+layout_mode = 2
+
+[node name="OrdersButton" parent="PanelContainer/HBoxContainer" instance=ExtResource("1_nspt3")]
+layout_mode = 2
+text = "Orders"
+
+[node name="AddStorageButton" parent="PanelContainer/HBoxContainer" instance=ExtResource("1_nspt3")]
+layout_mode = 2
+text = "Add Storage"
+
+[node name="PauseButton" parent="PanelContainer/HBoxContainer" instance=ExtResource("2_jheq1")]
+layout_mode = 2
+
+[connection signal="closed" from="WorkersWindow" to="." method="_on_workers_window_closed"]
+[connection signal="closed" from="OrderItemsWindow" to="." method="_on_order_items_window_closed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/WorkersButton" to="." method="_on_workers_button_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/OrdersButton" to="." method="_on_orders_button_pressed"]
+[connection signal="pressed" from="PanelContainer/HBoxContainer/AddStorageButton" to="." method="_on_add_storage_button_pressed"]

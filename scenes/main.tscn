@@ -1,24 +1,22 @@
-[gd_scene load_steps=21 format=4 uid="uid://b2mmxma017u3x"]
+[gd_scene load_steps=19 format=4 uid="uid://b2mmxma017u3x"]
 
 [ext_resource type="Script" uid="uid://barlj6o8aoyx3" path="res://scenes/main.gd" id="1_tbgi4"]
 [ext_resource type="Resource" uid="uid://cf2sb0kqcfn1t" path="res://resources/grid/grid_resource.tres" id="2_85g3d"]
 [ext_resource type="PackedScene" uid="uid://v5ri6t3bi8fk" path="res://scenes/seller/seller.tscn" id="2_tefeu"]
 [ext_resource type="PackedScene" uid="uid://kmqjg3v8swa6" path="res://scenes/buyer/buyer.tscn" id="3_choun"]
 [ext_resource type="PackedScene" uid="uid://du28nqtidimew" path="res://scenes/enchanting_table/enchanting_table.tscn" id="4_tipki"]
-[ext_resource type="PackedScene" uid="uid://n8dcgmqgxbax" path="res://scenes/ui/pause_button/pause_button.tscn" id="6_a8y0u"]
 [ext_resource type="PackedScene" uid="uid://cyqxyl3ur7jeq" path="res://scenes/ui/worker_details_window/worker_details_window.tscn" id="6_choun"]
-[ext_resource type="PackedScene" uid="uid://b410xnnclp3ff" path="res://scenes/ui/tool_bar/tool_bar_button.tscn" id="7_0ld40"]
+[ext_resource type="PackedScene" uid="uid://bx5sfnkluqom8" path="res://scenes/ui/tool_bar/tool_bar.tscn" id="7_0ld40"]
 [ext_resource type="PackedScene" uid="uid://hsbtb6jwcefo" path="res://scenes/world/overlay/world_overlay_tile_map_layer.tscn" id="7_85g3d"]
-[ext_resource type="PackedScene" uid="uid://0wbk46g5vayk" path="res://scenes/ui/order_items_window/order_items_window.tscn" id="7_choun"]
+[ext_resource type="PackedScene" uid="uid://0wbk46g5vayk" path="res://scenes/ui/tool_bar/order_items_window/order_items_window.tscn" id="7_choun"]
 [ext_resource type="PackedScene" uid="uid://cv1bqlq7xfhkp" path="res://scenes/ui/new_worker_window/new_worker_window.tscn" id="7_tipki"]
 [ext_resource type="PackedScene" uid="uid://bn5n5xoqaqk5o" path="res://scenes/ui/end_of_day_window/end_of_day_window.tscn" id="8_eb6dy"]
 [ext_resource type="PackedScene" uid="uid://glcq1h6w0hu6" path="res://scenes/worker/worker.tscn" id="8_tipki"]
 [ext_resource type="PackedScene" uid="uid://dvp8pi7s4fp52" path="res://scenes/ui/message_feed/message_feed.tscn" id="9_ya4ey"]
 [ext_resource type="PackedScene" uid="uid://bt8lgqs8quuht" path="res://scenes/ui/bankrupt/bankrupt_label.tscn" id="13_trceg"]
 [ext_resource type="PackedScene" uid="uid://bjl4fm1n66juw" path="res://scenes/world/camera/game_camera.tscn" id="15_jkv2x"]
-[ext_resource type="PackedScene" path="res://scenes/storage_area_tool/storage_area_painter.tscn" id="16_painter"]
+[ext_resource type="PackedScene" uid="uid://cmgfkp1pi6a0x" path="res://scenes/storage_area_tool/storage_area_painter.tscn" id="16_painter"]
 [ext_resource type="PackedScene" uid="uid://djmhlxwxgixw8" path="res://scenes/storage_area_tool/storage_area_context_popup.tscn" id="17_popup"]
-[ext_resource type="Resource" path="res://resources/storage_area_tool_mode/storage_area_tool_mode.tres" id="18_toolmode"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tipki"]
 vertices = PackedVector2Array(612, 251, 612, 194, 2693, 13.890625, 2693, 1775, 0.96875, -10.8828125, 492, 194, -1.9765625, 1775, 492, 251)
@@ -28,17 +26,15 @@ parsed_collision_mask = 4294901776
 source_geometry_mode = 1
 agent_radius = 6.0
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("day_timer", "money_label", "new_worker_window", "order_items_window", "day_time_progress_bar", "end_of_day_window", "bankrupt_label")]
+[node name="Main" type="Node2D" node_paths=PackedStringArray("day_timer", "money_label", "new_worker_window", "day_time_progress_bar", "end_of_day_window", "bankrupt_label")]
 script = ExtResource("1_tbgi4")
 day_timer = NodePath("DayTimer")
 money_label = NodePath("SubViewport/MarginContainer/HBoxContainer/MoneyLabel")
 new_worker_window = NodePath("SubViewport/NewWorkerWindow")
-order_items_window = NodePath("SubViewport/OrderItemsWindow")
 day_time_progress_bar = NodePath("SubViewport/MarginContainer/HBoxContainer/TimeLeftInDayProgressBar")
 end_of_day_window = NodePath("SubViewport/EndOfDayWindow")
 grid_resource = ExtResource("2_85g3d")
 bankrupt_label = NodePath("SubViewport/BankruptLabel")
-storage_area_tool_mode = ExtResource("18_toolmode")
 
 [node name="DayTimer" type="Timer" parent="."]
 wait_time = 120.0
@@ -85,33 +81,7 @@ text = "Time left in day"
 layout_mode = 2
 text = "$0"
 
-[node name="ToolBar" type="PanelContainer" parent="SubViewport"]
-custom_minimum_size = Vector2(0, 76)
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -31.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="SubViewport/ToolBar"]
-layout_mode = 2
-theme_override_constants/separation = 0
-
-[node name="HireWorkersButton" parent="SubViewport/ToolBar/HBoxContainer" instance=ExtResource("7_0ld40")]
-layout_mode = 2
-
-[node name="OrdersButton" parent="SubViewport/ToolBar/HBoxContainer" instance=ExtResource("7_0ld40")]
-layout_mode = 2
-text = "Orders"
-
-[node name="AddStorageButton" parent="SubViewport/ToolBar/HBoxContainer" instance=ExtResource("7_0ld40")]
-layout_mode = 2
-text = "Add Storage"
-
-[node name="PauseButton" parent="SubViewport/ToolBar/HBoxContainer" instance=ExtResource("6_a8y0u")]
-layout_mode = 2
+[node name="ToolBar" parent="SubViewport" instance=ExtResource("7_0ld40")]
 
 [node name="StorageAreaContextPopup" parent="SubViewport" instance=ExtResource("17_popup")]
 
@@ -129,9 +99,8 @@ offset_top = -125.0
 offset_right = 150.0
 offset_bottom = 125.0
 
-[node name="OrderItemsWindow" parent="SubViewport" node_paths=PackedStringArray("buyer") instance=ExtResource("7_choun")]
+[node name="OrderItemsWindow" parent="SubViewport" instance=ExtResource("7_choun")]
 visible = false
-buyer = NodePath("../../Buyer")
 
 [node name="MessageFeed" parent="SubViewport" instance=ExtResource("9_ya4ey")]
 anchors_preset = 3
@@ -162,8 +131,6 @@ position = Vector2(576, 326)
 [node name="StorageAreaPainter" parent="." instance=ExtResource("16_painter")]
 
 [connection signal="timeout" from="DayTimer" to="." method="_on_day_timer_timeout"]
-[connection signal="pressed" from="SubViewport/ToolBar/HBoxContainer/OrdersButton" to="." method="_on_orders_button_pressed"]
-[connection signal="pressed" from="SubViewport/ToolBar/HBoxContainer/AddStorageButton" to="." method="_on_add_storage_button_pressed"]
 [connection signal="worker_hired" from="SubViewport/NewWorkerWindow" to="." method="_on_new_worker_window_worker_hired"]
 [connection signal="bankrupted" from="SubViewport/EndOfDayWindow" to="." method="_on_end_of_day_window_bankrupted"]
 [connection signal="day_was_started" from="SubViewport/EndOfDayWindow" to="." method="_on_end_of_day_window_day_was_started"]

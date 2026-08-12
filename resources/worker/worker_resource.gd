@@ -5,5 +5,8 @@ var workers = []
 func register_worker(worker):
 	workers.append(worker)
 
+func deregister_worker(worker) -> void:
+	workers.erase(worker)
+
 func get_total_worker_cost():
 	return workers.map(func(worker): return worker.daily_wage).reduce(func(accum, wage): return accum + wage)

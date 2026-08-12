@@ -1,13 +1,16 @@
 extends PanelContainer
 
+signal closed
+
 @export var item_line_container: Container
 @export var item_resource: ItemResource
 @export var total_price_label: Label
 @export var total_quantity_label: Label
 @export var num_shipments_label: Label
-@export var buyer: Buyer
+@export var buyer_resource: BuyerResource
 @export var money_resource: MoneyResource
 @export var message_resource: MessageResource
+@export var order_item_line: PackedScene
 
 var order = {}
 var total_quantity: int: 
@@ -25,17 +28,18 @@ func open():
 	total_quantity = 0
 	total_cost = 0.0
 	for template in item_resource.templates:
-		var item_line = preload("res://scenes/ui/order_items_window/order_item_line.tscn").instantiate()
+		var item_line = order_item_line.instantiate()
 		item_line.item_name = template.item_name
 		item_line.price = template.value
 		item_line.quantity_changed.connect(_on_item_line_quantity_changed)
 		item_line_container.add_child(item_line)
 	visible = true
 
-func _close():
+func close():
 	visible = false
 	for child in item_line_container.get_children():
 		child.queue_free()
+	closed.emit()
 
 func _on_item_line_quantity_changed(item_name: String, price: float, new_quantity: int):
 	if new_quantity == 0 and item_name in order:
@@ -52,7 +56,7 @@ func _on_item_line_quantity_changed(item_name: String, price: float, new_quantit
 		total_cost += item_order.quantity + item_order.price
 
 func _on_cancel_button_pressed():
-	_close()
+	close()
 
 func _on_order_button_pressed():
 	if money_resource.get_amount() < total_cost:
@@ -63,5 +67,5 @@ func _on_order_button_pressed():
 	for item_name in order.keys():
 		for i in range(order[item_name]["quantity"]):
 			order_list.append(item_name)
-	buyer.order_items(order_list)
-	_close()
+	buyer_resource.place_order(order_list)
+	close()

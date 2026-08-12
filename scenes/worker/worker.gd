@@ -1,5 +1,6 @@
 extends Node2D
 
+@export var worker_name: String = "jimothy"
 @export var worker_resource: WorkerResource
 @export var enchant_task_behavior: TaskBehavior
 

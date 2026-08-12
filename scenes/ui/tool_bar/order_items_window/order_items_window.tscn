@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://0wbk46g5vayk"]
+[gd_scene load_steps=7 format=3 uid="uid://0wbk46g5vayk"]
 
-[ext_resource type="Script" uid="uid://ba1yuyppqhfxu" path="res://scenes/ui/order_items_window/order_items_window.gd" id="1_bnag4"]
+[ext_resource type="Script" uid="uid://ba1yuyppqhfxu" path="res://scenes/ui/tool_bar/order_items_window/order_items_window.gd" id="1_bnag4"]
 [ext_resource type="Resource" uid="uid://duwmbn6tgc77d" path="res://resources/item/item_resource.tres" id="2_t1plh"]
 [ext_resource type="Resource" uid="uid://dmwmbd6jrlkbi" path="res://resources/money/money_resource.tres" id="3_hvxnm"]
 [ext_resource type="Resource" uid="uid://byocmqeihetrd" path="res://resources/message/message_resource.tres" id="4_vlqhg"]
+[ext_resource type="PackedScene" uid="uid://b3puh43ofu6xv" path="res://scenes/ui/tool_bar/order_items_window/order_item_line.tscn" id="5_v4rob"]
+[ext_resource type="Resource" uid="uid://dx2c1vylb8qv6" path="res://resources/buyer/buyer_resource.tres" id="6_bres"]
 
 [node name="OrderItemsWindow" type="PanelContainer" node_paths=PackedStringArray("item_line_container", "total_price_label", "total_quantity_label", "num_shipments_label")]
 process_mode = 3
@@ -27,6 +29,8 @@ total_quantity_label = NodePath("MarginContainer/VBoxContainer/HBoxContainer/VBo
 num_shipments_label = NodePath("MarginContainer/VBoxContainer/HBoxContainer/VBoxContainer/NumShipmentsLabel")
 money_resource = ExtResource("3_hvxnm")
 message_resource = ExtResource("4_vlqhg")
+order_item_line = ExtResource("5_v4rob")
+buyer_resource = ExtResource("6_bres")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2

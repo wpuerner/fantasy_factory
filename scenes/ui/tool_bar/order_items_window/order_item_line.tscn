@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b3puh43ofu6xv"]
 
-[ext_resource type="Script" uid="uid://cvexgv8priytv" path="res://scenes/ui/order_items_window/order_item_line.gd" id="1_8eeni"]
+[ext_resource type="Script" uid="uid://cvexgv8priytv" path="res://scenes/ui/tool_bar/order_items_window/order_item_line.gd" id="1_8eeni"]
 
 [node name="OrderItemLine" type="PanelContainer" node_paths=PackedStringArray("item_name_label", "price_label", "quantity_label")]
 size_flags_horizontal = 3
