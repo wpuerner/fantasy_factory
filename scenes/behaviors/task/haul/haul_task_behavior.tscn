@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2dmv8q1k5n7x"]
+
+[ext_resource type="Script" path="res://scenes/behaviors/task/haul/haul_task_behavior.gd" id="1_script"]
+
+[node name="HaulTaskBehavior" type="Node" node_paths=PackedStringArray("navigation_agent", "carry_task_behavior")]
+script = ExtResource("1_script")

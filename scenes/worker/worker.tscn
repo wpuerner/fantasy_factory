@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://glcq1h6w0hu6"]
+[gd_scene load_steps=9 format=3 uid="uid://glcq1h6w0hu6"]
 
 [ext_resource type="Script" uid="uid://jp0bd5rj15cd" path="res://scenes/worker/worker.gd" id="1_qsiq5"]
 [ext_resource type="Texture2D" uid="uid://c5faynebg0nt1" path="res://scenes/worker/worker.png" id="1_tmdoo"]
@@ -6,14 +6,16 @@
 [ext_resource type="PackedScene" uid="uid://d2k6qlv6d4mgg" path="res://scenes/behaviors/task/enchant/enchant_task_behavior.tscn" id="3_md8yx"]
 [ext_resource type="PackedScene" uid="uid://cscms2712e6vu" path="res://scenes/behaviors/task/work/work_task_behavior.tscn" id="3_nupkf"]
 [ext_resource type="PackedScene" uid="uid://b3c5p0vxn17lj" path="res://scenes/behaviors/task/carry/carry_task_behavior.tscn" id="4_md8yx"]
+[ext_resource type="PackedScene" uid="uid://c2dmv8q1k5n7x" path="res://scenes/behaviors/task/haul/haul_task_behavior.tscn" id="5_haul"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qsiq5"]
 radius = 14.0
 
-[node name="Worker" type="Node2D" node_paths=PackedStringArray("enchant_task_behavior") groups=["workers"]]
+[node name="Worker" type="Node2D" node_paths=PackedStringArray("enchant_task_behavior", "haul_task_behavior") groups=["workers"]]
 script = ExtResource("1_qsiq5")
 worker_resource = ExtResource("2_sq3if")
 enchant_task_behavior = NodePath("EnchantTaskBehavior")
+haul_task_behavior = NodePath("HaulTaskBehavior")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.5, 0.5)
@@ -38,8 +40,15 @@ carry_task_behavior = NodePath("../CarryTaskBehavior")
 [node name="CarryTaskBehavior" parent="." node_paths=PackedStringArray("navigation_agent") instance=ExtResource("4_md8yx")]
 navigation_agent = NodePath("../NavigationAgent2D")
 
+[node name="HaulTaskBehavior" parent="." node_paths=PackedStringArray("navigation_agent", "carry_task_behavior") instance=ExtResource("5_haul")]
+navigation_agent = NodePath("../NavigationAgent2D")
+carry_task_behavior = NodePath("../CarryTaskBehavior")
+
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
 [connection signal="abort" from="EnchantTaskBehavior" to="." method="_on_enchant_task_behavior_abort"]
 [connection signal="complete" from="EnchantTaskBehavior" to="." method="_on_enchant_task_behavior_complete"]
 [connection signal="complete" from="WorkTaskBehavior" to="EnchantTaskBehavior" method="_on_work_task_behavior_complete"]
 [connection signal="complete" from="CarryTaskBehavior" to="WorkTaskBehavior" method="_on_carry_task_behavior_complete"]
+[connection signal="complete" from="CarryTaskBehavior" to="HaulTaskBehavior" method="_on_carry_task_behavior_complete"]
+[connection signal="abort" from="HaulTaskBehavior" to="." method="_on_haul_task_behavior_abort"]
+[connection signal="complete" from="HaulTaskBehavior" to="." method="_on_haul_task_behavior_complete"]
