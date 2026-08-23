@@ -1,4 +1,4 @@
-extends Resource
+class_name WorktablesResource extends Resource
 
 var enchanting_tables: Array[Node2D]
 

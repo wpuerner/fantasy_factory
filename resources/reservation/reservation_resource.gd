@@ -1,0 +1,35 @@
+class_name ReservationResource extends Resource
+
+var _reservations: Dictionary = {}  # Object -> Node2D (worker)
+
+
+func reserve(obj: Object, worker: Node2D) -> bool:
+	if is_reserved_by_other(obj, worker):
+		return false
+	_reservations[obj] = worker
+	return true
+
+
+func release(obj: Object, worker: Node2D) -> void:
+	if _reservations.get(obj) == worker:
+		_reservations.erase(obj)
+
+
+func release_all(worker: Node2D) -> void:
+	for obj: Object in _reservations.keys():
+		if _reservations[obj] == worker:
+			_reservations.erase(obj)
+
+
+func is_reserved(obj: Object) -> bool:
+	var reserver: Node2D = _reservations.get(obj)
+	return is_instance_valid(reserver)
+
+
+func is_reserved_by(obj: Object, worker: Node2D) -> bool:
+	return _reservations.get(obj) == worker
+
+
+func is_reserved_by_other(obj: Object, worker: Node2D) -> bool:
+	var reserver: Node2D = _reservations.get(obj)
+	return is_instance_valid(reserver) and reserver != worker
