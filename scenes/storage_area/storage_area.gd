@@ -7,36 +7,19 @@ signal item_was_popped
 @export var priority: int = 5
 @export var system_only: bool = false
 @export var player_editable: bool = true
+@export var configurable: bool = true
+@export var can_change_priority: bool = true
+@export var allowed_items: Array[String] = []
 @export var grid_resource: GridResource
 @export var storage_areas_resource: StorageAreasResource
 
 var storage_cells: Array[StorageAreaCell] = []
 
-class StorageAreaCell:
-	signal item_was_popped()
-	
-	var grid_cell: GridResource.Cell
-	var global_position: Vector2
-	var storage_area: StorageArea
-	var held_item
 
-	func _init(p_grid_cell: GridResource.Cell, p_global_position, p_storage_area) -> void:
-		grid_cell = p_grid_cell
-		global_position = p_global_position
-		storage_area = p_storage_area
-
-	func is_open() -> bool:
-		return held_item == null
-
-	func pop_item():
-		var temp = held_item
-		held_item = null
-		item_was_popped.emit()
-		return temp
-
-	func drop_item(item: Item) -> void:
-		held_item = item
-		item.global_position = grid_cell.global_position
+func is_item_allowed(item_name: String) -> bool:
+	if allowed_items.is_empty():
+		return true
+	return item_name in allowed_items
 
 func get_open_storage_cell(is_system: bool = false) -> StorageAreaCell:
 	if not is_system and system_only:
@@ -58,7 +41,7 @@ func _ready() -> void:
 		for y in range(height):
 			var cell: GridResource.Cell = grid_resource.get_cell_from_coord(start_coord + Vector2i(x, y))
 			var area_cell: StorageAreaCell = StorageAreaCell.new(cell, cell.global_position, self)
-			cell.object = area_cell
+			cell.drop_object(area_cell)
 			area_cell.item_was_popped.connect(_on_item_was_popped)
 			storage_cells.append(area_cell)
 	storage_areas_resource.register_storage_area(self)
@@ -74,3 +57,36 @@ func remove() -> void:
 		else:
 			storage_cell.grid_cell.object = null
 	queue_free()
+
+class StorageAreaCell:
+	signal item_was_popped()
+	
+	var grid_cell: GridResource.Cell
+	var global_position: Vector2
+	var storage_area: StorageArea
+	var item: Item
+
+	func _init(p_grid_cell: GridResource.Cell, p_global_position, p_storage_area) -> void:
+		grid_cell = p_grid_cell
+		global_position = p_global_position
+		storage_area = p_storage_area
+
+	func is_open() -> bool:
+		return item == null
+
+	func pop_item():
+		if !is_instance_valid(item):
+			return null
+		item.container = null
+		var temp = item
+		item = null
+		item_was_popped.emit()
+		return temp
+
+	func drop_item(new_item: Item) -> void:
+		item = new_item
+		item.container = self
+		item.global_position = grid_cell.global_position
+
+	func get_item():
+		return item

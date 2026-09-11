@@ -6,6 +6,7 @@ class_name Item extends Node2D
 var item_name: String
 var icon: Texture2D
 var value: float
+var container
 
 func _ready():
 	$Sprite2D.texture = icon

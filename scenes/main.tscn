@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://b2mmxma017u3x"]
+[gd_scene load_steps=20 format=3 uid="uid://b2mmxma017u3x"]
 
 [ext_resource type="Script" uid="uid://barlj6o8aoyx3" path="res://scenes/main.gd" id="1_tbgi4"]
 [ext_resource type="Resource" uid="uid://cf2sb0kqcfn1t" path="res://resources/grid/grid_resource.tres" id="2_85g3d"]
@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://bjl4fm1n66juw" path="res://scenes/world/camera/game_camera.tscn" id="15_jkv2x"]
 [ext_resource type="PackedScene" uid="uid://cmgfkp1pi6a0x" path="res://scenes/storage_area_tool/storage_area_painter.tscn" id="16_painter"]
 [ext_resource type="PackedScene" uid="uid://djmhlxwxgixw8" path="res://scenes/storage_area_tool/storage_area_context_popup.tscn" id="17_popup"]
+[ext_resource type="PackedScene" uid="uid://cbxq8r3k2jyra" path="res://scenes/ui/storage_area_config_window/storage_area_config_window.tscn" id="18_config"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tipki"]
 vertices = PackedVector2Array(612, 251, 612, 194, 2693, 13.890625, 2693, 1775, 0.96875, -10.8828125, 492, 194, -1.9765625, 1775, 492, 251)
@@ -84,6 +85,8 @@ text = "$0"
 [node name="ToolBar" parent="SubViewport" instance=ExtResource("7_0ld40")]
 
 [node name="StorageAreaContextPopup" parent="SubViewport" instance=ExtResource("17_popup")]
+
+[node name="StorageAreaConfigWindow" parent="SubViewport" instance=ExtResource("18_config")]
 
 [node name="TaskPane" parent="SubViewport" instance=ExtResource("6_choun")]
 visible = false

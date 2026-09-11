@@ -28,12 +28,13 @@ func _ready():
 	
 	# Wire up storage area tool
 	$StorageAreaPainter.context_popup = $SubViewport/StorageAreaContextPopup
+	$StorageAreaPainter.config_window = $SubViewport/StorageAreaConfigWindow
 	
 	for i in range(4):
-		var foo = item_resource.create_from_template("Foo")
+		var foo: Item = item_resource.create_from_template("Foo")
 		foo.global_position = Vector2(100, (i+1) * 100)
 		add_child(foo)
-		grid_resource.maybe_add_node(foo)
+		grid_resource.get_cell_for_node(foo).drop_item(foo)
 	
 	grid_resource.maybe_add_node($EnchantingTable)
 	

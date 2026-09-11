@@ -5,6 +5,7 @@ const ToolModeClass = preload("res://resources/storage_area_tool_mode/storage_ar
 @export var tool_mode: Resource
 @export var grid_resource: GridResource
 @export var context_popup: Control
+@export var config_window: Control
 
 var storage_area_scene: PackedScene = preload("res://scenes/storage_area/storage_area.tscn")
 
@@ -45,7 +46,7 @@ func _process(_delta: float) -> void:
 	var just_released: bool = not mouse_pressed and _mouse_was_pressed
 	_mouse_was_pressed = mouse_pressed
 
-	if _is_mouse_over_popup():
+	if _is_mouse_over_popup() or _is_mouse_over_config_window():
 		return
 
 	if tool_mode.active_mode == ToolModeClass.Mode.PLACING:
@@ -67,9 +68,11 @@ func _handle_idle_click() -> void:
 	var coord: Vector2i = grid_resource.get_coordinate_from_global_position(mouse_pos)
 	var cell: GridResource.Cell = grid_resource.get_cell_from_coord(coord)
 
-	if cell.object is StorageArea.StorageAreaCell:
-		var area: StorageArea = cell.object.storage_area
-		if area.player_editable:
+	if cell.get_object() is StorageArea.StorageAreaCell:
+		var area: StorageArea = cell.get_object().storage_area
+		if area.configurable:
+			_open_config_window(area)
+		elif area.player_editable:
 			_show_context_popup(area)
 		else:
 			context_popup.hide()
@@ -89,6 +92,20 @@ func _show_context_popup(area: StorageArea) -> void:
 	screen_pos.x += 8.0
 	screen_pos.y += 8.0
 	context_popup.show_for_area(area, screen_pos)
+
+
+func _open_config_window(area: StorageArea) -> void:
+	if not is_instance_valid(config_window):
+		return
+	context_popup.hide()
+	config_window.open(area)
+
+
+func _is_mouse_over_config_window() -> bool:
+	if not is_instance_valid(config_window) or not config_window.visible:
+		return false
+	var mouse_in_viewport: Vector2 = get_viewport().get_mouse_position()
+	return config_window.get_global_rect().has_point(mouse_in_viewport)
 
 
 func _start_placing_drag() -> void:

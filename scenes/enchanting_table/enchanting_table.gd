@@ -7,7 +7,7 @@ signal complete
 @onready var item_resource = preload("res://resources/item/item_resource.tres")
 @onready var worktables_resource = preload("res://resources/worktables/worktables_resource.tres")
 
-var item
+var item: Item
 var needed_work_amount: float = 100.0
 var current_work: float = 0.0
 
@@ -32,15 +32,24 @@ func work():
 func drop_item(dropped_item: Item):
 	dropped_item.global_position = global_position
 	item = dropped_item
+	item.container = self
 
 func pop_item():
+	item.container = null
 	var temp = item
 	item = null
 	current_work = 0.0
 	return temp
 
-func get_input_item_name():
+func get_item():
+	return item
+
+func get_input_item_name() -> String:
 	return ticket.input_item_name
+
+
+func get_output_item_name() -> String:
+	return ticket.output_item_name
 
 func _ready():
 	worktables_resource.register_enchanting_table(self)

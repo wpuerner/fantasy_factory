@@ -27,7 +27,6 @@ func start() -> bool:
 	state = State.HAULING
 	return true
 
-
 func _find_haul_job(worker: Node2D) -> Dictionary:
 	var sorted_areas: Array = storage_areas_resource.storage_areas.duplicate()
 	sorted_areas.sort_custom(func(a: StorageArea, b: StorageArea): return a.priority < b.priority)
@@ -40,34 +39,33 @@ func _find_haul_job(worker: Node2D) -> Dictionary:
 	for item: Item in item_resource.items:
 		if not is_instance_valid(item):
 			continue
-		if reservation_resource.is_reserved_by_other(item, worker):
+
+		var container = item.container
+		if reservation_resource.is_reserved_by_other(container, worker):
 			continue
-
-		var cell: GridResource.Cell = grid_resource.get_cell_for_node(item)
-		var current_object = cell.object
-
-		if current_object is StorageArea.StorageAreaCell:
-			# Item is in a storage area — move to a strictly higher-priority area
-			if reservation_resource.is_reserved_by_other(current_object, worker):
-				continue
-
-			var current_area: StorageArea = current_object.storage_area
+		
+		if !is_instance_valid(container):
+			continue
+			
+		if container is StorageArea.StorageAreaCell:
+			var current_area: StorageArea = container.storage_area
 			for area: StorageArea in sorted_areas:
 				if area == current_area:
 					continue
 				if area.priority < current_area.priority:
+					if not area.is_item_allowed(item.item_name):
+						continue
 					var open_cell: StorageArea.StorageAreaCell = _find_open_cell_in_area(area, worker)
 					if open_cell != null:
-						return {"source": current_object, "target": open_cell}
+						return {"source": container, "target": open_cell}
 		else:
-			# Item is loose on the grid — move to the highest-priority storage area
-			if reservation_resource.is_reserved_by_other(cell, worker):
+			# Item is in a free cell or on an workbench -- move to any storage area
+			if not best_area.is_item_allowed(item.item_name):
 				continue
 
 			var open_cell: StorageArea.StorageAreaCell = _find_open_cell_in_area(best_area, worker)
 			if open_cell != null:
-				return {"source": cell, "target": open_cell}
-
+				return {"source": container, "target": open_cell}
 	return {}
 
 

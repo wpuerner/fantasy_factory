@@ -2,6 +2,8 @@ extends TaskBehavior
 
 @export var navigation_agent: NavigationAgent2D
 
+@onready var worker = get_parent()
+
 const INVALID_DESTINATION: Vector2 = Vector2(-100, -100)
 
 var grid_resource: GridResource = preload("res://resources/grid/grid_resource.tres")
@@ -11,25 +13,19 @@ var to_node
 var held_item: Item
 var state: State = State.WAITING
 
-var _reserved_from
-var _reserved_to
-var _reserved_item: Item
-
 enum State {WAITING, PICKING_UP, DROPPING_OFF}
 
 
 func start(from, to) -> bool:
-	var worker: Node2D = get_parent()
+	if !is_instance_valid(from.get_item()):
+		return false
 
 	if not reservation_resource.reserve(from, worker):
 		return false
-	_reserved_from = from
 
 	if not reservation_resource.reserve(to, worker):
-		reservation_resource.release(_reserved_from, worker)
-		_reserved_from = null
+		_abort()
 		return false
-	_reserved_to = to
 
 	from_node = from
 	to_node = to
@@ -37,25 +33,18 @@ func start(from, to) -> bool:
 	state = State.PICKING_UP
 	return true
 
-
 func _abort() -> void:
 	_release_all()
 	state = State.WAITING
 	abort.emit()
 
-
 func _release_all() -> void:
-	var worker: Node2D = get_parent()
-	if _reserved_item:
-		reservation_resource.release(_reserved_item, worker)
-		_reserved_item = null
-	if _reserved_from:
-		reservation_resource.release(_reserved_from, worker)
-		_reserved_from = null
-	if _reserved_to:
-		reservation_resource.release(_reserved_to, worker)
-		_reserved_to = null
-
+	if from_node:
+		reservation_resource.release(from_node, worker)
+		from_node = null
+	if to_node:
+		reservation_resource.release(to_node, worker)
+		to_node = null
 
 func _physics_process(_delta: float) -> void:
 	if state == State.PICKING_UP:
@@ -64,9 +53,7 @@ func _physics_process(_delta: float) -> void:
 			if !is_instance_valid(held_item):
 				_abort()
 				return
-			# Reserve the item now that we hold it
-			reservation_resource.reserve(held_item, get_parent())
-			_reserved_item = held_item
+			reservation_resource.release(from_node, worker)
 			navigation_agent.target_position = grid_resource.get_adjacent_open_cell_position(to_node, get_parent())
 			state = State.DROPPING_OFF
 	elif state == State.DROPPING_OFF:
@@ -79,6 +66,4 @@ func _physics_process(_delta: float) -> void:
 			held_item = null
 			_release_all()
 			state = State.WAITING
-			to_node = null
-			from_node = null
 			complete.emit()

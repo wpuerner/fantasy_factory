@@ -89,7 +89,14 @@ func _on_work_complete() -> void:
 func _find_available_storage_cell(worker: Node2D):
 	var sorted_areas: Array = storage_areas_resource.storage_areas.duplicate()
 	sorted_areas.sort_custom(func(a: StorageArea, b: StorageArea): return a.priority < b.priority)
+
+	var output_item_name: String = ""
+	if work_node and work_node.has_method("get_output_item_name"):
+		output_item_name = work_node.get_output_item_name()
+
 	for area: StorageArea in sorted_areas:
+		if output_item_name != "" and not area.is_item_allowed(output_item_name):
+			continue
 		for cell: StorageArea.StorageAreaCell in area.storage_cells:
 			if cell.is_open() and not reservation_resource.is_reserved_by_other(cell, worker):
 				return cell

@@ -22,7 +22,7 @@ func init(grid_rect: Rect2i):
 func maybe_add_node(node: Node2D) -> bool:
 	var collection = _get_node_collection(node)
 	for n in collection:
-		if is_instance_valid(get_cell_for_node(n).object):
+		if !get_cell_for_node(n).is_open():
 			return false
 	
 	for n in collection:
@@ -35,7 +35,7 @@ func maybe_add_node(node: Node2D) -> bool:
 func remove_node(node: Node2D) -> bool:
 	var collection = _get_node_collection(node)
 	for n in collection:
-		get_cell_for_node(n).object = null
+		get_cell_for_node(n).item = null
 	return true
 
 # returns the position of an open cell adjacent to to_node, if it exiWhensts, otherwise null.
@@ -112,22 +112,39 @@ class Cell:
 	var object
 	
 	func is_open():
-		return object == null
+		return !is_instance_valid(object)
 	
 	func has_item():
 		return is_instance_valid(object)
 		
 	func pop_item():
-		if object != null and object.has_method("pop_item"):
-			return object.pop_item()
-		var temp = object
-		object = null
-		item_was_popped.emit()
-		return temp
+		if object is Item:
+			object.container = null
+			var temp = object
+			object = null
+			item_was_popped.emit()
+			return temp
 
 	func drop_item(item: Item):
-		if object != null and object.has_method("drop_item"):
-			object.drop_item(item)
-			return
 		object = item
-		item.global_position = global_position
+		object.global_position = global_position
+		object.container = self
+
+	func get_item():
+		return object if object is Item else null
+
+	func pop_object():
+		if object is not Item:
+			var temp = object
+			object = null
+			return temp
+	
+	func drop_object(new_object):
+		if new_object is Item:
+			push_warning("Attempted to drop an item onto a grid cell as an object")
+			return
+		object = new_object
+		object.global_position = global_position
+	
+	func get_object():
+		return object if object is not Item else null
