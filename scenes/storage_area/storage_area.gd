@@ -13,12 +13,12 @@ signal item_was_popped
 @export var grid_resource: GridResource
 @export var storage_areas_resource: StorageAreasResource
 
+@onready var item_resource: ItemResource = preload("res://resources/item/item_resource.tres")
+
 var storage_cells: Array[StorageAreaCell] = []
 
 
 func is_item_allowed(item_name: String) -> bool:
-	if allowed_items.is_empty():
-		return true
 	return item_name in allowed_items
 
 func get_open_storage_cell(is_system: bool = false) -> StorageAreaCell:
@@ -48,6 +48,7 @@ func _ready() -> void:
 	$Sprite2D.texture.size = Vector2(width, height) * GridResource.CELL_SIZE
 	global_position = grid_resource.get_global_position_from_coordinate(start_coord)
 
+	allowed_items.append_array(item_resource.templates.map(func(template): return template.item_name))
 
 func remove() -> void:
 	storage_areas_resource.remove_storage_area(self)

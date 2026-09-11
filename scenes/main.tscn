@@ -130,7 +130,8 @@ position = Vector2(169, 435)
 [node name="GameCamera" parent="." instance=ExtResource("15_jkv2x")]
 position = Vector2(576, 326)
 
-[node name="StorageAreaPainter" parent="." instance=ExtResource("16_painter")]
+[node name="StorageAreaPainter" parent="." node_paths=PackedStringArray("config_window") instance=ExtResource("16_painter")]
+config_window = NodePath("../SubViewport/StorageAreaConfigWindow")
 
 [connection signal="timeout" from="DayTimer" to="." method="_on_day_timer_timeout"]
 [connection signal="worker_hired" from="SubViewport/ToolBar" to="." method="_on_worker_hired"]

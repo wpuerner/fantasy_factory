@@ -28,7 +28,6 @@ func _ready():
 	
 	# Wire up storage area tool
 	$StorageAreaPainter.context_popup = $SubViewport/StorageAreaContextPopup
-	$StorageAreaPainter.config_window = $SubViewport/StorageAreaConfigWindow
 	
 	for i in range(4):
 		var foo: Item = item_resource.create_from_template("Foo")
