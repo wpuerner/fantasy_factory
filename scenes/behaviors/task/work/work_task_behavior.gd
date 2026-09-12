@@ -37,7 +37,7 @@ func start() -> bool:
 		if reservation_resource.is_reserved_by_other(input_item, worker):
 			_release_work_node(worker)
 			return false
-		if not carry_task_behavior.start(grid_resource.get_cell_for_node(input_item), work_node):
+		if not carry_task_behavior.start(input_item.container, work_node):
 			_release_work_node(worker)
 			return false
 		state = State.GATHERING_INPUTS

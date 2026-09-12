@@ -52,7 +52,7 @@ func _find_haul_job(worker: Node2D) -> Dictionary:
 			for area: StorageArea in sorted_areas:
 				if area == current_area:
 					continue
-				if area.priority < current_area.priority:
+				if area.priority < current_area.priority or item.item_name not in current_area.allowed_items:
 					if not area.is_item_allowed(item.item_name):
 						continue
 					var open_cell: StorageArea.StorageAreaCell = _find_open_cell_in_area(area, worker)
