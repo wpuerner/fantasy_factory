@@ -1,4 +1,3 @@
 class_name TaskBehavior extends Node
 
-signal complete
-signal abort
+signal completed(was_successful: bool)
