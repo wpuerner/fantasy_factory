@@ -2,6 +2,8 @@ class_name ItemResource extends Resource
 
 @export var templates: Array[ItemTemplate]
 
+var reservation_resource = preload("res://resources/reservation/reservation_resource.tres")
+
 var items: Array[Item] = []
 
 func add_item(item: Item):
@@ -21,3 +23,11 @@ func create_from_template(item_name: String):
 			item.icon = template.icon
 			item.value = template.value
 			return item
+
+func find_nearest_available_item(item_name: String, from_position: Vector2):
+	var items = find_items(item_name)
+	items.sort_custom(func(a, b): return from_position.distance_to(a.global_position) < from_position.distance_to(b.global_position))
+	for item in items:
+		if item.container and !reservation_resource.is_reserved(item.container):
+			return item
+	return null

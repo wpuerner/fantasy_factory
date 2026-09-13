@@ -27,7 +27,6 @@ func is_reserved(obj: Object) -> bool:
 func is_reserved_by(obj: Object, worker: Node2D) -> bool:
 	return _reservations.get(obj) == worker
 
-
 func is_reserved_by_other(obj: Object, worker: Node2D) -> bool:
 	if obj not in _reservations:
 		return false

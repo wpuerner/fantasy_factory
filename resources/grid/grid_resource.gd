@@ -3,7 +3,6 @@ class_name GridResource extends Resource
 const CELL_SIZE: int = 32
 
 var grid = []
-var item_resource = preload("res://resources/item/item_resource.tres")
 
 func get_snapped_global_position(global_position: Vector2):
 	var coord: Vector2i = get_coordinate_from_global_position(global_position)
@@ -70,13 +69,6 @@ func find_nearest_open_cell(from_position: Vector2) -> Cell:
 				if cell.is_open():
 					return cell
 	return null
-
-func find_nearest_item(item_name: String, from_position: Vector2):
-	var closest_item = null
-	for matching_item in item_resource.find_items(item_name):
-		if closest_item == null or from_position.distance_to(matching_item.global_position) < from_position.distance_to(closest_item.global_position):
-			closest_item = matching_item
-	return closest_item
 
 func get_cell_for_node(node: Node2D) -> Cell:
 	return _get_cell_from_global_position(node.global_position)

@@ -3,6 +3,7 @@ extends TaskBehavior
 @export var navigation_agent: NavigationAgent2D
 @export var carry_task_behavior: TaskBehavior
 
+var item_resource: ItemResource = preload("res://resources/item/item_resource.tres")
 var grid_resource: GridResource = preload("res://resources/grid/grid_resource.tres")
 var storage_areas_resource: StorageAreasResource = preload("res://resources/storage_areas/storage_areas_resource.tres")
 var reservation_resource: ReservationResource = preload("res://resources/reservation/reservation_resource.tres")
@@ -18,9 +19,6 @@ enum State {GATHERING_INPUTS, GOING_TO_WORK, WORKING, STORING_OUTPUTS}
 
 const MAX_WORK_COOLDOWN_TICKS: int = 4
 
-## need to fix reservation system so objects are reserved in the correct way
-## release reservation on input item containers but not workbench
-
 func start(worker, workbench) -> bool:
 	_worker = worker
 	if not reservation_resource.reserve(_workbench, _worker):
@@ -35,7 +33,7 @@ func _start() -> bool:
 		state = State.GOING_TO_WORK
 		return true
 
-	var input_item: Item = grid_resource.find_nearest_item(_workbench.get_input_item_name(), _worker.global_position)
+	var input_item: Item = item_resource.find_nearest_available_item(_workbench.get_input_item_name(), _worker.global_position)
 	if is_instance_valid(input_item):
 		_input_item_container = input_item.container
 		if not reservation_resource.reserve(_input_item_container, _worker):
@@ -85,7 +83,7 @@ func update(worker, delta: float) -> void:
 func _on_work_complete() -> void:
 	_workbench.complete.disconnect(_on_work_complete)
 
-	var _storage_container = _find_available_storage_cell()
+	_storage_container = _find_available_storage_cell()
 	if _storage_container == null:
 		_storage_container = grid_resource.find_nearest_open_cell(_worker.global_position)
 	if not reservation_resource.reserve(_storage_container, _worker):

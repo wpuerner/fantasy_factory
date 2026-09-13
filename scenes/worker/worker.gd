@@ -29,4 +29,5 @@ func _physics_process(delta: float) -> void:
 		global_position = global_position.move_toward($NavigationAgent2D.get_next_path_position(), SPEED * delta)
 
 func _on_current_behavior_completed(was_successful: bool):
+	_current_behavior.completed.disconnect(_on_current_behavior_completed)
 	_current_behavior = null
