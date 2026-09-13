@@ -57,6 +57,7 @@ reservation_resource = ExtResource("11_304bw")
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]
 [connection signal="abort" from="EnchantTaskBehavior" to="." method="_on_enchant_task_behavior_abort"]
 [connection signal="complete" from="EnchantTaskBehavior" to="." method="_on_enchant_task_behavior_complete"]
+[connection signal="abort" from="WorkTaskBehavior" to="EnchantTaskBehavior" method="_on_work_task_behavior_abort"]
 [connection signal="complete" from="WorkTaskBehavior" to="EnchantTaskBehavior" method="_on_work_task_behavior_complete"]
 [connection signal="abort" from="CarryTaskBehavior" to="WorkTaskBehavior" method="_on_carry_task_behavior_abort"]
 [connection signal="abort" from="CarryTaskBehavior" to="HaulTaskBehavior" method="_on_carry_task_behavior_abort"]

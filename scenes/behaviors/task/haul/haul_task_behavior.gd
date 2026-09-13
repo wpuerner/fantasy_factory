@@ -11,7 +11,6 @@ var state: State = State.IDLE
 
 enum State {IDLE, HAULING}
 
-
 func start() -> bool:
 	if state != State.IDLE:
 		return false
@@ -68,19 +67,20 @@ func _find_haul_job(worker: Node2D) -> Dictionary:
 				return {"source": container, "target": open_cell}
 	return {}
 
-
 func _find_open_cell_in_area(area: StorageArea, worker: Node2D) -> StorageArea.StorageAreaCell:
 	for cell: StorageArea.StorageAreaCell in area.storage_cells:
 		if cell.is_open() and not reservation_resource.is_reserved_by_other(cell, worker):
 			return cell
 	return null
 
-
 func _on_carry_task_behavior_complete() -> void:
+	if state != State.HAULING:
+		return
 	state = State.IDLE
 	complete.emit()
 
-
 func _on_carry_task_behavior_abort() -> void:
+	if state != State.HAULING:
+		return
 	state = State.IDLE
 	abort.emit()

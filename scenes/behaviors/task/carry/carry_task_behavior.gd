@@ -17,12 +17,14 @@ enum State {WAITING, PICKING_UP, DROPPING_OFF}
 
 
 func start(from, to) -> bool:
+	if !is_instance_valid(from):
+		return false
+	if !is_instance_valid(to):
+		return false
 	if !is_instance_valid(from.get_item()):
 		return false
-
 	if not reservation_resource.reserve(from, worker):
 		return false
-
 	if not reservation_resource.reserve(to, worker):
 		_abort()
 		return false
