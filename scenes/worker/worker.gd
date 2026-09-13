@@ -28,14 +28,8 @@ func _physics_process(delta: float) -> void:
 		global_position = global_position.move_toward($NavigationAgent2D.get_next_path_position(), SPEED * delta)
 
 
-func _on_enchant_task_behavior_complete() -> void:
+func _on_enchant_task_behavior_completed(_was_successful: bool) -> void:
 	state = State.WAITING
 
-func _on_enchant_task_behavior_abort() -> void:
-	state = State.WAITING
-
-func _on_haul_task_behavior_complete() -> void:
-	state = State.WAITING
-
-func _on_haul_task_behavior_abort() -> void:
+func _on_haul_task_behavior_completed(_was_successful: bool) -> void:
 	state = State.WAITING

@@ -38,7 +38,7 @@ func start(from, to) -> bool:
 func _abort() -> void:
 	_release_all()
 	state = State.WAITING
-	abort.emit()
+	completed.emit(false)
 
 func _release_all() -> void:
 	if from_node:
@@ -66,6 +66,5 @@ func _physics_process(_delta: float) -> void:
 		if navigation_agent.is_target_reached():
 			to_node.drop_item(held_item)
 			held_item = null
-			_release_all()
 			state = State.WAITING
-			complete.emit()
+			completed.emit(true)

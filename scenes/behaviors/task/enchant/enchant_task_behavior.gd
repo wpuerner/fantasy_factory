@@ -14,9 +14,5 @@ func start() -> bool:
 	return false
 
 
-func _on_work_task_behavior_complete() -> void:
-	complete.emit()
-
-
-func _on_work_task_behavior_abort() -> void:
-	abort.emit()
+func _on_work_task_behavior_completed(was_successful: bool) -> void:
+	completed.emit(was_successful)

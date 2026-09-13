@@ -18,25 +18,15 @@ const MAX_WORK_COOLDOWN_TICKS: int = 4
 
 
 func start(workbench) -> bool:
-	if !workbench:
-		return false
 	if state != State.WAITING:
 		return false
-
-	_workbench = workbench
-
-	# Reserve the work table for the full duration of this task
 	if not reservation_resource.reserve(_workbench, _worker):
-		_workbench = null
 		return false
+	_workbench = workbench
 
 	return _start()
 
 func _start() -> bool:
-	if not is_instance_valid(_workbench):
-		_release_workbench()
-		return false
-
 	if _workbench.can_work():
 		navigation_agent.target_position = grid_resource.get_adjacent_open_cell_position(_workbench, _worker)
 		state = State.GOING_TO_WORK
@@ -44,22 +34,16 @@ func _start() -> bool:
 
 	var input_item: Item = grid_resource.find_nearest_item(_workbench.get_input_item_name(), _worker.global_position)
 	if is_instance_valid(input_item):
-		if reservation_resource.is_reserved_by_other(input_item, _worker):
-			_release_workbench()
-			return false
-		if not carry_task_behavior.start(input_item.container, _workbench):
-			_release_workbench()
+		if input_item.container == null or not carry_task_behavior.start(input_item.container, _workbench):
+			_abort()
 			return false
 		state = State.GATHERING_INPUTS
 		return true
+	else:
+		# abort if there are no available items
+		_abort()
+		return false
 
-	_release_workbench()
-	return false
-
-# Releases the reservation and clears _workbench AND resets state together.
-# If the two are allowed to drift apart (state stays GOING_TO_WORK while
-# _workbench is nulled) _physics_process dereferences the cleared bench the
-# moment the worker reaches the navigation target.
 func _release_workbench() -> void:
 	if _workbench:
 		reservation_resource.release(_workbench, _worker)
@@ -68,9 +52,6 @@ func _release_workbench() -> void:
 
 func _physics_process(_delta: float) -> void:
 	if state == State.GOING_TO_WORK:
-		if not is_instance_valid(_workbench):
-			_abort()
-			return
 		if navigation_agent.is_navigation_finished():
 			_workbench.complete.connect(_on_work_complete)
 			state = State.WORKING
@@ -117,16 +98,17 @@ func _find_available_storage_cell():
 
 func _abort() -> void:
 	_release_workbench()
-	abort.emit()
+	completed.emit(false)
 
-func _on_carry_task_behavior_complete() -> void:
+func _on_carry_task_behavior_completed(was_successful: bool) -> void:
+	if not was_successful:
+		if state == State.GATHERING_INPUTS or state == State.STORING_OUTPUTS:
+			_abort()
+		return
+
 	if state == State.GATHERING_INPUTS:
 		if not _start():
 			_abort()
 	elif state == State.STORING_OUTPUTS:
 		_release_workbench()
-		complete.emit()
-
-func _on_carry_task_behavior_abort() -> void:
-	if state == State.GATHERING_INPUTS or state == State.STORING_OUTPUTS:
-		_abort()
+		completed.emit(true)

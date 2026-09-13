@@ -73,14 +73,8 @@ func _find_open_cell_in_area(area: StorageArea, worker: Node2D) -> StorageArea.S
 			return cell
 	return null
 
-func _on_carry_task_behavior_complete() -> void:
+func _on_carry_task_behavior_completed(was_successful: bool) -> void:
 	if state != State.HAULING:
 		return
 	state = State.IDLE
-	complete.emit()
-
-func _on_carry_task_behavior_abort() -> void:
-	if state != State.HAULING:
-		return
-	state = State.IDLE
-	abort.emit()
+	completed.emit(was_successful)

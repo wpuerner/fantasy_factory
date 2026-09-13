@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://b2mmxma017u3x"]
+[gd_scene format=3 uid="uid://b2mmxma017u3x"]
 
 [ext_resource type="Script" uid="uid://barlj6o8aoyx3" path="res://scenes/main.gd" id="1_tbgi4"]
 [ext_resource type="Resource" uid="uid://cf2sb0kqcfn1t" path="res://resources/grid/grid_resource.tres" id="2_85g3d"]
@@ -27,7 +27,7 @@ parsed_collision_mask = 4294901776
 source_geometry_mode = 1
 agent_radius = 6.0
 
-[node name="Main" type="Node2D" node_paths=PackedStringArray("day_timer", "money_label", "hire_workers_window", "day_time_progress_bar", "end_of_day_window", "bankrupt_label")]
+[node name="Main" type="Node2D" unique_id=920098001 node_paths=PackedStringArray("day_timer", "money_label", "hire_workers_window", "day_time_progress_bar", "end_of_day_window", "bankrupt_label")]
 script = ExtResource("1_tbgi4")
 day_timer = NodePath("DayTimer")
 money_label = NodePath("SubViewport/MarginContainer/HBoxContainer/MoneyLabel")
@@ -37,22 +37,22 @@ end_of_day_window = NodePath("SubViewport/EndOfDayWindow")
 grid_resource = ExtResource("2_85g3d")
 bankrupt_label = NodePath("SubViewport/BankruptLabel")
 
-[node name="DayTimer" type="Timer" parent="."]
+[node name="DayTimer" type="Timer" parent="." unique_id=1465492600]
 wait_time = 120.0
 autostart = true
 
-[node name="Buyer" parent="." instance=ExtResource("3_choun")]
+[node name="Buyer" parent="." unique_id=1696494494 instance=ExtResource("3_choun")]
 position = Vector2(112, 368)
 
-[node name="Seller" parent="." instance=ExtResource("2_tefeu")]
+[node name="Seller" parent="." unique_id=7074309 instance=ExtResource("2_tefeu")]
 position = Vector2(869, 351)
 
-[node name="EnchantingTable" parent="." instance=ExtResource("4_tipki")]
+[node name="EnchantingTable" parent="." unique_id=5780981 instance=ExtResource("4_tipki")]
 position = Vector2(552, 223)
 
-[node name="SubViewport" type="CanvasLayer" parent="."]
+[node name="SubViewport" type="CanvasLayer" parent="." unique_id=1927628465]
 
-[node name="MarginContainer" type="MarginContainer" parent="SubViewport"]
+[node name="MarginContainer" type="MarginContainer" parent="SubViewport" unique_id=1176303191]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -62,39 +62,39 @@ grow_horizontal = 0
 theme_override_constants/margin_top = 12
 theme_override_constants/margin_right = 12
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SubViewport/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="SubViewport/MarginContainer" unique_id=1989799208]
 layout_mode = 2
 theme_override_constants/separation = 32
 
-[node name="TimeLeftInDayProgressBar" type="ProgressBar" parent="SubViewport/MarginContainer/HBoxContainer"]
+[node name="TimeLeftInDayProgressBar" type="ProgressBar" parent="SubViewport/MarginContainer/HBoxContainer" unique_id=315052060]
 custom_minimum_size = Vector2(200, 24)
 layout_mode = 2
 value = 100.0
 show_percentage = false
 
-[node name="TimeLeftInDayLabel" type="Label" parent="SubViewport/MarginContainer/HBoxContainer/TimeLeftInDayProgressBar"]
+[node name="TimeLeftInDayLabel" type="Label" parent="SubViewport/MarginContainer/HBoxContainer/TimeLeftInDayProgressBar" unique_id=825674308]
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
 text = "Time left in day"
 
-[node name="MoneyLabel" type="Label" parent="SubViewport/MarginContainer/HBoxContainer"]
+[node name="MoneyLabel" type="Label" parent="SubViewport/MarginContainer/HBoxContainer" unique_id=947324724]
 layout_mode = 2
 text = "$0"
 
-[node name="ToolBar" parent="SubViewport" instance=ExtResource("7_0ld40")]
+[node name="ToolBar" parent="SubViewport" unique_id=54603593 instance=ExtResource("7_0ld40")]
 
-[node name="StorageAreaContextPopup" parent="SubViewport" instance=ExtResource("17_popup")]
+[node name="StorageAreaContextPopup" parent="SubViewport" unique_id=1657920626 instance=ExtResource("17_popup")]
 
-[node name="StorageAreaConfigWindow" parent="SubViewport" instance=ExtResource("18_config")]
+[node name="StorageAreaConfigWindow" parent="SubViewport" unique_id=732863957 instance=ExtResource("18_config")]
 
-[node name="TaskPane" parent="SubViewport" instance=ExtResource("6_choun")]
+[node name="TaskPane" parent="SubViewport" unique_id=1829546335 instance=ExtResource("6_choun")]
 visible = false
 
-[node name="HireWorkersWindow" parent="SubViewport" instance=ExtResource("7_tipki")]
+[node name="HireWorkersWindow" parent="SubViewport" unique_id=1336760795 instance=ExtResource("7_tipki")]
 visible = false
 
-[node name="EndOfDayWindow" parent="SubViewport" instance=ExtResource("8_eb6dy")]
+[node name="EndOfDayWindow" parent="SubViewport" unique_id=1063912784 instance=ExtResource("8_eb6dy")]
 process_mode = 3
 visible = false
 offset_left = -150.0
@@ -102,35 +102,35 @@ offset_top = -125.0
 offset_right = 150.0
 offset_bottom = 125.0
 
-[node name="OrderItemsWindow" parent="SubViewport" instance=ExtResource("7_choun")]
+[node name="OrderItemsWindow" parent="SubViewport" unique_id=1652953588 instance=ExtResource("7_choun")]
 visible = false
 
-[node name="MessageFeed" parent="SubViewport" instance=ExtResource("9_ya4ey")]
+[node name="MessageFeed" parent="SubViewport" unique_id=2037304985 instance=ExtResource("9_ya4ey")]
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
 grow_horizontal = 0
 grow_vertical = 0
 
-[node name="BankruptLabel" parent="SubViewport" instance=ExtResource("13_trceg")]
+[node name="BankruptLabel" parent="SubViewport" unique_id=132322188 instance=ExtResource("13_trceg")]
 process_mode = 3
 offset_left = -173.0
 offset_top = -520.0
 offset_right = 167.0
 offset_bottom = -432.0
 
-[node name="WorldOverlayTileMapLayer" parent="." instance=ExtResource("7_85g3d")]
+[node name="WorldOverlayTileMapLayer" parent="." unique_id=255819131 instance=ExtResource("7_85g3d")]
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." groups=["navigation_polygon_source_geometry_group"]]
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1286300028 groups=["navigation_polygon_source_geometry_group"]]
 navigation_polygon = SubResource("NavigationPolygon_tipki")
 
-[node name="Worker" parent="." instance=ExtResource("8_tipki")]
+[node name="Worker" parent="." unique_id=2131814134 instance=ExtResource("8_tipki")]
 position = Vector2(169, 435)
 
-[node name="GameCamera" parent="." instance=ExtResource("15_jkv2x")]
+[node name="GameCamera" parent="." unique_id=453432055 instance=ExtResource("15_jkv2x")]
 position = Vector2(576, 326)
 
-[node name="StorageAreaPainter" parent="." node_paths=PackedStringArray("config_window") instance=ExtResource("16_painter")]
+[node name="StorageAreaPainter" parent="." unique_id=1813782514 node_paths=PackedStringArray("config_window") instance=ExtResource("16_painter")]
 config_window = NodePath("../SubViewport/StorageAreaConfigWindow")
 
 [connection signal="timeout" from="DayTimer" to="." method="_on_day_timer_timeout"]
