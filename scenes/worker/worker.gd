@@ -8,34 +8,26 @@ extends Node2D
 const SPEED: float = 300.0
 
 var daily_wage: float = 5.0
-var state: State = State.WAITING
 
-enum State {WAITING, DOING_TASK}
+var _current_behavior: TaskBehavior
 	
 func _ready() -> void:
 	worker_resource.register_worker(self)
 
 func _physics_process(delta: float) -> void:
-	if state == State.WAITING:
-		if enchant_task_behavior.start():
-			state = State.DOING_TASK
-			return
-		if haul_task_behavior.start():
-			state = State.DOING_TASK
-			return
-	
+	if !is_instance_valid(_current_behavior):
+		if enchant_task_behavior.start(self):
+			_current_behavior = enchant_task_behavior
+		elif haul_task_behavior.start(self):
+			_current_behavior = haul_task_behavior
+		if is_instance_valid(_current_behavior):
+			_current_behavior.completed.connect(_on_current_behavior_completed)
+	else:
+		_current_behavior.update(self, delta)
+
 	if !$NavigationAgent2D.is_target_reached():
 		global_position = global_position.move_toward($NavigationAgent2D.get_next_path_position(), SPEED * delta)
 
-
-func _on_enchant_task_behavior_complete() -> void:
-	state = State.WAITING
-
-func _on_enchant_task_behavior_abort() -> void:
-	state = State.WAITING
-
-func _on_haul_task_behavior_complete() -> void:
-	state = State.WAITING
-
-func _on_haul_task_behavior_abort() -> void:
-	state = State.WAITING
+func _on_current_behavior_completed(was_successful: bool):
+	_current_behavior.completed.disconnect(_on_current_behavior_completed)
+	_current_behavior = null

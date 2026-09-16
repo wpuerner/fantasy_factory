@@ -3,110 +3,131 @@ extends TaskBehavior
 @export var navigation_agent: NavigationAgent2D
 @export var carry_task_behavior: TaskBehavior
 
-var work_node: Node2D
+var item_resource: ItemResource = preload("res://resources/item/item_resource.tres")
 var grid_resource: GridResource = preload("res://resources/grid/grid_resource.tres")
 var storage_areas_resource: StorageAreasResource = preload("res://resources/storage_areas/storage_areas_resource.tres")
 var reservation_resource: ReservationResource = preload("res://resources/reservation/reservation_resource.tres")
-var state: State = State.WAITING
+var state: State = State.GATHERING_INPUTS
 var work_cooldown_ticks: int = 0
-var _reserved_work_node: Node2D
 
-enum State {WAITING, GATHERING_INPUTS, GOING_TO_WORK, WORKING, STORING_OUTPUTS}
+var _worker: Node2D
+var _workbench: Node2D
+var _input_item_container
+var _storage_container
+
+enum State {GATHERING_INPUTS, GOING_TO_WORK, WORKING, STORING_OUTPUTS}
 
 const MAX_WORK_COOLDOWN_TICKS: int = 4
 
-
-func start() -> bool:
-	if !work_node:
+func start(worker, workbench) -> bool:
+	_worker = worker
+	if not reservation_resource.reserve(_workbench, _worker):
 		return false
+	_workbench = workbench
 
-	var worker: Node2D = get_parent()
+	return _start()
 
-	# Reserve the work table for the full duration of this task
-	if not reservation_resource.reserve(work_node, worker):
-		return false
-	_reserved_work_node = work_node
-
-	if work_node.can_work():
-		navigation_agent.target_position = grid_resource.get_adjacent_open_cell_position(work_node, worker)
+func _start() -> bool:
+	if _workbench.can_work():
+		navigation_agent.target_position = grid_resource.get_adjacent_open_cell_position(_workbench, _worker)
 		state = State.GOING_TO_WORK
 		return true
 
-	var input_item: Item = grid_resource.find_nearest_item(work_node.get_input_item_name(), worker.global_position)
+	var input_item: Item = item_resource.find_nearest_available_item(_workbench.get_input_item_name(), _worker.global_position)
 	if is_instance_valid(input_item):
-		if reservation_resource.is_reserved_by_other(input_item, worker):
-			_release_work_node(worker)
+		_input_item_container = input_item.container
+		if not reservation_resource.reserve(_input_item_container, _worker):
+			_abort()
 			return false
-		if not carry_task_behavior.start(input_item.container, work_node):
-			_release_work_node(worker)
+		if not carry_task_behavior.start(_worker, input_item.container, _workbench):
+			_abort()
 			return false
+		carry_task_behavior.completed.connect(_on_gathering_inputs_completed)
 		state = State.GATHERING_INPUTS
 		return true
+	else:
+		# abort if there are no available items
+		_abort()
+		return false
 
-	_release_work_node(worker)
-	return false
+func _release_reservations() -> void:
+	if _workbench:
+		reservation_resource.release(_workbench, _worker)
+		_workbench = null
+	if _input_item_container:
+		reservation_resource.release(_input_item_container, _worker)
+		_input_item_container = null
+	if _storage_container:
+		reservation_resource.release(_storage_container, _worker)
+		_storage_container = null
 
-
-func _release_work_node(worker: Node2D) -> void:
-	if _reserved_work_node:
-		reservation_resource.release(_reserved_work_node, worker)
-		_reserved_work_node = null
-
-
-func _physics_process(_delta: float) -> void:
-	if state == State.GOING_TO_WORK:
+func update(worker, delta: float) -> void:
+	if state == State.GATHERING_INPUTS:
+		carry_task_behavior.update(worker, delta)
+	elif state == State.GOING_TO_WORK:
 		if navigation_agent.is_navigation_finished():
-			work_node.complete.connect(_on_work_complete)
+			_workbench.complete.connect(_on_work_complete)
 			state = State.WORKING
 	elif state == State.WORKING:
+		if not is_instance_valid(_workbench):
+			_abort()
+			return
 		if work_cooldown_ticks <= 0:
-			work_node.work()
+			_workbench.work()
 			work_cooldown_ticks = MAX_WORK_COOLDOWN_TICKS
 		else:
 			work_cooldown_ticks -= 1
-
+	elif state == State.STORING_OUTPUTS:
+		carry_task_behavior.update(worker, delta)
 
 func _on_work_complete() -> void:
-	work_node.complete.disconnect(_on_work_complete)
-	var worker: Node2D = get_parent()
+	_workbench.complete.disconnect(_on_work_complete)
 
-	var storage_cell = _find_available_storage_cell(worker)
-	if storage_cell == null:
-		storage_cell = grid_resource.find_nearest_open_cell(worker.global_position)
-
-	if not carry_task_behavior.start(work_node, storage_cell):
-		# Couldn't start carry — release table so another worker can handle output
-		_release_work_node(worker)
-		work_node = null
-		state = State.WAITING
-		complete.emit()
+	_storage_container = _find_available_storage_cell()
+	if _storage_container == null:
+		_storage_container = grid_resource.find_nearest_open_cell(_worker.global_position)
+	if not reservation_resource.reserve(_storage_container, _worker):
+		_abort()
+		return
+	if not carry_task_behavior.start(_worker, _workbench, _storage_container):
+		_abort()
 		return
 
-	work_node = null
+	carry_task_behavior.completed.connect(_on_storing_outputs_completed)
 	state = State.STORING_OUTPUTS
 
 
-func _find_available_storage_cell(worker: Node2D):
+func _find_available_storage_cell():
 	var sorted_areas: Array = storage_areas_resource.storage_areas.duplicate()
 	sorted_areas.sort_custom(func(a: StorageArea, b: StorageArea): return a.priority < b.priority)
 
 	var output_item_name: String = ""
-	if work_node and work_node.has_method("get_output_item_name"):
-		output_item_name = work_node.get_output_item_name()
+	if _workbench and _workbench.has_method("get_output_item_name"):
+		output_item_name = _workbench.get_output_item_name()
 
 	for area: StorageArea in sorted_areas:
 		if output_item_name != "" and not area.is_item_allowed(output_item_name):
 			continue
 		for cell: StorageArea.StorageAreaCell in area.storage_cells:
-			if cell.is_open() and not reservation_resource.is_reserved_by_other(cell, worker):
+			if cell.is_open() and not reservation_resource.is_reserved_by_other(cell, _worker):
 				return cell
 	return null
 
+func _abort() -> void:
+	_release_reservations()
+	completed.emit(false)
 
-func _on_carry_task_behavior_complete() -> void:
-	if state == State.GATHERING_INPUTS:
-		start()
-	elif state == State.STORING_OUTPUTS:
-		_release_work_node(get_parent())
-		state = State.WAITING
-		complete.emit()
+func _on_gathering_inputs_completed(was_successful: bool) -> void:
+	carry_task_behavior.completed.disconnect(_on_gathering_inputs_completed)
+	
+	if not was_successful:
+		_abort()
+		return
+	else:
+		_start()
+
+func _on_storing_outputs_completed(was_successful: bool) -> void:
+	carry_task_behavior.completed.disconnect(_on_storing_outputs_completed)
+	
+	_release_reservations()
+	completed.emit(was_successful)
