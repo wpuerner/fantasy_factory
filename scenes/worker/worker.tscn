@@ -4,14 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://c5faynebg0nt1" path="res://scenes/worker/worker.png" id="1_tmdoo"]
 [ext_resource type="Resource" uid="uid://btt2xv604qlop" path="res://resources/worker/worker_resource.tres" id="2_sq3if"]
 [ext_resource type="PackedScene" uid="uid://d2k6qlv6d4mgg" path="res://scenes/behaviors/task/enchant/enchant_task_behavior.tscn" id="3_md8yx"]
-[ext_resource type="PackedScene" uid="uid://cscms2712e6vu" path="res://scenes/behaviors/task/work/work_task_behavior.tscn" id="3_nupkf"]
-[ext_resource type="PackedScene" uid="uid://b3c5p0vxn17lj" path="res://scenes/behaviors/task/carry/carry_task_behavior.tscn" id="4_md8yx"]
 [ext_resource type="PackedScene" uid="uid://c2dmv8q1k5n7x" path="res://scenes/behaviors/task/haul/haul_task_behavior.tscn" id="5_haul"]
-[ext_resource type="Resource" uid="uid://50wajk2vh138" path="res://resources/worktables/worktables_resource.tres" id="5_ock52"]
-[ext_resource type="Resource" uid="uid://cf2sb0kqcfn1t" path="res://resources/grid/grid_resource.tres" id="8_fc042"]
-[ext_resource type="Resource" uid="uid://dv5o38x763sgx" path="res://resources/storage_areas/storage_areas_resource.tres" id="9_ock52"]
-[ext_resource type="Resource" uid="uid://duwmbn6tgc77d" path="res://resources/item/item_resource.tres" id="10_8hyuv"]
-[ext_resource type="Resource" uid="uid://c7r8v2k4jfyra" path="res://resources/reservation/reservation_resource.tres" id="11_304bw"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_qsiq5"]
 radius = 14.0
@@ -35,23 +28,12 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=828431469]
 shape = SubResource("CircleShape2D_qsiq5")
 
-[node name="EnchantTaskBehavior" parent="." unique_id=125030584 node_paths=PackedStringArray("work_task_behavior") instance=ExtResource("3_md8yx")]
-work_task_behavior = NodePath("../WorkTaskBehavior")
-worktables_resource = ExtResource("5_ock52")
-
-[node name="WorkTaskBehavior" parent="." unique_id=1677369699 node_paths=PackedStringArray("navigation_agent", "carry_task_behavior") instance=ExtResource("3_nupkf")]
-navigation_agent = NodePath("../NavigationAgent2D")
-carry_task_behavior = NodePath("../CarryTaskBehavior")
-
-[node name="CarryTaskBehavior" parent="." unique_id=658953951 node_paths=PackedStringArray("navigation_agent") instance=ExtResource("4_md8yx")]
+[node name="EnchantTaskBehavior" parent="." unique_id=125030584 node_paths=PackedStringArray("worker", "navigation_agent") instance=ExtResource("3_md8yx")]
+worker = NodePath("..")
 navigation_agent = NodePath("../NavigationAgent2D")
 
-[node name="HaulTaskBehavior" parent="." unique_id=311293788 node_paths=PackedStringArray("navigation_agent", "carry_task_behavior") instance=ExtResource("5_haul")]
+[node name="HaulTaskBehavior" parent="." unique_id=311293788 node_paths=PackedStringArray("worker", "navigation_agent") instance=ExtResource("5_haul")]
+worker = NodePath("..")
 navigation_agent = NodePath("../NavigationAgent2D")
-carry_task_behavior = NodePath("../CarryTaskBehavior")
-grid_resource = ExtResource("8_fc042")
-storage_areas_resource = ExtResource("9_ock52")
-item_resource = ExtResource("10_8hyuv")
-reservation_resource = ExtResource("11_304bw")
 
 [connection signal="input_event" from="Area2D" to="." method="_on_area_2d_input_event"]

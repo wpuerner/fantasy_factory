@@ -1,5 +1,6 @@
 class_name HaulTaskBehavior extends TaskBehavior
 
+@export var worker: Node2D
 @export var navigation_agent: NavigationAgent2D
 @export var carry_task_behavior: TaskBehavior
 @export var grid_resource: GridResource
@@ -11,7 +12,7 @@ var _worker: Node2D
 var _from
 var _to
 
-func start(worker: Node2D) -> bool:
+func start() -> bool:
 	_worker = worker
 	var haul_job: Dictionary = _find_haul_job(_worker)
 	if haul_job.is_empty():
@@ -24,16 +25,17 @@ func start(worker: Node2D) -> bool:
 		_release_reservations()
 		return false
 
-	if not carry_task_behavior.start(worker, haul_job.source, haul_job.target):
+	if not carry_task_behavior.start(worker, navigation_agent, haul_job.source, haul_job.target):
 		_release_reservations()
 		return false
 
-	carry_task_behavior.completed.connect(_on_carry_task_behavior_completed)
-
 	return true
 
-func update(worker, delta):
-	carry_task_behavior.update(worker, delta)
+func update(delta: float) -> TaskStatus:
+	var result: TaskStatus = carry_task_behavior.update(delta)
+	if result != TaskStatus.IN_PROGRESS:
+		_release_reservations()
+	return result
 
 func _release_reservations():
 	if _from:
@@ -89,8 +91,3 @@ func _find_open_cell_in_area(area: StorageArea, worker: Node2D) -> StorageArea.S
 		if cell.is_open() and not reservation_resource.is_reserved_by_other(cell, worker):
 			return cell
 	return null
-
-func _on_carry_task_behavior_completed(was_successful: bool) -> void:
-	carry_task_behavior.completed.disconnect(_on_carry_task_behavior_completed)
-	_release_reservations()
-	completed.emit(was_successful)

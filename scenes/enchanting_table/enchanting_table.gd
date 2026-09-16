@@ -20,14 +20,15 @@ func has_ticket():
 func has_item():
 	return is_instance_valid(item)
 
-func work():
+func work() -> bool:
 	current_work += 10.0
 	if current_work >= needed_work_amount:
 		item.queue_free()
 		var new_item = item_resource.create_from_template(ticket.output_item_name)
 		add_child(new_item)
 		item = new_item
-		complete.emit()
+		return true
+	return false
 
 func drop_item(dropped_item: Item):
 	dropped_item.global_position = global_position

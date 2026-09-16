@@ -1,6 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://cscms2712e6vu"]
+[gd_scene format=3 uid="uid://cscms2712e6vu"]
 
 [ext_resource type="Script" uid="uid://c2kmhrbs5x2wf" path="res://scenes/behaviors/task/work/work_task_behavior.gd" id="1_bsqtx"]
+[ext_resource type="PackedScene" uid="uid://b3c5p0vxn17lj" path="res://scenes/behaviors/task/carry/carry_task_behavior.tscn" id="2_tqe0q"]
 
-[node name="WorkTaskBehavior" type="Node"]
+[node name="WorkTaskBehavior" type="Node" unique_id=158120360 node_paths=PackedStringArray("carry_task_behavior")]
 script = ExtResource("1_bsqtx")
+carry_task_behavior = NodePath("CarryTaskBehavior")
+
+[node name="CarryTaskBehavior" parent="." unique_id=468785458 instance=ExtResource("2_tqe0q")]

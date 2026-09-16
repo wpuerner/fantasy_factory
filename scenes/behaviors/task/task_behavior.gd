@@ -1,3 +1,3 @@
 class_name TaskBehavior extends Node
 
-signal completed(was_successful: bool)
+enum TaskStatus {IN_PROGRESS, COMPLETED_SUCCESS, COMPLETED_FAILURE}

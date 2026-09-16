@@ -16,18 +16,14 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if !is_instance_valid(_current_behavior):
-		if enchant_task_behavior.start(self):
+		if enchant_task_behavior.start():
 			_current_behavior = enchant_task_behavior
-		elif haul_task_behavior.start(self):
+		elif haul_task_behavior.start():
 			_current_behavior = haul_task_behavior
-		if is_instance_valid(_current_behavior):
-			_current_behavior.completed.connect(_on_current_behavior_completed)
 	else:
-		_current_behavior.update(self, delta)
+		var result: TaskBehavior.TaskStatus = _current_behavior.update(delta)
+		if result != TaskBehavior.TaskStatus.IN_PROGRESS:
+			_current_behavior = null
 
 	if !$NavigationAgent2D.is_target_reached():
 		global_position = global_position.move_toward($NavigationAgent2D.get_next_path_position(), SPEED * delta)
-
-func _on_current_behavior_completed(was_successful: bool):
-	_current_behavior.completed.disconnect(_on_current_behavior_completed)
-	_current_behavior = null

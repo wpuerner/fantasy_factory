@@ -1,6 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://c2dmv8q1k5n7x"]
+[gd_scene format=3 uid="uid://c2dmv8q1k5n7x"]
 
 [ext_resource type="Script" uid="uid://cqtrvm0o7p5fn" path="res://scenes/behaviors/task/haul/haul_task_behavior.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://b3c5p0vxn17lj" path="res://scenes/behaviors/task/carry/carry_task_behavior.tscn" id="2_ljcfj"]
+[ext_resource type="Resource" uid="uid://cf2sb0kqcfn1t" path="res://resources/grid/grid_resource.tres" id="2_sftm6"]
+[ext_resource type="Resource" uid="uid://dv5o38x763sgx" path="res://resources/storage_areas/storage_areas_resource.tres" id="3_3svpt"]
+[ext_resource type="Resource" uid="uid://duwmbn6tgc77d" path="res://resources/item/item_resource.tres" id="4_kma0y"]
+[ext_resource type="Resource" uid="uid://c7r8v2k4jfyra" path="res://resources/reservation/reservation_resource.tres" id="5_vllod"]
 
-[node name="HaulTaskBehavior" type="Node"]
+[node name="HaulTaskBehavior" type="Node" unique_id=1704318692 node_paths=PackedStringArray("carry_task_behavior")]
 script = ExtResource("1_script")
+carry_task_behavior = NodePath("CarryTaskBehavior")
+grid_resource = ExtResource("2_sftm6")
+storage_areas_resource = ExtResource("3_3svpt")
+item_resource = ExtResource("4_kma0y")
+reservation_resource = ExtResource("5_vllod")
+
+[node name="CarryTaskBehavior" parent="." unique_id=17400610 instance=ExtResource("2_ljcfj")]

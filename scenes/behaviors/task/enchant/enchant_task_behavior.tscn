@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://d2k6qlv6d4mgg"]
+[gd_scene format=3 uid="uid://d2k6qlv6d4mgg"]
 
 [ext_resource type="Script" uid="uid://w1pfta5yrlpg" path="res://scenes/behaviors/task/enchant/enchant_task_behavior.gd" id="1_oaqj0"]
+[ext_resource type="Resource" uid="uid://50wajk2vh138" path="res://resources/worktables/worktables_resource.tres" id="2_08v18"]
+[ext_resource type="PackedScene" uid="uid://cscms2712e6vu" path="res://scenes/behaviors/task/work/work_task_behavior.tscn" id="2_xja5r"]
 
-[node name="EnchantTaskBehavior" type="Node"]
+[node name="EnchantTaskBehavior" type="Node" unique_id=236327859 node_paths=PackedStringArray("work_task_behavior")]
 script = ExtResource("1_oaqj0")
+work_task_behavior = NodePath("WorkTaskBehavior")
+worktables_resource = ExtResource("2_08v18")
+
+[node name="WorkTaskBehavior" parent="." unique_id=935270148 instance=ExtResource("2_xja5r")]
