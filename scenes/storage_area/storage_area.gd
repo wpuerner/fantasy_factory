@@ -10,6 +10,7 @@ signal item_was_popped
 @export var configurable: bool = true
 @export var can_change_priority: bool = true
 @export var allowed_items: Array[String] = []
+@export var sell_resource: SellResource
 @export var grid_resource: GridResource
 @export var storage_areas_resource: StorageAreasResource
 
@@ -19,6 +20,11 @@ var storage_cells: Array[StorageAreaCell] = []
 
 
 func is_item_allowed(item_name: String) -> bool:
+	# When a SellResource is assigned (e.g. a Seller's storage area), the shared
+	# global "Sell" selection is the single source of truth for this area, so the
+	# player configures what is sold in one place instead of per seller.
+	if is_instance_valid(sell_resource):
+		return sell_resource.is_selected(item_name)
 	return item_name in allowed_items
 
 func get_open_storage_cell(is_system: bool = false) -> StorageAreaCell:

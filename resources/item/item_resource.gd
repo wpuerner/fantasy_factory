@@ -25,9 +25,9 @@ func create_from_template(item_name: String):
 			return item
 
 func find_nearest_available_item(item_name: String, from_position: Vector2):
-	var items = find_items(item_name)
-	items.sort_custom(func(a, b): return from_position.distance_to(a.global_position) < from_position.distance_to(b.global_position))
-	for item in items:
+	var matching_items = find_items(item_name)
+	matching_items.sort_custom(func(a, b): return from_position.distance_to(a.global_position) < from_position.distance_to(b.global_position))
+	for item in matching_items:
 		if item.container and !reservation_resource.is_reserved(item.container):
 			return item
 	return null

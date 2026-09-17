@@ -52,8 +52,6 @@ func _find_haul_job(worker: Node2D) -> Dictionary:
 	if sorted_areas.is_empty():
 		return {}
 
-	var best_area: StorageArea = sorted_areas[0]
-
 	for item: Item in item_resource.items:
 		if not is_instance_valid(item):
 			continue
@@ -77,13 +75,14 @@ func _find_haul_job(worker: Node2D) -> Dictionary:
 					if open_cell != null:
 						return {"source": container, "target": open_cell}
 		else:
-			# Item is in a free cell or on an workbench -- move to any storage area
-			if not best_area.is_item_allowed(item.item_name):
-				continue
-
-			var open_cell: StorageArea.StorageAreaCell = _find_open_cell_in_area(best_area, worker)
-			if open_cell != null:
-				return {"source": container, "target": open_cell}
+			# Item is in a free cell or on a workbench -- move it to the
+			# highest-priority storage area that accepts this item type.
+			for area: StorageArea in sorted_areas:
+				if not area.is_item_allowed(item.item_name):
+					continue
+				var open_cell: StorageArea.StorageAreaCell = _find_open_cell_in_area(area, worker)
+				if open_cell != null:
+					return {"source": container, "target": open_cell}
 	return {}
 
 func _find_open_cell_in_area(area: StorageArea, worker: Node2D) -> StorageArea.StorageAreaCell:
