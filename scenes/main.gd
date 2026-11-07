@@ -7,6 +7,7 @@ extends Node2D
 @export var end_of_day_window: Control
 @export var grid_resource: GridResource
 @export var bankrupt_label: Control
+@export var worker_details_window: Control
 
 @onready var money_resource = preload("res://resources/money/money_resource.tres")
 @onready var furniture_resource = preload("res://resources/furniture/furniture_resource.tres")
@@ -45,6 +46,8 @@ func _ready():
 	day_time_progress_bar.max_value = day_timer.wait_time
 	_start_day()
 	
+	_connect_workers()
+	
 	
 func _physics_process(_delta):
 	day_time_progress_bar.value = day_timer.time_left
@@ -62,6 +65,25 @@ func _on_check_button_toggled(toggled_on):
 func _on_worker_hired(worker: Node2D):
 	worker.global_position = Vector2(200, 200)
 	add_child(worker)
+	_connect_worker(worker)
+
+func _connect_workers() -> void:
+	for worker: Node2D in get_tree().get_nodes_in_group("workers"):
+		_connect_worker(worker)
+
+func _connect_worker(worker: Node2D) -> void:
+	if not worker.clicked.is_connected(_on_worker_clicked):
+		worker.clicked.connect(_on_worker_clicked)
+
+func _on_worker_clicked(worker: Node2D) -> void:
+	_open_worker_details(worker)
+
+func _on_worker_selected(worker: Node2D) -> void:
+	_open_worker_details(worker)
+
+func _open_worker_details(worker: Node2D) -> void:
+	if is_instance_valid(worker):
+		worker_details_window.open(worker)
 
 func _on_day_timer_timeout():
 	get_tree().paused = true

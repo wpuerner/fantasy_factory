@@ -1,6 +1,7 @@
 extends PanelContainer
 
 signal closed
+signal worker_selected(worker: Node2D)
 
 @export var worker_list_container: Container
 @export var hire_workers_window: Control
@@ -30,34 +31,17 @@ func _refresh_worker_list() -> void:
 		worker_list_container.add_child(empty_label)
 		return
 
-	for worker in workers:
-		var entry: HBoxContainer = HBoxContainer.new()
+	for worker: Node2D in workers:
+		var entry: Button = Button.new()
 		entry.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-
-		var name_label: Label = Label.new()
-		name_label.text = worker.worker_name
-		name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		entry.add_child(name_label)
-
-		var wage_label: Label = Label.new()
-		wage_label.text = "$" + str(worker.daily_wage) + " / day"
-		wage_label.custom_minimum_size = Vector2(80, 0)
-		wage_label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
-		entry.add_child(wage_label)
-
-		var fire_button: Button = Button.new()
-		fire_button.text = "Fire"
-		fire_button.custom_minimum_size = Vector2(50, 0)
-		fire_button.pressed.connect(_on_fire_worker_pressed.bind(worker))
-		entry.add_child(fire_button)
-
+		entry.alignment = HORIZONTAL_ALIGNMENT_LEFT
+		entry.text = worker.worker_name + "    $" + str(worker.daily_wage) + " / day"
+		entry.pressed.connect(_on_worker_entry_pressed.bind(worker))
 		worker_list_container.add_child(entry)
 
 
-func _on_fire_worker_pressed(worker: Node2D) -> void:
-	worker_resource.deregister_worker(worker)
-	worker.queue_free()
-	_refresh_worker_list()
+func _on_worker_entry_pressed(worker: Node2D) -> void:
+	worker_selected.emit(worker)
 
 
 func _on_hire_button_pressed() -> void:

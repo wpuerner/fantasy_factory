@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bx5sfnkluqom8"]
+[gd_scene format=3 uid="uid://bx5sfnkluqom8"]
 
 [ext_resource type="Script" uid="uid://ctcbpe4l4urj" path="res://scenes/ui/tool_bar/tool_bar.gd" id="1_jheq1"]
 [ext_resource type="PackedScene" uid="uid://b410xnnclp3ff" path="res://scenes/ui/tool_bar/tool_bar_button.tscn" id="1_nspt3"]
@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cv1bqlq7xfhkp" path="res://scenes/ui/tool_bar/hire_workers_window/hire_workers_window.tscn" id="3_yaowb"]
 [ext_resource type="PackedScene" path="res://scenes/ui/tool_bar/sell_window/sell_window.tscn" id="4_sellw"]
 
-[node name="ToolBar" type="VBoxContainer" node_paths=PackedStringArray("workers_window", "order_items_window", "sell_window")]
+[node name="ToolBar" type="VBoxContainer" unique_id=754529259 node_paths=PackedStringArray("workers_window", "order_items_window", "sell_window")]
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
@@ -23,52 +23,52 @@ order_items_window = NodePath("OrderItemsWindow")
 sell_window = NodePath("SellWindow")
 storage_area_tool_mode = ExtResource("2_f1cdh")
 
-[node name="HireWorkersWindow" parent="." instance=ExtResource("3_yaowb")]
+[node name="HireWorkersWindow" parent="." unique_id=172731103 instance=ExtResource("3_yaowb")]
 visible = false
 layout_mode = 2
 
-[node name="WorkersWindow" parent="." node_paths=PackedStringArray("hire_workers_window") instance=ExtResource("2_wpu12")]
+[node name="WorkersWindow" parent="." unique_id=335532529 node_paths=PackedStringArray("hire_workers_window") instance=ExtResource("2_wpu12")]
 visible = false
 layout_mode = 2
 hire_workers_window = NodePath("../HireWorkersWindow")
 
-[node name="OrderItemsWindow" parent="." instance=ExtResource("3_f1cdh")]
+[node name="OrderItemsWindow" parent="." unique_id=414140926 instance=ExtResource("3_f1cdh")]
 visible = false
 layout_mode = 2
 
-[node name="SellWindow" parent="." instance=ExtResource("4_sellw")]
-visible = false
+[node name="SellWindow" parent="." unique_id=1272612789 instance=ExtResource("4_sellw")]
 layout_mode = 2
 size_flags_horizontal = 4
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=1337410767]
 custom_minimum_size = Vector2(0, 76)
 layout_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer" unique_id=1278499661]
 layout_mode = 2
 theme_override_constants/separation = 0
 
-[node name="WorkersButton" parent="PanelContainer/HBoxContainer" instance=ExtResource("1_nspt3")]
+[node name="WorkersButton" parent="PanelContainer/HBoxContainer" unique_id=1060173882 instance=ExtResource("1_nspt3")]
 layout_mode = 2
 
-[node name="OrdersButton" parent="PanelContainer/HBoxContainer" instance=ExtResource("1_nspt3")]
+[node name="OrdersButton" parent="PanelContainer/HBoxContainer" unique_id=1291246358 instance=ExtResource("1_nspt3")]
 layout_mode = 2
 text = "Orders"
 
-[node name="SellButton" parent="PanelContainer/HBoxContainer" instance=ExtResource("1_nspt3")]
+[node name="SellButton" parent="PanelContainer/HBoxContainer" unique_id=747431562 instance=ExtResource("1_nspt3")]
 layout_mode = 2
 text = "Sell"
 
-[node name="AddStorageButton" parent="PanelContainer/HBoxContainer" instance=ExtResource("1_nspt3")]
+[node name="AddStorageButton" parent="PanelContainer/HBoxContainer" unique_id=198049156 instance=ExtResource("1_nspt3")]
 layout_mode = 2
 text = "Add Storage"
 
-[node name="PauseButton" parent="PanelContainer/HBoxContainer" instance=ExtResource("2_jheq1")]
+[node name="PauseButton" parent="PanelContainer/HBoxContainer" unique_id=90518219 instance=ExtResource("2_jheq1")]
 layout_mode = 2
 
 [connection signal="worker_hired" from="HireWorkersWindow" to="." method="_on_hire_workers_window_worker_hired"]
 [connection signal="closed" from="WorkersWindow" to="." method="_on_workers_window_closed"]
+[connection signal="worker_selected" from="WorkersWindow" to="." method="_on_workers_window_worker_selected"]
 [connection signal="closed" from="OrderItemsWindow" to="." method="_on_order_items_window_closed"]
 [connection signal="closed" from="SellWindow" to="." method="_on_sell_window_closed"]
 [connection signal="pressed" from="PanelContainer/HBoxContainer/WorkersButton" to="." method="_on_workers_button_pressed"]

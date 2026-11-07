@@ -1,68 +1,110 @@
-[gd_scene load_steps=2 format=3 uid="uid://cyqxyl3ur7jeq"]
+[gd_scene load_steps=4 format=3 uid="uid://cyqxyl3ur7jeq"]
 
 [ext_resource type="Script" uid="uid://dcpr3y6s88akg" path="res://scenes/ui/worker_details_window/worker_details_window.gd" id="1_yqe5p"]
+[ext_resource type="Texture2D" uid="uid://c5faynebg0nt1" path="res://scenes/worker/worker.png" id="2_avatar"]
 
-[node name="WorkerDetailsWindow" type="PanelContainer" node_paths=PackedStringArray("card_container", "worker_name_label", "daily_wage_label")]
-custom_minimum_size = Vector2(300, 0)
-anchors_preset = 11
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 0
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.1, 0.1, 0.1, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.4, 0.4, 1)
+
+[node name="WorkerDetailsWindow" type="PanelContainer" node_paths=PackedStringArray("worker_name_label", "daily_wage_label", "haul_check_box", "enchant_check_box")]
+process_mode = 3
+custom_minimum_size = Vector2(320, 0)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -190.0
+offset_right = 160.0
+offset_bottom = 190.0
+grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
 script = ExtResource("1_yqe5p")
-card_container = NodePath("MarginContainer/DetailsContainer/TaskCardContainer")
-worker_name_label = NodePath("MarginContainer/DetailsContainer/HSplitContainer/HBoxContainer/WorkerNameLabel")
-daily_wage_label = NodePath("MarginContainer/DetailsContainer/HSplitContainer/HBoxContainer/DailyWageLabel")
+worker_name_label = NodePath("MarginContainer/VBoxContainer/AvatarRow/NameWageBox/WorkerNameLabel")
+daily_wage_label = NodePath("MarginContainer/VBoxContainer/AvatarRow/NameWageBox/DailyWageLabel")
+haul_check_box = NodePath("MarginContainer/VBoxContainer/TaskToggles/HaulCheckBox")
+enchant_check_box = NodePath("MarginContainer/VBoxContainer/TaskToggles/EnchantCheckBox")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 8
-theme_override_constants/margin_top = 8
-theme_override_constants/margin_right = 8
-theme_override_constants/margin_bottom = 8
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 12
 
-[node name="DetailsContainer" type="VBoxContainer" parent="MarginContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
 layout_mode = 2
-size_flags_vertical = 0
-theme_override_constants/separation = 8
+theme_override_constants/separation = 12
 
-[node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/DetailsContainer"]
+[node name="TitleBar" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-dragging_enabled = false
-dragger_visibility = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/DetailsContainer/HSplitContainer"]
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/TitleBar"]
 layout_mode = 2
-theme_override_constants/separation = 24
+size_flags_horizontal = 3
+text = "Worker Details"
+horizontal_alignment = 1
 
-[node name="WorkerNameLabel" type="Label" parent="MarginContainer/DetailsContainer/HSplitContainer/HBoxContainer"]
+[node name="CloseButton" type="Button" parent="MarginContainer/VBoxContainer/TitleBar"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "X"
+
+[node name="AvatarRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Avatar" type="TextureRect" parent="MarginContainer/VBoxContainer/AvatarRow"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+texture = ExtResource("2_avatar")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="NameWageBox" type="VBoxContainer" parent="MarginContainer/VBoxContainer/AvatarRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_constants/separation = 4
+
+[node name="WorkerNameLabel" type="Label" parent="MarginContainer/VBoxContainer/AvatarRow/NameWageBox"]
 layout_mode = 2
 text = "NAME"
 
-[node name="DailyWageLabel" type="Label" parent="MarginContainer/DetailsContainer/HSplitContainer/HBoxContainer"]
+[node name="DailyWageLabel" type="Label" parent="MarginContainer/VBoxContainer/AvatarRow/NameWageBox"]
 layout_mode = 2
 text = "$XX / day"
 
-[node name="Button" type="Button" parent="MarginContainer/DetailsContainer/HSplitContainer"]
-custom_minimum_size = Vector2(32, 0)
+[node name="TaskSectionLabel" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 8
-text = "X"
+text = "Allowed Tasks"
 
-[node name="TaskCardContainer" type="VBoxContainer" parent="MarginContainer/DetailsContainer"]
+[node name="TaskToggles" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/separation = 8
+theme_override_constants/separation = 4
 
-[node name="AddTaskButton" type="Button" parent="MarginContainer/DetailsContainer"]
+[node name="HaulCheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/TaskToggles"]
 layout_mode = 2
-text = "Add Task"
+button_pressed = true
+text = "Haul"
 
-[node name="FireWorkerButton" type="Button" parent="MarginContainer"]
+[node name="EnchantCheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/TaskToggles"]
 layout_mode = 2
-size_flags_vertical = 8
+button_pressed = true
+text = "Enchant"
+
+[node name="FireWorkerButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
 text = "Fire Worker"
 
-[connection signal="pressed" from="MarginContainer/DetailsContainer/HSplitContainer/Button" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="MarginContainer/DetailsContainer/AddTaskButton" to="." method="_on_add_task_button_pressed"]
-[connection signal="pressed" from="MarginContainer/FireWorkerButton" to="." method="_on_fire_worker_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/TitleBar/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/TaskToggles/HaulCheckBox" to="." method="_on_haul_check_box_toggled"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/TaskToggles/EnchantCheckBox" to="." method="_on_enchant_check_box_toggled"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/FireWorkerButton" to="." method="_on_fire_worker_button_pressed"]

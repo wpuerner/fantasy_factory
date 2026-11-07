@@ -1,6 +1,7 @@
 extends Control
 
 signal worker_hired(worker)
+signal worker_selected(worker: Node2D)
 
 @export var workers_window: Control
 @export var order_items_window: Control
@@ -44,3 +45,7 @@ func _on_sell_window_closed():
 
 func _on_hire_workers_window_worker_hired(worker):
 	worker_hired.emit(worker)
+
+
+func _on_workers_window_worker_selected(worker: Node2D):
+	worker_selected.emit(worker)

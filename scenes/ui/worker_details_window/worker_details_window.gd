@@ -1,43 +1,39 @@
 extends PanelContainer
 
-@export var card_container: Container
+signal closed
+
 @export var worker_name_label: Label
 @export var daily_wage_label: Label
+@export var haul_check_box: CheckBox
+@export var enchant_check_box: CheckBox
 
 var worker: Node2D
 
 func open(opened_worker: Node2D):
 	worker = opened_worker
 	worker_name_label.text = worker.worker_name
-	daily_wage_label.text = "$" + str(worker.daily_wage) + "/day"
-	
+	daily_wage_label.text = "$" + str(worker.daily_wage) + " / day"
+	haul_check_box.set_pressed_no_signal(worker.can_haul)
+	enchant_check_box.set_pressed_no_signal(worker.can_enchant)
 	visible = true
 
-func _close():
+func close():
 	visible = false
-	for child in card_container.get_children():
-		child.queue_free()
+	worker = null
+	closed.emit()
 
-func _on_button_pressed():
-	_close()
+func _on_close_button_pressed():
+	close()
 
-func _on_task_deleted(card: Control):
-	worker.erase_task(card.task)
+func _on_haul_check_box_toggled(toggled_on: bool):
+	if is_instance_valid(worker):
+		worker.can_haul = toggled_on
 
-func _on_task_priority_increase_requested(card: Control):
-	var index = card.get_index()
-	if index <= 0:
-		return
-	card_container.move_child(card, index - 1)
-	worker.increase_priority(card.task)
-	
-func _on_task_priority_decrease_requested(card: Control):
-	var index = card.get_index()
-	if index >= len(card_container.get_children()) - 1:
-		return
-	card_container.move_child(card, index + 1)
-	worker.decrease_priority(card.task)
+func _on_enchant_check_box_toggled(toggled_on: bool):
+	if is_instance_valid(worker):
+		worker.can_enchant = toggled_on
 
 func _on_fire_worker_button_pressed():
-	worker.queue_free()
-	_close()
+	if is_instance_valid(worker):
+		worker.fire()
+	close()

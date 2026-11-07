@@ -27,7 +27,7 @@ parsed_collision_mask = 4294901776
 source_geometry_mode = 1
 agent_radius = 6.0
 
-[node name="Main" type="Node2D" unique_id=920098001 node_paths=PackedStringArray("day_timer", "money_label", "hire_workers_window", "day_time_progress_bar", "end_of_day_window", "bankrupt_label")]
+[node name="Main" type="Node2D" unique_id=920098001 node_paths=PackedStringArray("day_timer", "money_label", "hire_workers_window", "day_time_progress_bar", "end_of_day_window", "bankrupt_label", "worker_details_window")]
 script = ExtResource("1_tbgi4")
 day_timer = NodePath("DayTimer")
 money_label = NodePath("SubViewport/MarginContainer/HBoxContainer/MoneyLabel")
@@ -36,6 +36,7 @@ day_time_progress_bar = NodePath("SubViewport/MarginContainer/HBoxContainer/Time
 end_of_day_window = NodePath("SubViewport/EndOfDayWindow")
 grid_resource = ExtResource("2_85g3d")
 bankrupt_label = NodePath("SubViewport/BankruptLabel")
+worker_details_window = NodePath("SubViewport/WorkerDetailsWindow")
 
 [node name="DayTimer" type="Timer" parent="." unique_id=1465492600]
 wait_time = 120.0
@@ -88,7 +89,7 @@ text = "$0"
 
 [node name="StorageAreaConfigWindow" parent="SubViewport" unique_id=732863957 instance=ExtResource("18_config")]
 
-[node name="TaskPane" parent="SubViewport" unique_id=1829546335 instance=ExtResource("6_choun")]
+[node name="WorkerDetailsWindow" parent="SubViewport" unique_id=1829546335 instance=ExtResource("6_choun")]
 visible = false
 
 [node name="HireWorkersWindow" parent="SubViewport" unique_id=1336760795 instance=ExtResource("7_tipki")]
@@ -135,6 +136,7 @@ config_window = NodePath("../SubViewport/StorageAreaConfigWindow")
 
 [connection signal="timeout" from="DayTimer" to="." method="_on_day_timer_timeout"]
 [connection signal="worker_hired" from="SubViewport/ToolBar" to="." method="_on_worker_hired"]
+[connection signal="worker_selected" from="SubViewport/ToolBar" to="." method="_on_worker_selected"]
 [connection signal="worker_hired" from="SubViewport/HireWorkersWindow" to="." method="_on_hire_workers_window_worker_hired"]
 [connection signal="bankrupted" from="SubViewport/EndOfDayWindow" to="." method="_on_end_of_day_window_bankrupted"]
 [connection signal="day_was_started" from="SubViewport/EndOfDayWindow" to="." method="_on_end_of_day_window_day_was_started"]

@@ -25,6 +25,7 @@ func work() -> bool:
 	if current_work >= needed_work_amount:
 		item.queue_free()
 		var new_item = item_resource.create_from_template(ticket.output_item_name)
+		new_item.container = self
 		add_child(new_item)
 		item = new_item
 		return true

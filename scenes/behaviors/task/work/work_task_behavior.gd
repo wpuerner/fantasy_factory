@@ -22,7 +22,7 @@ const MAX_WORK_COOLDOWN_TICKS: int = 4
 func start(worker, navigation_agent: NavigationAgent2D, workbench) -> bool:
 	_worker = worker
 	_navigation_agent = navigation_agent
-	if not reservation_resource.reserve(_workbench, _worker):
+	if not reservation_resource.reserve(workbench, _worker):
 		return false
 	_workbench = workbench
 
