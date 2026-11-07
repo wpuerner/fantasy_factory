@@ -49,13 +49,15 @@ func _physics_process(_delta: float) -> void:
 func _maybe_deliver_shipment() -> void:
 	if shipments.is_empty():
 		return
-	var open_cells: Array = $StorageArea.get_open_storage_cells(true)
+	# The Buyer places items directly, bypassing the storage area's allowlist (which
+	# is empty for system-managed areas so workers won't place items there).
+	var open_cells: Array = $StorageArea.get_open_storage_cells()
 	if open_cells.size() >= shipments.front().size():
 		var shipment: Array[String] = _get_shipment()
 		for item_name: String in shipment:
 			var item: Item = item_resource.create_from_template(item_name)
 			add_sibling(item)
-			$StorageArea.get_open_storage_cell(true).drop_item(item)
+			$StorageArea.get_open_storage_cell().drop_item(item)
 		if not shipments.is_empty():
 			timer.start()
 

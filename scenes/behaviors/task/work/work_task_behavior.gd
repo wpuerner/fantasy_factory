@@ -110,7 +110,7 @@ func _on_work_complete() -> TaskStatus:
 
 func _find_available_storage_cell():
 	# storage areas is duplicated because we need to sort it
-	var sorted_areas: Array = storage_areas_resource.storage_areas.duplicate().filter(func(area): return not area.is_system_only)
+	var sorted_areas: Array = storage_areas_resource.storage_areas.duplicate()
 	if sorted_areas.is_empty():
 		return null
 	sorted_areas.sort_custom(func(a: StorageArea, b: StorageArea): return a.priority < b.priority)

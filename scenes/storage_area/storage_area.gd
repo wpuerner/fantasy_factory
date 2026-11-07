@@ -5,7 +5,6 @@ signal item_was_popped
 @export var width: int = 3
 @export var height: int = 2
 @export var priority: int = 5
-@export var is_system_only: bool = false
 @export var player_editable: bool = true
 @export var configurable: bool = true
 @export var can_change_priority: bool = true
@@ -27,15 +26,11 @@ func is_item_allowed(item_name: String) -> bool:
 		return sell_resource.is_selected(item_name)
 	return item_name in allowed_items
 
-func get_open_storage_cell(is_system: bool = false) -> StorageAreaCell:
-	if not is_system and is_system_only:
-		return null
-	var open_cells: Array = get_open_storage_cells(is_system)
+func get_open_storage_cell() -> StorageAreaCell:
+	var open_cells: Array = get_open_storage_cells()
 	return open_cells.front() if open_cells else null
 
-func get_open_storage_cells(is_system: bool = false) -> Array:
-	if not is_system and is_system_only:
-		return []
+func get_open_storage_cells() -> Array:
 	return storage_cells.filter(func(c: StorageAreaCell): return c.is_open())
 
 func _on_item_was_popped() -> void:
@@ -54,7 +49,11 @@ func _ready() -> void:
 	$Sprite2D.texture.size = Vector2(width, height) * GridResource.CELL_SIZE
 	global_position = grid_resource.get_global_position_from_coordinate(start_coord)
 
-	allowed_items.append_array(item_resource.templates.map(func(template): return template.item_name))
+	# Player-configurable areas default to allowing every item. Non-configurable
+	# (system-managed) areas keep an empty allowlist so workers won't place items
+	# there; the owning system (e.g. the Buyer) places items directly instead.
+	if configurable:
+		allowed_items.append_array(item_resource.templates.map(func(template): return template.item_name))
 
 func remove() -> void:
 	storage_areas_resource.remove_storage_area(self)
