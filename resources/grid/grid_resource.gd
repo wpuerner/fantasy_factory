@@ -37,19 +37,28 @@ func remove_node(node: Node2D) -> bool:
 		get_cell_for_node(n).item = null
 	return true
 
-# returns the position of an open cell adjacent to to_node, if it exiWhensts, otherwise null.
+# Returns true if the coordinate is inside the grid bounds.
+func is_in_bounds(coord: Vector2i) -> bool:
+	if coord.x < 0 or coord.x >= grid.size():
+		return false
+	if grid[coord.x].size() == 0 or coord.y < 0 or coord.y >= grid[coord.x].size():
+		return false
+	return true
+
+# Returns the position of a cell adjacent to to_node that a worker can navigate to,
+# or null if none exists.
 func get_adjacent_open_cell_position(to_node, from_node):
 	var coord = get_coordinate_from_global_position(to_node.global_position)
 	var check_coords = [coord + Vector2i.UP, coord + Vector2i.DOWN, coord + Vector2i.LEFT, coord + Vector2i.RIGHT]
-	var open_positions = check_coords.filter(func(check_coord): return get_cell_from_coord(check_coord).is_open()).map(func(check_coord): return get_global_position_from_coordinate(check_coord))
-	if open_positions.is_empty():
+	var navigable_positions = check_coords.filter(func(check_coord): return is_in_bounds(check_coord) and get_cell_from_coord(check_coord).is_navigable()).map(func(check_coord): return get_global_position_from_coordinate(check_coord))
+	if navigable_positions.is_empty():
 		return null
 	
-	var closest_position: Vector2 = open_positions[0]
-	if len(open_positions) > 1:
-		for i in range(1, len(open_positions)):
-			if open_positions[i].distance_to(from_node.global_position) < closest_position.distance_to(from_node.global_position):
-				closest_position = open_positions[i]
+	var closest_position: Vector2 = navigable_positions[0]
+	if len(navigable_positions) > 1:
+		for i in range(1, len(navigable_positions)):
+			if navigable_positions[i].distance_to(from_node.global_position) < closest_position.distance_to(from_node.global_position):
+				closest_position = navigable_positions[i]
 	return closest_position
 
 func find_nearest_open_cell(from_position: Vector2) -> Cell:
@@ -61,9 +70,7 @@ func find_nearest_open_cell(from_position: Vector2) -> Cell:
 				if abs(dx) != r and abs(dy) != r:
 					continue
 				var coord: Vector2i = from_coord + Vector2i(dx, dy)
-				if coord.x < 0 or coord.x >= grid.size():
-					continue
-				if grid[coord.x].size() == 0 or coord.y < 0 or coord.y >= grid[coord.x].size():
+				if not is_in_bounds(coord):
 					continue
 				var cell: Cell = get_cell_from_coord(coord)
 				if cell.is_open():
@@ -105,6 +112,9 @@ class Cell:
 	
 	func is_open():
 		return !is_instance_valid(object)
+	
+	func is_navigable() -> bool:
+		return is_open() or object is Item or object is StorageArea.StorageAreaCell
 	
 	func has_item():
 		return is_instance_valid(object)

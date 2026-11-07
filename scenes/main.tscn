@@ -42,6 +42,9 @@ worker_details_window = NodePath("SubViewport/WorkerDetailsWindow")
 wait_time = 120.0
 autostart = true
 
+[node name="StorageAreaPainter" parent="." unique_id=1813782514 node_paths=PackedStringArray("config_window") instance=ExtResource("16_painter")]
+config_window = NodePath("../SubViewport/StorageAreaConfigWindow")
+
 [node name="Buyer" parent="." unique_id=1696494494 instance=ExtResource("3_choun")]
 position = Vector2(112, 368)
 
@@ -130,9 +133,6 @@ position = Vector2(169, 435)
 
 [node name="GameCamera" parent="." unique_id=453432055 instance=ExtResource("15_jkv2x")]
 position = Vector2(576, 326)
-
-[node name="StorageAreaPainter" parent="." unique_id=1813782514 node_paths=PackedStringArray("config_window") instance=ExtResource("16_painter")]
-config_window = NodePath("../SubViewport/StorageAreaConfigWindow")
 
 [connection signal="timeout" from="DayTimer" to="." method="_on_day_timer_timeout"]
 [connection signal="worker_hired" from="SubViewport/ToolBar" to="." method="_on_worker_hired"]

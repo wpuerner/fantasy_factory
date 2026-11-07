@@ -155,7 +155,7 @@ func _finish_placing_drag() -> void:
 	storage_area.height = area_height
 	storage_area.priority = tool_mode.priority
 	storage_area.global_position = top_left_pos
-	get_parent().add_child(storage_area)
+	add_child(storage_area)
 
 	tool_mode.active_mode = ToolModeClass.Mode.NONE
 

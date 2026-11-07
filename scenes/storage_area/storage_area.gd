@@ -5,7 +5,7 @@ signal item_was_popped
 @export var width: int = 3
 @export var height: int = 2
 @export var priority: int = 5
-@export var system_only: bool = false
+@export var is_system_only: bool = false
 @export var player_editable: bool = true
 @export var configurable: bool = true
 @export var can_change_priority: bool = true
@@ -28,13 +28,13 @@ func is_item_allowed(item_name: String) -> bool:
 	return item_name in allowed_items
 
 func get_open_storage_cell(is_system: bool = false) -> StorageAreaCell:
-	if not is_system and system_only:
+	if not is_system and is_system_only:
 		return null
 	var open_cells: Array = get_open_storage_cells(is_system)
 	return open_cells.front() if open_cells else null
 
 func get_open_storage_cells(is_system: bool = false) -> Array:
-	if not is_system and system_only:
+	if not is_system and is_system_only:
 		return []
 	return storage_cells.filter(func(c: StorageAreaCell): return c.is_open())
 
