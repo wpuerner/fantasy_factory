@@ -15,7 +15,6 @@ enum DragState {NONE, PLACING_DRAG}
 
 var _drag_state: DragState = DragState.NONE
 var _drag_start: Vector2
-var _mouse_was_pressed: bool = false
 
 
 func _ready() -> void:
@@ -40,28 +39,34 @@ func _on_context_delete() -> void:
 	pass
 
 
-func _process(_delta: float) -> void:
-	var mouse_pressed: bool = Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT)
-	var just_pressed: bool = mouse_pressed and not _mouse_was_pressed
-	var just_released: bool = not mouse_pressed and _mouse_was_pressed
-	_mouse_was_pressed = mouse_pressed
+func _unhandled_input(event: InputEvent) -> void:
+	var mouse_button := event as InputEventMouseButton
+	if mouse_button == null or mouse_button.button_index != MOUSE_BUTTON_LEFT or not mouse_button.pressed:
+		return
+	if _is_mouse_over_popup() or _is_mouse_over_config_window():
+		return
+	if tool_mode.active_mode == ToolModeClass.Mode.PLACING:
+		_start_placing_drag()
+	else:
+		_handle_idle_click()
 
+
+func _process(_delta: float) -> void:
 	if _is_mouse_over_popup() or _is_mouse_over_config_window():
 		return
 
-	if tool_mode.active_mode == ToolModeClass.Mode.PLACING:
-		if just_pressed:
-			_start_placing_drag()
-		elif mouse_pressed and _drag_state == DragState.PLACING_DRAG:
-			_update_drag_preview()
-		elif just_released and _drag_state == DragState.PLACING_DRAG:
-			_finish_placing_drag()
-		elif _drag_state == DragState.NONE:
-			_update_hover_preview()
-	else:
-		if just_pressed:
-			_handle_idle_click()
+	if tool_mode.active_mode != ToolModeClass.Mode.PLACING:
+		return
 
+	if _drag_state == DragState.PLACING_DRAG:
+		# The drag is only finished once the button is actually released, which the
+		# GUI may consume, so poll the button state instead of relying on events.
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			_update_drag_preview()
+		else:
+			_finish_placing_drag()
+	else:
+		_update_hover_preview()
 
 func _handle_idle_click() -> void:
 	var mouse_pos: Vector2 = get_global_mouse_position()
@@ -78,7 +83,7 @@ func _handle_idle_click() -> void:
 			context_popup.hide()
 	else:
 		context_popup.hide()
-
+		
 
 func _is_mouse_over_popup() -> bool:
 	if not is_instance_valid(context_popup) or not context_popup.visible:
