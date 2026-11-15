@@ -14,6 +14,7 @@ extends Node2D
 @onready var storage_areas_resource = preload("res://resources/storage_areas/storage_areas_resource.tres")
 @onready var item_resource: ItemResource = preload("res://resources/item/item_resource.tres")
 @onready var candidate_resource: WorkerCandidateResource = preload("res://resources/worker/worker_candidate_resource.tres")
+@onready var contracts_resource: ContractsResource = preload("res://resources/contracts/contracts_resource.tres")
 
 const MAX_DAY_LENGTH_SECONDS: float = 30.0
 
@@ -88,6 +89,9 @@ func _open_worker_details(worker: Node2D) -> void:
 func _on_day_timer_timeout():
 	get_tree().paused = true
 	end_of_day_window.open()
+
+func _on_contract_timer_timeout():
+	contracts_resource.generate_contract()
 
 func _on_end_of_day_window_day_was_started():
 	_start_day()

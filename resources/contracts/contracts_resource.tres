@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="ContractsResource" load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://resources/contracts/contracts_resource.gd" id="1_script"]
+[ext_resource type="Resource" uid="uid://duwmbn6tgc77d" path="res://resources/item/item_resource.tres" id="2_item"]
+[ext_resource type="Resource" uid="uid://dmwmbd6jrlkbi" path="res://resources/money/money_resource.tres" id="3_money"]
+
+[resource]
+script = ExtResource("1_script")
+item_resource = ExtResource("2_item")
+money_resource = ExtResource("3_money")
