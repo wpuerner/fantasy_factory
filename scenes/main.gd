@@ -15,6 +15,7 @@ extends Node2D
 @onready var item_resource: ItemResource = preload("res://resources/item/item_resource.tres")
 @onready var candidate_resource: WorkerCandidateResource = preload("res://resources/worker/worker_candidate_resource.tres")
 @onready var contracts_resource: ContractsResource = preload("res://resources/contracts/contracts_resource.tres")
+@onready var worktables_resource = preload("res://resources/worktables/worktables_resource.tres")
 
 const MAX_DAY_LENGTH_SECONDS: float = 30.0
 
@@ -38,6 +39,8 @@ func _ready():
 		grid_resource.get_cell_for_node(foo).drop_item(foo)
 	
 	grid_resource.maybe_add_node($EnchantingTable)
+	for table: Node2D in worktables_resource.get_enchanting_tables():
+		table.clicked.connect(_on_workbench_clicked)
 	
 	$NavigationRegion2D.bake_navigation_polygon(true)
 	
@@ -85,6 +88,9 @@ func _on_worker_selected(worker: Node2D) -> void:
 func _open_worker_details(worker: Node2D) -> void:
 	if is_instance_valid(worker):
 		worker_details_window.open(worker)
+
+func _on_workbench_clicked(table: Node2D) -> void:
+	$SubViewport/WorkbenchTicketWindow.open(table)
 
 func _on_day_timer_timeout():
 	get_tree().paused = true

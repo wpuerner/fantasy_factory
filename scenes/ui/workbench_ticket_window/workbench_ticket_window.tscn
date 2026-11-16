@@ -1,0 +1,103 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/workbench_ticket_window/workbench_ticket_window.gd" id="1_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.1, 0.1, 0.1, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.4, 0.4, 1)
+
+[node name="WorkbenchTicketWindow" type="PanelContainer" node_paths=PackedStringArray("recipe_option", "quantity_spin", "create_button", "ticket_list_container")]
+process_mode = 3
+visible = false
+custom_minimum_size = Vector2(440, 420)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -210.0
+offset_right = 220.0
+offset_bottom = 210.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+script = ExtResource("1_script")
+recipe_option = NodePath("MarginContainer/VBoxContainer/CreateSection/CreateRow/RecipeOption")
+quantity_spin = NodePath("MarginContainer/VBoxContainer/CreateSection/CreateRow/QuantitySpin")
+create_button = NodePath("MarginContainer/VBoxContainer/CreateSection/CreateButton")
+ticket_list_container = NodePath("MarginContainer/VBoxContainer/TicketScroll/TicketList")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleBar" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/TitleBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Workbench Tickets"
+horizontal_alignment = 1
+
+[node name="CloseButton" type="Button" parent="MarginContainer/VBoxContainer/TitleBar"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "X"
+
+[node name="TicketsHeader" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Active Tickets"
+
+[node name="TicketScroll" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="TicketList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/TicketScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="HSeparator" type="HSeparator" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="CreateSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="CreateHeader" type="Label" parent="MarginContainer/VBoxContainer/CreateSection"]
+layout_mode = 2
+text = "Create Ticket"
+
+[node name="CreateRow" type="HBoxContainer" parent="MarginContainer/VBoxContainer/CreateSection"]
+layout_mode = 2
+
+[node name="RecipeOption" type="OptionButton" parent="MarginContainer/VBoxContainer/CreateSection/CreateRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="QuantitySpin" type="SpinBox" parent="MarginContainer/VBoxContainer/CreateSection/CreateRow"]
+layout_mode = 2
+min_value = 1.0
+max_value = 99.0
+value = 1.0
+
+[node name="CreateButton" type="Button" parent="MarginContainer/VBoxContainer/CreateSection"]
+layout_mode = 2
+text = "Create Ticket"
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/TitleBar/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/CreateSection/CreateButton" to="." method="_on_create_button_pressed"]
