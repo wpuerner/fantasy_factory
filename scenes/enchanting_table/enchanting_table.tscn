@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://du28nqtidimew"]
+[gd_scene load_steps=9 format=3 uid="uid://du28nqtidimew"]
 
 [ext_resource type="PackedScene" uid="uid://dxxgm0b7noluv" path="res://scenes/parts/temp_game_object_label/temp_game_object_label.tscn" id="1_qv6vx"]
 [ext_resource type="Script" uid="uid://bp075mgmcm558" path="res://scenes/enchanting_table/enchanting_table.gd" id="1_s726y"]
-[ext_resource type="Script" uid="uid://ci2314fm47q80" path="res://scenes/enchanting_table/ticket.gd" id="3_geys5"]
+[ext_resource type="Script" path="res://resources/workbench/workbench_recipe.gd" id="2_recipe"]
+[ext_resource type="Script" path="res://resources/workbench/workbench_ticket.gd" id="3_ticket"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_s726y"]
 size = Vector2(96, 32)
@@ -10,11 +11,25 @@ size = Vector2(96, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a2p28"]
 size = Vector2(96, 33)
 
-[node name="EnchantingTable" type="StaticBody2D" node_paths=PackedStringArray("ticket") groups=["navigation_polygon_source_geometry_group"]]
+[sub_resource type="Resource" id="Resource_recipe"]
+script = ExtResource("2_recipe")
+output_item_name = "Foo +1"
+input_item_name = "Foo"
+work_amount = 100
+
+[sub_resource type="Resource" id="Resource_ticket"]
+script = ExtResource("3_ticket")
+output_item_name = "Foo +1"
+input_item_name = "Foo"
+work_amount = 100
+quantity = 5
+
+[node name="EnchantingTable" type="StaticBody2D" groups=["navigation_polygon_source_geometry_group"]]
 collision_layer = 16
 collision_mask = 16
 script = ExtResource("1_s726y")
-ticket = NodePath("Ticket")
+recipes = Array[ExtResource("2_recipe")]([SubResource("Resource_recipe")])
+tickets = Array[ExtResource("3_ticket")]([SubResource("Resource_ticket")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 use_parent_material = true
@@ -38,13 +53,6 @@ horizontal_alignment = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_a2p28")
-
-[node name="Ticket" type="Node" parent="."]
-script = ExtResource("3_geys5")
-ticket_name = "Enchant Foo"
-input_item_name = "Foo"
-work_amount = 100
-output_item_name = "Foo +1"
 
 [node name="SubnodeLeft" type="Node2D" parent="." groups=["subnode"]]
 position = Vector2(-32, 0)

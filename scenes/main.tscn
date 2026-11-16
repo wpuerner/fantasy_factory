@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://barlj6o8aoyx3" path="res://scenes/main.gd" id="1_tbgi4"]
 [ext_resource type="Resource" uid="uid://cf2sb0kqcfn1t" path="res://resources/grid/grid_resource.tres" id="2_85g3d"]
-[ext_resource type="PackedScene" uid="uid://v5ri6t3bi8fk" path="res://scenes/seller/seller.tscn" id="2_tefeu"]
 [ext_resource type="PackedScene" uid="uid://kmqjg3v8swa6" path="res://scenes/buyer/buyer.tscn" id="3_choun"]
 [ext_resource type="PackedScene" uid="uid://du28nqtidimew" path="res://scenes/enchanting_table/enchanting_table.tscn" id="4_tipki"]
 [ext_resource type="PackedScene" uid="uid://cyqxyl3ur7jeq" path="res://scenes/ui/worker_details_window/worker_details_window.tscn" id="6_choun"]
@@ -18,6 +17,7 @@
 [ext_resource type="PackedScene" uid="uid://cmgfkp1pi6a0x" path="res://scenes/storage_area_tool/storage_area_painter.tscn" id="16_painter"]
 [ext_resource type="PackedScene" uid="uid://djmhlxwxgixw8" path="res://scenes/storage_area_tool/storage_area_context_popup.tscn" id="17_popup"]
 [ext_resource type="PackedScene" uid="uid://cbxq8r3k2jyra" path="res://scenes/ui/storage_area_config_window/storage_area_config_window.tscn" id="18_config"]
+[ext_resource type="PackedScene" path="res://scenes/ui/workbench_ticket_window/workbench_ticket_window.tscn" id="19_workbench"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tipki"]
 vertices = PackedVector2Array(612, 251, 612, 194, 2693, 13.890625, 2693, 1775, 0.96875, -10.8828125, 492, 194, -1.9765625, 1775, 492, 251)
@@ -42,14 +42,15 @@ worker_details_window = NodePath("SubViewport/WorkerDetailsWindow")
 wait_time = 120.0
 autostart = true
 
+[node name="ContractTimer" type="Timer" parent="."]
+wait_time = 12.0
+autostart = true
+
 [node name="StorageAreaPainter" parent="." unique_id=1813782514 node_paths=PackedStringArray("config_window") instance=ExtResource("16_painter")]
 config_window = NodePath("../SubViewport/StorageAreaConfigWindow")
 
 [node name="Buyer" parent="." unique_id=1696494494 instance=ExtResource("3_choun")]
 position = Vector2(112, 368)
-
-[node name="Seller" parent="." unique_id=7074309 instance=ExtResource("2_tefeu")]
-position = Vector2(869, 351)
 
 [node name="EnchantingTable" parent="." unique_id=5780981 instance=ExtResource("4_tipki")]
 position = Vector2(552, 223)
@@ -91,6 +92,8 @@ text = "$0"
 [node name="StorageAreaContextPopup" parent="SubViewport" unique_id=1657920626 instance=ExtResource("17_popup")]
 
 [node name="StorageAreaConfigWindow" parent="SubViewport" unique_id=732863957 instance=ExtResource("18_config")]
+
+[node name="WorkbenchTicketWindow" parent="SubViewport" instance=ExtResource("19_workbench")]
 
 [node name="WorkerDetailsWindow" parent="SubViewport" unique_id=1829546335 instance=ExtResource("6_choun")]
 visible = false
@@ -135,6 +138,7 @@ position = Vector2(169, 435)
 position = Vector2(576, 326)
 
 [connection signal="timeout" from="DayTimer" to="." method="_on_day_timer_timeout"]
+[connection signal="timeout" from="ContractTimer" to="." method="_on_contract_timer_timeout"]
 [connection signal="worker_hired" from="SubViewport/ToolBar" to="." method="_on_worker_hired"]
 [connection signal="worker_selected" from="SubViewport/ToolBar" to="." method="_on_worker_selected"]
 [connection signal="worker_hired" from="SubViewport/HireWorkersWindow" to="." method="_on_hire_workers_window_worker_hired"]

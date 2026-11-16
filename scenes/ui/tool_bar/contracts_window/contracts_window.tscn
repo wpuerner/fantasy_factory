@@ -1,0 +1,101 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scenes/ui/tool_bar/contracts_window/contracts_window.gd" id="1_script"]
+[ext_resource type="Resource" path="res://resources/contracts/contracts_resource.tres" id="2_contracts"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel"]
+bg_color = Color(0.1, 0.1, 0.1, 0.95)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.4, 0.4, 0.4, 1)
+
+[node name="ContractsWindow" type="PanelContainer" node_paths=PackedStringArray("active_list_container", "available_list_container", "available_section", "toggle_available_button")]
+process_mode = 3
+visible = false
+custom_minimum_size = Vector2(440, 440)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -220.0
+offset_right = 220.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel")
+script = ExtResource("1_script")
+contracts_resource = ExtResource("2_contracts")
+active_list_container = NodePath("MarginContainer/VBoxContainer/ActiveScroll/ActiveList")
+available_list_container = NodePath("MarginContainer/VBoxContainer/AvailableSection/AvailableScroll/AvailableList")
+available_section = NodePath("MarginContainer/VBoxContainer/AvailableSection")
+toggle_available_button = NodePath("MarginContainer/VBoxContainer/ToggleAvailableButton")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="TitleBar" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TitleLabel" type="Label" parent="MarginContainer/VBoxContainer/TitleBar"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Contracts"
+horizontal_alignment = 1
+
+[node name="CloseButton" type="Button" parent="MarginContainer/VBoxContainer/TitleBar"]
+custom_minimum_size = Vector2(32, 0)
+layout_mode = 2
+text = "X"
+
+[node name="ActiveHeader" type="Label" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Active Contracts"
+
+[node name="ActiveScroll" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="ActiveList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/ActiveScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[node name="ToggleAvailableButton" type="Button" parent="MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Show Available Contracts"
+
+[node name="AvailableSection" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="AvailableHeader" type="Label" parent="MarginContainer/VBoxContainer/AvailableSection"]
+layout_mode = 2
+text = "Available Contracts"
+
+[node name="AvailableScroll" type="ScrollContainer" parent="MarginContainer/VBoxContainer/AvailableSection"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="AvailableList" type="VBoxContainer" parent="MarginContainer/VBoxContainer/AvailableSection/AvailableScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 4
+
+[connection signal="pressed" from="MarginContainer/VBoxContainer/TitleBar/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/ToggleAvailableButton" to="." method="_on_toggle_available_button_pressed"]
