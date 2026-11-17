@@ -6,11 +6,11 @@ extends TaskBehavior
 @export var worktables_resource: WorktablesResource
 
 func start() -> bool:
-	var enchanting_tables: Array = worktables_resource.get_enchanting_tables()
-	for enchanting_table: Node2D in enchanting_tables:
-		if not enchanting_table.has_ticket():
+	var workbenches: Array = worktables_resource.get_workbenches()
+	for workbench: Node2D in workbenches:
+		if not workbench.has_ticket():
 			continue
-		return work_task_behavior.start(worker, navigation_agent, enchanting_table)
+		return work_task_behavior.start(worker, navigation_agent, workbench)
 	return false
 
 func update(delta) -> TaskStatus:

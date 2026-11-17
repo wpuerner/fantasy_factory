@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://du28nqtidimew"]
+[gd_scene load_steps=11 format=3 uid="uid://du28nqtidimew"]
 
 [ext_resource type="PackedScene" uid="uid://dxxgm0b7noluv" path="res://scenes/parts/temp_game_object_label/temp_game_object_label.tscn" id="1_qv6vx"]
-[ext_resource type="Script" uid="uid://bp075mgmcm558" path="res://scenes/enchanting_table/enchanting_table.gd" id="1_s726y"]
+[ext_resource type="Script" uid="uid://ddha0dr0b2n3h" path="res://scenes/worktable/workbench.gd" id="1_s726y"]
 [ext_resource type="Script" path="res://resources/workbench/workbench_recipe.gd" id="2_recipe"]
 [ext_resource type="Script" path="res://resources/workbench/workbench_ticket.gd" id="3_ticket"]
 
@@ -14,24 +14,37 @@ size = Vector2(96, 33)
 [sub_resource type="Resource" id="Resource_recipe"]
 script = ExtResource("2_recipe")
 output_item_name = "Foo +1"
-input_item_name = "Foo"
+input_item_names = Array[String](["Foo"])
+work_amount = 100
+
+[sub_resource type="Resource" id="Resource_recipe_cut"]
+script = ExtResource("2_recipe")
+output_item_name = "Leather Strip"
+input_item_names = Array[String](["Tanned Hide"])
+work_amount = 100
+
+[sub_resource type="Resource" id="Resource_recipe_build"]
+script = ExtResource("2_recipe")
+output_item_name = "Steel Sword"
+input_item_names = Array[String](["Leather Strip", "Steel Sword Blank"])
 work_amount = 100
 
 [sub_resource type="Resource" id="Resource_ticket"]
 script = ExtResource("3_ticket")
 output_item_name = "Foo +1"
-input_item_name = "Foo"
+input_item_names = Array[String](["Foo"])
 work_amount = 100
 quantity = 5
 
-[node name="EnchantingTable" type="StaticBody2D" groups=["navigation_polygon_source_geometry_group"]]
+[node name="Workbench" type="StaticBody2D" groups=["navigation_polygon_source_geometry_group"]]
 collision_layer = 16
 collision_mask = 16
 script = ExtResource("1_s726y")
-recipes = Array[ExtResource("2_recipe")]([SubResource("Resource_recipe")])
+recipes = Array[ExtResource("2_recipe")]([SubResource("Resource_recipe"), SubResource("Resource_recipe_cut"), SubResource("Resource_recipe_build")])
 tickets = Array[ExtResource("3_ticket")]([SubResource("Resource_ticket")])
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(0.6, 1, 0.6, 1)
 use_parent_material = true
 texture = SubResource("PlaceholderTexture2D_s726y")
 
@@ -47,7 +60,7 @@ offset_right = -14.0
 offset_bottom = 11.0
 grow_horizontal = 1
 grow_vertical = 1
-text = "ET"
+text = "WB"
 horizontal_alignment = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

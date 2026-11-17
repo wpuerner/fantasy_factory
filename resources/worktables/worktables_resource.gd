@@ -1,9 +1,9 @@
 class_name WorktablesResource extends Resource
 
-var enchanting_tables: Array[Node2D]
+var workbenches: Array[Node2D] = []
 
-func register_enchanting_table(table):
-	enchanting_tables.append(table)
+func register_workbench(workbench: Node2D) -> void:
+	workbenches.append(workbench)
 
-func get_enchanting_tables():
-	return enchanting_tables
+func get_workbenches() -> Array[Node2D]:
+	return workbenches

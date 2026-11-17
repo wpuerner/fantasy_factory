@@ -17,6 +17,75 @@ icon = ExtResource("3_q0jnx")
 value = 4.0
 metadata/_custom_type_script = "uid://bvagci0j2j46g"
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_q0jnx"]
+load_path = "res://.godot/imported/iron_bar.png-956e52644c440eb5fad329a770d0588d.ctex"
+
+[sub_resource type="Resource" id="Resource_iron"]
+script = ExtResource("2_0ryk7")
+item_name = "Iron Bar"
+icon = SubResource("CompressedTexture2D_q0jnx")
+value = 3.0
+metadata/_custom_type_script = "uid://bvagci0j2j46g"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hmtql"]
+load_path = "res://.godot/imported/charcoal.png-9229eb0d779983d977aa45478c7da571.ctex"
+
+[sub_resource type="Resource" id="Resource_charcoal"]
+script = ExtResource("2_0ryk7")
+item_name = "Charcoal"
+icon = SubResource("CompressedTexture2D_hmtql")
+metadata/_custom_type_script = "uid://bvagci0j2j46g"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hnj5y"]
+load_path = "res://.godot/imported/steel_bar.png-c0773c39b732f51cd392e41a646f2599.ctex"
+
+[sub_resource type="Resource" id="Resource_steel"]
+script = ExtResource("2_0ryk7")
+item_name = "Steel Bar"
+icon = SubResource("CompressedTexture2D_hnj5y")
+value = 6.0
+metadata/_custom_type_script = "uid://bvagci0j2j46g"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_0ya5p"]
+load_path = "res://.godot/imported/tanned_hide.png-c6aca8933c4060083ca5502cc4ca6ce3.ctex"
+
+[sub_resource type="Resource" id="Resource_hide"]
+script = ExtResource("2_0ryk7")
+item_name = "Tanned Hide"
+icon = SubResource("CompressedTexture2D_0ya5p")
+value = 3.0
+metadata/_custom_type_script = "uid://bvagci0j2j46g"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_wfyei"]
+load_path = "res://.godot/imported/leather_strip.png-ad6480dcb07b4e56f65f66fa22e05d40.ctex"
+
+[sub_resource type="Resource" id="Resource_strap"]
+script = ExtResource("2_0ryk7")
+item_name = "Leather Strip"
+icon = SubResource("CompressedTexture2D_wfyei")
+value = 2.0
+metadata/_custom_type_script = "uid://bvagci0j2j46g"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rb17e"]
+load_path = "res://.godot/imported/steel_sword_blank.png-e0417b1b3ab314018b5fe41f252c41e2.ctex"
+
+[sub_resource type="Resource" id="Resource_blank"]
+script = ExtResource("2_0ryk7")
+item_name = "Steel Sword Blank"
+icon = SubResource("CompressedTexture2D_rb17e")
+value = 10.0
+metadata/_custom_type_script = "uid://bvagci0j2j46g"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_rsckf"]
+load_path = "res://.godot/imported/steel_sword.png-486ca3fa6765fd7ccd4d1c6941894bdc.ctex"
+
+[sub_resource type="Resource" id="Resource_sword"]
+script = ExtResource("2_0ryk7")
+item_name = "Steel Sword"
+icon = SubResource("CompressedTexture2D_rsckf")
+value = 25.0
+metadata/_custom_type_script = "uid://bvagci0j2j46g"
+
 [resource]
 script = ExtResource("1_r4ard")
-templates = Array[ExtResource("2_0ryk7")]([SubResource("Resource_q0jnx"), SubResource("Resource_hmtql")])
+templates = Array[ExtResource("2_0ryk7")]([SubResource("Resource_q0jnx"), SubResource("Resource_hmtql"), SubResource("Resource_iron"), SubResource("Resource_charcoal"), SubResource("Resource_steel"), SubResource("Resource_hide"), SubResource("Resource_strap"), SubResource("Resource_blank"), SubResource("Resource_sword")])

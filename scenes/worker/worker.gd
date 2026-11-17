@@ -4,11 +4,11 @@ signal clicked(worker: Node2D)
 
 @export var worker_name: String = "jimothy"
 @export var worker_resource: WorkerResource
-@export var enchant_task_behavior: TaskBehavior
+@export var workbench_task_behavior: TaskBehavior
 @export var haul_task_behavior: TaskBehavior
 
 var can_haul: bool = true
-var can_enchant: bool = true
+var can_work: bool = true
 
 const SPEED: float = 300.0
 
@@ -21,8 +21,8 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if !is_instance_valid(_current_behavior):
-		if can_enchant and enchant_task_behavior.start():
-			_current_behavior = enchant_task_behavior
+		if can_work and workbench_task_behavior.start():
+			_current_behavior = workbench_task_behavior
 		elif can_haul and haul_task_behavior.start():
 			_current_behavior = haul_task_behavior
 	else:

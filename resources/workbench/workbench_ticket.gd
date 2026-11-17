@@ -1,7 +1,7 @@
 class_name WorkbenchTicket extends Resource
 
 @export var output_item_name: String = ""
-@export var input_item_name: String = ""
+@export var input_item_names: Array[String] = []
 @export var work_amount: int = 100
 @export var quantity: int = 1
 @export var paused: bool = false
@@ -22,3 +22,7 @@ func status_text() -> String:
 	if paused:
 		return "Paused"
 	return "Working"
+
+
+func input_text() -> String:
+	return ", ".join(input_item_names)

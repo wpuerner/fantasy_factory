@@ -71,7 +71,7 @@ func _build_row(ticket: WorkbenchTicket) -> VBoxContainer:
 	var info: VBoxContainer = VBoxContainer.new()
 	info.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	info.add_child(_make_label(ticket.output_item_name))
-	info.add_child(_make_label("From %s (%d work)" % [ticket.input_item_name, ticket.work_amount]))
+	info.add_child(_make_label("From %s (%d work)" % [ticket.input_text(), ticket.work_amount]))
 	top.add_child(info)
 
 	var pause_button: Button = Button.new()
@@ -122,7 +122,7 @@ func _on_create_button_pressed() -> void:
 	var recipe: WorkbenchRecipe = _table.recipes[index]
 	var ticket: WorkbenchTicket = WorkbenchTicket.new()
 	ticket.output_item_name = recipe.output_item_name
-	ticket.input_item_name = recipe.input_item_name
+	ticket.input_item_names = recipe.input_item_names.duplicate()
 	ticket.work_amount = recipe.work_amount
 	ticket.quantity = int(quantity_spin.value)
 	_table.tickets.append(ticket)

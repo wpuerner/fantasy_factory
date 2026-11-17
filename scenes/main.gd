@@ -37,9 +37,10 @@ func _ready():
 		foo.global_position = Vector2(100, (i+1) * 100)
 		add_child(foo)
 		grid_resource.get_cell_for_node(foo).drop_item(foo)
-	
-	grid_resource.maybe_add_node($EnchantingTable)
-	for table: Node2D in worktables_resource.get_enchanting_tables():
+
+	for table: Node2D in worktables_resource.get_workbenches():
+		grid_resource.maybe_add_node(table)
+	for table: Node2D in worktables_resource.get_workbenches():
 		table.clicked.connect(_on_workbench_clicked)
 	
 	$NavigationRegion2D.bake_navigation_polygon(true)

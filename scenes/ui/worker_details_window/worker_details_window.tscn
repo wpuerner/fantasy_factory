@@ -11,7 +11,7 @@ border_width_right = 2
 border_width_bottom = 2
 border_color = Color(0.4, 0.4, 0.4, 1)
 
-[node name="WorkerDetailsWindow" type="PanelContainer" node_paths=PackedStringArray("worker_name_label", "daily_wage_label", "haul_check_box", "enchant_check_box")]
+[node name="WorkerDetailsWindow" type="PanelContainer" node_paths=PackedStringArray("worker_name_label", "daily_wage_label", "haul_check_box", "work_check_box")]
 process_mode = 3
 custom_minimum_size = Vector2(320, 0)
 anchors_preset = 8
@@ -30,7 +30,7 @@ script = ExtResource("1_yqe5p")
 worker_name_label = NodePath("MarginContainer/VBoxContainer/AvatarRow/NameWageBox/WorkerNameLabel")
 daily_wage_label = NodePath("MarginContainer/VBoxContainer/AvatarRow/NameWageBox/DailyWageLabel")
 haul_check_box = NodePath("MarginContainer/VBoxContainer/TaskToggles/HaulCheckBox")
-enchant_check_box = NodePath("MarginContainer/VBoxContainer/TaskToggles/EnchantCheckBox")
+work_check_box = NodePath("MarginContainer/VBoxContainer/TaskToggles/WorkCheckBox")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -95,10 +95,10 @@ layout_mode = 2
 button_pressed = true
 text = "Haul"
 
-[node name="EnchantCheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/TaskToggles"]
+[node name="WorkCheckBox" type="CheckBox" parent="MarginContainer/VBoxContainer/TaskToggles"]
 layout_mode = 2
 button_pressed = true
-text = "Enchant"
+text = "Work"
 
 [node name="FireWorkerButton" type="Button" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -106,5 +106,5 @@ text = "Fire Worker"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/TitleBar/CloseButton" to="." method="_on_close_button_pressed"]
 [connection signal="toggled" from="MarginContainer/VBoxContainer/TaskToggles/HaulCheckBox" to="." method="_on_haul_check_box_toggled"]
-[connection signal="toggled" from="MarginContainer/VBoxContainer/TaskToggles/EnchantCheckBox" to="." method="_on_enchant_check_box_toggled"]
+[connection signal="toggled" from="MarginContainer/VBoxContainer/TaskToggles/WorkCheckBox" to="." method="_on_work_check_box_toggled"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/FireWorkerButton" to="." method="_on_fire_worker_button_pressed"]

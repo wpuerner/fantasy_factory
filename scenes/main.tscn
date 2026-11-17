@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://barlj6o8aoyx3" path="res://scenes/main.gd" id="1_tbgi4"]
 [ext_resource type="Resource" uid="uid://cf2sb0kqcfn1t" path="res://resources/grid/grid_resource.tres" id="2_85g3d"]
 [ext_resource type="PackedScene" uid="uid://kmqjg3v8swa6" path="res://scenes/buyer/buyer.tscn" id="3_choun"]
-[ext_resource type="PackedScene" uid="uid://du28nqtidimew" path="res://scenes/enchanting_table/enchanting_table.tscn" id="4_tipki"]
+[ext_resource type="PackedScene" uid="uid://du28nqtidimew" path="res://scenes/worktable/workbench/workbench.tscn" id="4_tipki"]
 [ext_resource type="PackedScene" uid="uid://cyqxyl3ur7jeq" path="res://scenes/ui/worker_details_window/worker_details_window.tscn" id="6_choun"]
 [ext_resource type="PackedScene" uid="uid://bx5sfnkluqom8" path="res://scenes/ui/tool_bar/tool_bar.tscn" id="7_0ld40"]
 [ext_resource type="PackedScene" uid="uid://hsbtb6jwcefo" path="res://scenes/world/overlay/world_overlay_tile_map_layer.tscn" id="7_85g3d"]
@@ -18,6 +18,8 @@
 [ext_resource type="PackedScene" uid="uid://djmhlxwxgixw8" path="res://scenes/storage_area_tool/storage_area_context_popup.tscn" id="17_popup"]
 [ext_resource type="PackedScene" uid="uid://cbxq8r3k2jyra" path="res://scenes/ui/storage_area_config_window/storage_area_config_window.tscn" id="18_config"]
 [ext_resource type="PackedScene" path="res://scenes/ui/workbench_ticket_window/workbench_ticket_window.tscn" id="19_workbench"]
+[ext_resource type="PackedScene" path="res://scenes/worktable/blast_furnace/blast_furnace.tscn" id="20_bf"]
+[ext_resource type="PackedScene" path="res://scenes/worktable/smithy/smithy.tscn" id="21_sm"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_tipki"]
 vertices = PackedVector2Array(612, 251, 612, 194, 2693, 13.890625, 2693, 1775, 0.96875, -10.8828125, 492, 194, -1.9765625, 1775, 492, 251)
@@ -42,7 +44,7 @@ worker_details_window = NodePath("SubViewport/WorkerDetailsWindow")
 wait_time = 120.0
 autostart = true
 
-[node name="ContractTimer" type="Timer" parent="."]
+[node name="ContractTimer" type="Timer" parent="." unique_id=2028883583]
 wait_time = 12.0
 autostart = true
 
@@ -52,8 +54,14 @@ config_window = NodePath("../SubViewport/StorageAreaConfigWindow")
 [node name="Buyer" parent="." unique_id=1696494494 instance=ExtResource("3_choun")]
 position = Vector2(112, 368)
 
-[node name="EnchantingTable" parent="." unique_id=5780981 instance=ExtResource("4_tipki")]
+[node name="Workbench" parent="." unique_id=5780981 instance=ExtResource("4_tipki")]
 position = Vector2(552, 223)
+
+[node name="BlastFurnace" parent="." unique_id=1974121078 instance=ExtResource("20_bf")]
+position = Vector2(752, 208)
+
+[node name="Smithy" parent="." unique_id=899318979 instance=ExtResource("21_sm")]
+position = Vector2(560, 400)
 
 [node name="SubViewport" type="CanvasLayer" parent="." unique_id=1927628465]
 
@@ -93,7 +101,7 @@ text = "$0"
 
 [node name="StorageAreaConfigWindow" parent="SubViewport" unique_id=732863957 instance=ExtResource("18_config")]
 
-[node name="WorkbenchTicketWindow" parent="SubViewport" instance=ExtResource("19_workbench")]
+[node name="WorkbenchTicketWindow" parent="SubViewport" unique_id=10316407 instance=ExtResource("19_workbench")]
 
 [node name="WorkerDetailsWindow" parent="SubViewport" unique_id=1829546335 instance=ExtResource("6_choun")]
 visible = false
